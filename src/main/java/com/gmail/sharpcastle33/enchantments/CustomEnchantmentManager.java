@@ -181,7 +181,6 @@ public class CustomEnchantmentManager {
 	stack.setItemMeta(meta);
     return stack;
   }
-  
   public static Map<CustomEnchantment, Integer> getEnchantmentTable(ItemStack stack){
 	Map<CustomEnchantment, Integer> ret = new HashMap<CustomEnchantment, Integer>();
 	
@@ -271,6 +270,8 @@ public class CustomEnchantmentManager {
 		  return CustomEnchantment.DEPTH_STRIDER;
 	  if(e.equals(Enchantment.PROTECTION_FALL))
 		  return CustomEnchantment.FEATHER_FALLING;
+	  if(e.equals(Enchantment.PROTECTION_EXPLOSIONS))
+		  return CustomEnchantment.BLAST_PROTECTION;
 	  if(e.equals(Enchantment.FIRE_ASPECT))
 		  return CustomEnchantment.FIRE_ASPECT;
 	  if(e.equals(Enchantment.PROTECTION_FIRE))

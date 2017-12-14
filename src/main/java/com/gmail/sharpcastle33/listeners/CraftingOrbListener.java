@@ -1,5 +1,6 @@
 package com.gmail.sharpcastle33.listeners;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
@@ -151,36 +152,91 @@ public class CraftingOrbListener implements Listener {
     p.getInventory().setItemInMainHand(stack);
     Util.decrementOffhand(p);
     
-  }//
+  }
   
   public void useDiscordOrb(Player p, ItemStack stack){
 	
 	  Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(stack);
+	  
+	  //Randomise
 	  if(Util.chance(50, 100)){
-		  int num = enchants.keySet().size();
-		  stack = CustomEnchantmentManager.removeCustomEnchantments(stack);
-		  for(int i = 0; i < num; i++){
-			  CustomEnchantment roll = rollEnchantment(stack);
-			  stack = CustomEnchantmentManager.addCustomEnchantment(stack, roll, rollEnchantmentValue(roll,stack));
-		  }
-		  p.playSound(p.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1f, 1f); 
-	  }else{
-		  Random rand = new Random();
-		  int choice = rand.nextInt(enchants.keySet().size());
-		  Set<CustomEnchantment> set = enchants.keySet();
-		  //TODO this part npe's
-		  CustomEnchantment[] arr = (CustomEnchantment[]) set.toArray();
-		  enchants.remove(arr[choice]);
-		  stack = CustomEnchantmentManager.removeCustomEnchantments(stack);
 		  
-		  for(CustomEnchantment e : enchants.keySet()){
-			  stack = CustomEnchantmentManager.addCustomEnchantment(stack, e, enchants.get(e));
+		  Map<CustomEnchantment, Integer> original = enchants;
+		  
+		  CustomEnchantmentManager.removeCustomEnchantments(stack);
+		  
+		  if (original.isEmpty()) {
+			  return;
+		  }
+		  else {
+			  
+			  for (Map.Entry<CustomEnchantment, Integer> e : original.entrySet()) {
+				  
+				  if (!(e.getKey() == CustomEnchantment.ENHANCED)) {
+					  
+					  Random rand = new Random();
+					  int level = rand.nextInt((e.getKey().getMaxLevel()));
+					  
+					  if (level == 0) {
+						  level = 1;
+					  }
+					  
+					  stack = CustomEnchantmentManager.addCustomEnchantment(stack, e.getKey(), level);
+					  
+				  }
+				  
+				  else {
+					  
+					  stack = CustomEnchantmentManager.addCustomEnchantment(stack, e.getKey(), e.getValue());
+				  }
+			  }
+		  } p.playSound(p.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1f, 1f);
+	  }
+	  
+	  //Remove 1 enchant
+	  else {
+		  
+		  Map<CustomEnchantment, Integer> original = enchants;
+		  Random rand = new Random();
+		  int choice = rand.nextInt((enchants.keySet().size()));
+		  
+		  CustomEnchantmentManager.removeCustomEnchantments(stack);
+		  
+		  if (original.isEmpty()) {
+			  return;
+		  }
+		  else {
+			  
+			  int counter = 0;
+			  
+			  if (choice == 0) {
+				  choice = 1;
+			  }
+			  
+			  for (Map.Entry<CustomEnchantment, Integer> e : original.entrySet()) {
+				  
+				  counter = counter + 1;
+				  
+				  if (!(choice == counter)) {
+					  
+					  stack = CustomEnchantmentManager.addCustomEnchantment(stack, e.getKey(), e.getValue());
+					  
+				  }
+				  
+				  else {
+					  
+					  if (e.getKey() == CustomEnchantment.ENHANCED) {
+						   
+						  counter = counter - 1;
+					  }
+				  }
+			  }
 		  }
 		  p.playSound(p.getLocation(), Sound.BLOCK_GLASS_BREAK, 1f, 1f);
 	  }
+	  Util.decrementOffhand(p);
 	  p.sendMessage(ENCHANT_SUCCESS);
   }
-  
   @EventHandler 
   public void craftingOrb(PlayerInteractEvent event){
     if(event.getHand() == EquipmentSlot.HAND && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)){
@@ -224,7 +280,7 @@ public class CraftingOrbListener implements Listener {
         //DISCORD ORB
         if(off.hasItemMeta() && off.getItemMeta().getDisplayName().contains(DISCORD_ORB)){
         	event.setCancelled(true);
-        	if(countEnchantments(main) > 1){
+        	if(countEnchantments(main) > 0){
             	useDiscordOrb(p,main);
         	}else{
         		p.sendMessage(DISCORD_FAILURE);
