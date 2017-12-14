@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
@@ -84,6 +85,33 @@ public class DamageListener implements Listener{
 		}
 		
 		double finalDamage = (event.getDamage() + dmgFlat) * (1 + dmgMod) * (1 + dmgMulti);
+	}
+	
+	@EventHandler
+	public void onArrowShoot(EntityShootBowEvent event) {
+		
+		if (event.getEntity() instanceof Player) {
+			
+			Player player = (Player) event.getEntity();
+			ItemStack bow = event.getBow();
+			
+			if (bow.hasItemMeta()) {
+				
+				Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(bow);
+				
+				if(enchants.containsKey(CustomEnchantment.FAR_SHOT)){
+					
+					//TODO
+					
+				}
+				
+				if(enchants.containsKey(CustomEnchantment.POINT_BLANK)) {
+					
+					//TODO
+					
+				}
+			}
+		}
 	}
 
 }
