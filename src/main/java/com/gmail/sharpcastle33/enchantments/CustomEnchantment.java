@@ -33,20 +33,51 @@ public enum CustomEnchantment {
 	UNBREAKING("Unbreaking", 3),
 	
 	//Custom Enchantments
-	IRON_AFFINITY("Iron Affinity", 2),
-	GOLD_AFFINITY("Gold Affinity", 2),
+	
+	//Tool Enchants
+	MUTANDIS("Mutandis", 3), //TODO unimplemented
+	NATURES_BOUNTY("Nature's Bounty", 5), //TODO unimplemented
+	
+	//Hoe Enchants
+	GREEN_THUMB("Green Thumb", 3), //TODO unimplemented
+	
+	//Axe Enchants
+	TIMBER("Timber", 5), //TODO unimplemented
+	WOODSMAN("Woodsman", 5), //TODO unimplemented
+	CARPENTRY("Carpentry", 5), //TODO unimplemented
+	
+	//Shovel Enchants
+	
+	//Pickaxe Enchants
+	IRON_AFFINITY("Iron Affinity", 5), //TODO unimplemented
+	GOLD_AFFINITY("Gold Affinity", 5), //TODO unimplemented
 	AUTO_SMELT("Auto Smelt", 3),
 	
-	LIFESTEAL("Lifesteal", 2),
-	RAGE("Rage", 3),
+	//Melee Enchants
+	LIFESTEAL("Lifesteal", 2), //TODO unimplemented
+	RAGE("Rage", 3), //TODO unimplemented
+	SOUL_TAKER("Soul Taker", 3), //TODO unimplemented
 	
-	FAR_SHOT("Far Shot", 2),
-	POINT_BLANK("Point Blank", 2),
 	
-	EVASIVE("Evasive", 3),
-	VITALITY("Vitality", 2),
-	VIGOR("Vigor", 4),
-	ENDURANCE("Endurance", 3);
+	//Ranged Enchants
+	FAR_SHOT("Far Shot", 3), //TODO unimplemented
+	POINT_BLANK("Point Blank", 3), //TODO unimplemented
+	TRUE_SHOT("True Shot", 3), //TODO unimplemented
+	HUNTERS_BLESSING("Hunter's Blessing", 3), //TODO unimplemented
+	HUNTERS_MARK("Hunter's Mark", 3), //TODO unimplemented
+	
+	//Shield Enchants
+	VANGUARD("Vanguard", 5),
+	
+	//Armor Enchants
+	EVASIVE("Evasive", 3), //TODO unimplemented
+	VITALITY("Vitality", 3), //TODO unimplemented
+	VIGOR("Vigor", 5), //TODO unimplemented
+	SECOND_WIND("Second Wind", 3), //TODO unimplemented
+	LAST_STAND("Last Stand", 3),
+	DIVINE_INTERVENTION("Divine Intervention", 3),
+	ADRENALINE("Adrenaline", 3),
+	ENDURANCE("Endurance", 3); //TODO unimplemented
 	
 	
 	private String name;
