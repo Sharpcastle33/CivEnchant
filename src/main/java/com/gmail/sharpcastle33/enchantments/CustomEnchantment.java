@@ -45,6 +45,7 @@ public enum CustomEnchantment {
 	TIMBER("Timber", 5), //TODO unimplemented
 	WOODSMAN("Woodsman", 5), //TODO unimplemented
 	CARPENTRY("Carpentry", 5), //TODO unimplemented
+	APPLESEED("Appleseed", 3),
 	
 	//Shovel Enchants
 	

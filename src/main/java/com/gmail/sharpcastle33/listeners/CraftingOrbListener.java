@@ -61,12 +61,25 @@ public class CraftingOrbListener implements Listener {
 
 
   //TODO use util methods
+  
+  /**
+   * Checks if an item is enchantable.
+   * 
+   * @param stack
+   * @return boolean
+   */
   public boolean isEnchantable(ItemStack stack){
     if(Util.isArmor(stack) || Util.isSword(stack) || Util.isTool(stack) || Util.isBow(stack)){
     	
       return true;
     }else return false;
   }
+  
+  /**
+   * 
+   * @param stack
+   * @return the amount of enchantments on the item.
+   */
   
   public int countEnchantments(ItemStack stack){
     int temp = 0;
@@ -83,13 +96,25 @@ public class CraftingOrbListener implements Listener {
     return temp + countCustomEnchantments(stack);
   }
   
-  public int countCustomEnchantments(ItemStack stack){
+  /**
+   * Private method for counting custom enchantments on an item. You should almost always only use countEnchantments.
+   * @param stack
+   * @return
+   */
+  
+  private int countCustomEnchantments(ItemStack stack){
 	Map<CustomEnchantment, Integer> enchs = CustomEnchantmentManager.getLoreTagEnchantments(stack);
     
 	enchs.remove(CustomEnchantment.ENHANCED);
 	
 	return enchs.size();
   }
+  
+  /**
+   * Uses an enchantment orb  on the item in the player's hand. 
+   * @param p
+   * @param stack
+   */
   
   public void useEnchantmentOrb(Player p, ItemStack stack){
 	
@@ -106,6 +131,12 @@ public class CraftingOrbListener implements Listener {
     Util.decrementOffhand(p);
   }
   
+  /**
+   * Uses a celestial orb  on the item in the player's hand. 
+   * @param p
+   * @param stack
+   */
+  
   public void useCelestialOrb(Player p, ItemStack stack){
   
 	CustomEnchantment roll = rollEnchantment(stack);
@@ -118,10 +149,25 @@ public class CraftingOrbListener implements Listener {
     Util.decrementOffhand(p);
   }
   
+  /**
+   * Rolls an enchantment value for applicable enchant and stack.
+   * @param e
+   * @param stack
+   * @return
+   */
+  
   public int rollEnchantmentValue(CustomEnchantment e, ItemStack stack){
 	  Random rand = new Random();
 	  return rand.nextInt(e.getMaxLevel())+1;
   }
+  
+  /**
+   * Rolls an enchantment for the item.
+   * @param stack
+   * @return
+   */
+  
+  //TODO this method should use weighted values from the Map in order to roll enchantments. As of now it chooses at random.
   
   public CustomEnchantment rollEnchantment(ItemStack stack){
    Map<CustomEnchantment, Integer> table = CustomEnchantmentManager.getEnchantmentTable(stack);
@@ -145,6 +191,12 @@ public class CraftingOrbListener implements Listener {
    return CustomEnchantment.NO_ENCHANTMENT;
   }
   
+  /**
+   * Uses a scour orb on an item in the player's main hand.
+   * @param p
+   * @param stack
+   */
+  
   public void useScourOrb(Player p, ItemStack stack){
     stack = CustomEnchantmentManager.removeCustomEnchantments(stack);
     p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_DESTROY, 1f, 1f);
@@ -153,6 +205,12 @@ public class CraftingOrbListener implements Listener {
     Util.decrementOffhand(p);
     
   }
+  
+  /**
+   * Uses a discord orb on the item in the player's main hand.
+   * @param p
+   * @param stack
+   */
   
   public void useDiscordOrb(Player p, ItemStack stack){
 	
@@ -237,6 +295,12 @@ public class CraftingOrbListener implements Listener {
 	  Util.decrementOffhand(p);
 	  p.sendMessage(ENCHANT_SUCCESS);
   }
+  
+  /**
+   * Event handler for all Orb Crafting
+   * @param event
+   */
+  
   @EventHandler 
   public void craftingOrb(PlayerInteractEvent event){
     if(event.getHand() == EquipmentSlot.HAND && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)){

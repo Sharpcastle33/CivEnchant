@@ -18,12 +18,22 @@ import net.md_5.bungee.api.ChatColor;
 
 public class CustomEnchantmentManager {
   
+	/**
+	 * Removes all custom and vanilla enchantments fron an item.
+	 * @param stack
+	 * @return
+	 */
   public static ItemStack removeCustomEnchantments(ItemStack stack){
 	stack = removeVanillaEnchantments(stack);
 	stack = removeLoreEnchantments(stack);
     return stack;
   }
   
+  /**
+   * Removes all vanilla enchants from an item.
+   * @param stack
+   * @return
+   */
   private static ItemStack removeVanillaEnchantments(ItemStack stack){
 	  ItemMeta meta = stack.getItemMeta();
 	  
@@ -35,6 +45,11 @@ public class CustomEnchantmentManager {
 	  return stack;
   }
   
+  /**
+   * Removes all custom enchantments from an item.
+   * @param stack
+   * @return
+   */
   private static ItemStack removeLoreEnchantments(ItemStack stack){
 	  Map<CustomEnchantment, Integer> enchants = getLoreTagEnchantments(stack);
 	  ItemMeta meta = stack.getItemMeta();
@@ -63,7 +78,7 @@ public class CustomEnchantmentManager {
 	  return stack;
   }
   /**
-   * 
+   * Manages custom enchantment addition.
    * @param stack ItemStack to add enchantment to.
    * @param ench CustomEnchantment to add.
    * @param level Level of the enchantment.
@@ -181,6 +196,12 @@ public class CustomEnchantmentManager {
 	stack.setItemMeta(meta);
     return stack;
   }
+  
+  /**
+   * Manages enchantment weight tables for all items.
+   * @param stack
+   * @return
+   */
   public static Map<CustomEnchantment, Integer> getEnchantmentTable(ItemStack stack){
 	Map<CustomEnchantment, Integer> ret = new HashMap<CustomEnchantment, Integer>();
 	
@@ -236,10 +257,20 @@ public class CustomEnchantmentManager {
     return ret;
   }
   
+  /**
+   * Returns the max level of the enchantment specified.
+   * @param e
+   * @return
+   */
   public static int getMaxLevel(CustomEnchantment e){
     return e.getMaxLevel();
   }
   
+  /**
+   * Returns all enchantments on an item.
+   * @param stack
+   * @return
+   */
   public static Map<CustomEnchantment, Integer> getCustomEnchantments(ItemStack stack){
 	Map<CustomEnchantment, Integer> ret = new HashMap<CustomEnchantment, Integer>();
 	ret.putAll(getVanillaEnchantments(stack));
@@ -247,6 +278,11 @@ public class CustomEnchantmentManager {
     return ret;
   }
   
+  /**
+   * Returns a list of CustomEnchantments containing all vanilla enchantments on an item.
+   * @param stack
+   * @return
+   */
   private static Map<CustomEnchantment, Integer> getVanillaEnchantments(ItemStack stack){
 	  Map<CustomEnchantment, Integer> ret = new HashMap<CustomEnchantment, Integer>();
 	  if(stack.hasItemMeta()){
@@ -259,6 +295,12 @@ public class CustomEnchantmentManager {
 	  }
 	  return ret;
   }
+  
+  /**
+   * Converts vanilla Enchantment types to CustomEnchantment type.
+   * @param Enchantment e
+   * @return CustomEnchantment
+   */
   
   private static CustomEnchantment toCustomEnchantment(Enchantment e){
 
@@ -313,6 +355,11 @@ public class CustomEnchantmentManager {
 	  return CustomEnchantment.NO_ENCHANTMENT;
 	}
   
+  /**
+   * Returns a map of custom enchantments and their values.
+   * @param stack
+   * @return
+   */
   public static Map<CustomEnchantment, Integer> getLoreTagEnchantments(ItemStack stack){
 	 
 	  Map<CustomEnchantment, Integer> ret = new HashMap<CustomEnchantment, Integer>();
@@ -333,6 +380,14 @@ public class CustomEnchantmentManager {
 	    
 	  return ret;
   }
+  
+  /**
+   * Generic method to add a lore tag enchantment.
+   * @param meta
+   * @param ench
+   * @param level
+   * @return
+   */
   
   public static ItemMeta addLoreTagEnchantment(ItemMeta meta, CustomEnchantment ench, int level){
 	  if(meta.hasLore()){
