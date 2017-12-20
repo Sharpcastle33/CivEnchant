@@ -11,6 +11,10 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
+        <repository>
+    		<id>devoted-repo</id>
+    	<url>https://build.devotedmc.com/plugin/repository/everything/</url>
+    </repository>
     </repositories>
     
      <dependencies>
@@ -19,6 +23,12 @@
             <artifactId>spigot-api</artifactId>
             <version>1.12-R0.1-SNAPSHOT</version>
         </dependency>    
+        <dependency>
+    		<groupId>vg.civcraft.mc.citadel</groupId>
+        	<artifactId>Citadel</artifactId>
+        	<version>3.9.0</version>
+        <scope>provided</scope>
+    	</dependency>
     </dependencies>
     
      <build>
