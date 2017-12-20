@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -85,33 +86,56 @@ public class DamageListener implements Listener{
 		}
 		
 		double finalDamage = (event.getDamage() + dmgFlat) * (1 + dmgMod) * (1 + dmgMulti);
-	}
 	
-	@EventHandler
-	public void onArrowShoot(EntityShootBowEvent event) {
-		
-		if (event.getEntity() instanceof Player) {
-			
-			Player player = (Player) event.getEntity();
-			ItemStack bow = event.getBow();
-			
-			if (bow.hasItemMeta()) {
+	
+	//PLAYER SHOT BY ARROW
+
+			if (offense instanceof Arrow  && defense instanceof Player) {
 				
-				Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(bow);
+				Arrow arrow = (Arrow) offense;
 				
-				if(enchants.containsKey(CustomEnchantment.FAR_SHOT)){
+				if (arrow.getShooter() instanceof Player) {
 					
-					//TODO
+					if(arrow.getName().contains("farshot")) {
+						
+						//TODO
+						
+						}
 					
-				}
-				
-				if(enchants.containsKey(CustomEnchantment.POINT_BLANK)) {
-					
-					//TODO
-					
+					if(arrow.getName().contains("pointblank")) {
+							
+						//TODO		
+						
+						}
 				}
 			}
 		}
-	}
+		
+		@EventHandler
+		public void onArrowShoot(EntityShootBowEvent event) {
+			
+			if (event.getEntity() instanceof Player) {
+				
+				ItemStack bow = event.getBow();
+				Entity arrow = event.getProjectile();
+				
+				if (bow.hasItemMeta()) {
+					
+					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(bow);
+					
+					if(enchants.containsKey(CustomEnchantment.FAR_SHOT)){
+						
+						arrow.setCustomName(arrow.getName() + "farshot");
+						
+					}
+					
+					if(enchants.containsKey(CustomEnchantment.POINT_BLANK)) {
+						
+						arrow.setCustomName(arrow.getName() + "pointblank");
+						
+					}
+				}
+			}
+		}
 
-}
+	}
