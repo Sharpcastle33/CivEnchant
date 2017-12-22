@@ -39,13 +39,13 @@ public enum CustomEnchantment {
 	NATURES_BOUNTY("Nature's Bounty", 5), //TODO unimplemented
 	
 	//Hoe Enchants
-	GREEN_THUMB("Green Thumb", 3), //TODO unimplemented
+	GREEN_THUMB("Green Thumb", 3), //TODO unimplemented wait on hoe enchants for first update?
 	
 	//Axe Enchants
 	TIMBER("Timber", 5), //TODO unimplemented
 	WOODSMAN("Woodsman", 5), //TODO unimplemented
-	CARPENTRY("Carpentry", 5), //TODO unimplemented
-	APPLESEED("Appleseed", 3),
+	CARPENTRY("Carpentry", 5), 
+	APPLESEED("Appleseed", 3), //TODO unimplemented
 	
 	//Shovel Enchants
 	
@@ -56,34 +56,40 @@ public enum CustomEnchantment {
 	DEMOLISHING("Demolishing", 4),
 	CRYSTAL_ATTUNEMENT("Crystal Attunement", 5),
 	STONEMASON("Stonemason", 4),
+	MAGNET("Magnet", 1), //TODO unimplemented
+	
 	
 	
 	//Melee Enchants
 	LIFESTEAL("Lifesteal", 2), //TODO unimplemented
 	RAGE("Rage", 3), //TODO unimplemented
 	SOUL_TAKER("Soul Taker", 3), //TODO unimplemented
-	CRIPPLING("Crippling", 5),
+	CRIPPLING("Crippling", 5),//TODO unimplemented
+	FEARING("Fearing", 3),//TODO unimplemented
+	BEHEADING("Beheading", 3),//TODO unimplemented
+	HELLFIRE("Hellfire", 3), //TODO unimplemented
 	
 	
 	//Ranged Enchants
-	FAR_SHOT("Far Shot", 2), //TODO unimplemented
-	POINT_BLANK("Point Blank", 2), //TODO unimplemented
+	FAR_SHOT("Far Shot", 2), 
+	POINT_BLANK("Point Blank", 2), 
 	TRUE_SHOT("True Shot", 3), //TODO unimplemented
 	HUNTERS_BLESSING("Hunter's Blessing", 3), //TODO unimplemented
 	HUNTERS_MARK("Hunter's Mark", 3), //TODO unimplemented
 	
 	//Shield Enchants
-	VANGUARD("Vanguard", 5),
+	VANGUARD("Vanguard", 5), //TODO unimplemented Wait on shield enchants for 1st update?
 	
 	//Armor Enchants
 	EVASIVE("Evasive", 3), //TODO unimplemented
 	VITALITY("Vitality", 3), //TODO unimplemented
 	VIGOR("Vigor", 5), //TODO unimplemented
 	SECOND_WIND("Second Wind", 3), //TODO unimplemented
-	LAST_STAND("Last Stand", 3),
-	DIVINE_INTERVENTION("Divine Intervention", 3),
-	ADRENALINE("Adrenaline", 3),
-	ENDURANCE("Endurance", 3); //TODO unimplemented
+	LAST_STAND("Last Stand", 3),//TODO unimplemented
+	DIVINE_INTERVENTION("Divine Intervention", 3),//TODO unimplemented
+	ADRENALINE("Adrenaline", 3),//TODO unimplemented
+	POISON_RESISTANCE("Poison Resistance", 5), //TODO unimplemented
+	ENDURANCE("Endurance", 3); 
 	
 	
 	private String name;
