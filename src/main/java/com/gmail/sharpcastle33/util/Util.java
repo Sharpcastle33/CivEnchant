@@ -9,10 +9,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
 
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
-
-import net.md_5.bungee.api.ChatColor;
 
 public class Util {
 	
@@ -22,8 +21,36 @@ public class Util {
 	
 	private static Material[] pickaxes = {Material.DIAMOND_PICKAXE, Material.IRON_PICKAXE, Material.GOLD_PICKAXE, Material.STONE_PICKAXE, Material.WOOD_PICKAXE};
 	
+	private static Material[] axes = {Material.DIAMOND_AXE, Material.IRON_AXE, Material.GOLD_AXE, Material.STONE_AXE, Material.WOOD_AXE};
+
+	private static Material[] hoes = {Material.DIAMOND_HOE, Material.IRON_HOE, Material.GOLD_HOE, Material.STONE_HOE, Material.WOOD_HOE};
+
+	private static Material[] spades = {Material.DIAMOND_SPADE, Material.IRON_SPADE, Material.GOLD_SPADE, Material.STONE_SPADE, Material.WOOD_SPADE};
+
+	
+	/**
+	 * If the player has an existing copy of the effect at a lower value, it stores the players previous duration and applies it back when it runs out.
+	 * @param p
+	 * @param effect
+	 * @param l
+	 * @param d
+	 * @return
+	 */
+	
+	//TODO complete this method
+	public static boolean replacePotionEffect(Player p, PotionEffect effect) {
+		if(p.getActivePotionEffects().contains(effect)) {
+			p.addPotionEffect(effect);
+			return true;
+		}else {
+			p.addPotionEffect(effect);
+			return false;
+		}
+		
+	}
+	
 	public static boolean isDurable(ItemStack stack){
-		if(isPickaxe(stack) || isArmor(stack) || isSword(stack) || isTool(stack) || isBow(stack)){
+		if(isTool(stack) || isArmor(stack) || isSword(stack) || isTool(stack) || isBow(stack)){
 			return true;
 		}else return false;
 	}
@@ -36,7 +63,7 @@ public class Util {
 	}
 	
 	public static boolean isTool(ItemStack stack){
-		if(isPickaxe(stack)){
+		if(isPickaxe(stack) || isAxe(stack) || isHoe(stack) || isShovel(stack)){
 			return true;
 		}else return false;
 	}
@@ -53,6 +80,33 @@ public class Util {
 	public static boolean isPickaxe(ItemStack stack){
 		for(Material m : pickaxes){
 			if(m == stack.getType()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isAxe(ItemStack stack) {
+		for(Material m : axes) {
+			if(m == stack.getType()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isHoe(ItemStack stack) {
+		for(Material m : hoes) {
+			if(m == stack.getType()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isShovel(ItemStack stack) {
+		for(Material m : spades) {
+			if(m == stack.getType()) {
 				return true;
 			}
 		}
@@ -81,6 +135,9 @@ public class Util {
   }
   
   public static boolean chance (int attempts, int bound){
+	if(attempts >= bound) {
+		return true;
+	}
     Random rand = new Random(); 
     if(rand.nextInt(bound) <= attempts-1){
       return true;

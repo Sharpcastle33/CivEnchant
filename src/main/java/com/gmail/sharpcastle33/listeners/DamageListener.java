@@ -93,7 +93,7 @@ public class DamageListener implements Listener{
 	
 	//PLAYER SHOT BY ARROW
 
-			if (offense instanceof Arrow) {
+		if (offense instanceof Arrow) {
 				
 				Arrow arrow = (Arrow) offense;
 				
@@ -119,28 +119,28 @@ public class DamageListener implements Listener{
 					if(arrow.getName().contains("farshot1")) {
 						
 						if (finalDistance > 90) {
-							dmgFlat = dmgFlat + 10;
+							dmgFlat = dmgFlat + 4;
 						}
 						else if (finalDistance > 60 && finalDistance < 90) {
-							dmgFlat = dmgFlat + 7.5;
+							dmgFlat = dmgFlat + 3;
 						}
 						
 						else if (finalDistance > 50 && finalDistance < 60){
-							dmgFlat = dmgFlat + 5;
+							dmgFlat = dmgFlat + 1.5;
 						}
 					}
 					
 					if(arrow.getName().contains("farshot2")) {
 						
 						if (finalDistance > 90) {
-							dmgFlat = dmgFlat + 20;
+							dmgFlat = dmgFlat + 6;
 						}
 						else if (finalDistance > 60 && finalDistance < 90) {
-							dmgFlat = dmgFlat + 12;
+							dmgFlat = dmgFlat + 4;
 						}
 						
 						else if (finalDistance > 50 && finalDistance < 60){
-							dmgFlat = dmgFlat + 10;
+							dmgFlat = dmgFlat + 2;
 						}
 					}
 					
@@ -149,30 +149,30 @@ public class DamageListener implements Listener{
 						if (finalDistance > 10) {
 						}
 						else if (finalDistance > 7 && finalDistance < 10) {
-							dmgFlat = dmgFlat + 4;
+							dmgFlat = dmgFlat + 1;
 						}
 						
 						else if (finalDistance > 3 && finalDistance < 7){
-							dmgFlat = dmgFlat + 6;
+							dmgFlat = dmgFlat + 2;
 						}
 						else {
-							dmgFlat = dmgFlat + 8;
+							dmgFlat = dmgFlat + 3;
 						}
 					}
 					
 					if(arrow.getName().contains("pointblank2")) {
 						
-						if (finalDistance > 10) {
+						if (finalDistance > 15) {
 						}
-						else if (finalDistance > 7 && finalDistance < 10) {
-							dmgFlat = dmgFlat + 6;
+						else if (finalDistance > 11 && finalDistance < 15) {
+							dmgFlat = dmgFlat + 2;
 						}
 						
-						else if (finalDistance > 3 && finalDistance < 7){
-							dmgFlat = dmgFlat + 8;
+						else if (finalDistance > 5 && finalDistance < 11){
+							dmgFlat = dmgFlat +3 ;
 						}
 						else {
-							dmgFlat = dmgFlat + 10;
+							dmgFlat = dmgFlat + 4;
 						}
 					}
 				}
@@ -197,7 +197,7 @@ public class DamageListener implements Listener{
 						Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(bow);
 					
 						if(enchants.containsKey(CustomEnchantment.FAR_SHOT)){
-						
+							//Might want to try doing this with metadata instead for future compatibility.
 							arrow.setCustomName(arrow.getName() + "farshot" + enchants.get(CustomEnchantment.FAR_SHOT));
 						
 						}
