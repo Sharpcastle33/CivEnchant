@@ -56,6 +56,8 @@ public enum CustomEnchantment {
 	DEMOLISHING("Demolishing", 4),
 	CRYSTAL_ATTUNEMENT("Crystal Attunement", 5),
 	STONEMASON("Stonemason", 4),
+	PROFICIENT("Proficient", 5), //TODO unimplemented
+	EMERALD_RESONANCE("Emerald Resonance", 3), //TODO unimplemented
 	MAGNET("Magnet", 1), //TODO unimplemented
 	
 	
@@ -68,7 +70,7 @@ public enum CustomEnchantment {
 	FEARING("Fearing", 3),//TODO unimplemented
 	BEHEADING("Beheading", 3),//TODO unimplemented
 	HELLFIRE("Hellfire", 3), //TODO unimplemented
-	
+	FIREBANE("Firebane", 4), //TODO unimplemented
 	
 	//Ranged Enchants
 	FAR_SHOT("Far Shot", 2), 
