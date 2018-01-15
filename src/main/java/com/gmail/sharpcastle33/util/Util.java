@@ -13,6 +13,8 @@ import org.bukkit.potion.PotionEffect;
 
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 
+import net.md_5.bungee.api.ChatColor;
+
 public class Util {
 	
 	private static Material[] swords = {Material.DIAMOND_SWORD, Material.IRON_SWORD, Material.GOLD_SWORD, Material.STONE_SWORD, Material.WOOD_SWORD};
@@ -38,6 +40,17 @@ public class Util {
 	 */
 	
 	//TODO complete this method
+	
+	public static ItemStack generateItem(String s, int amt) {
+		ItemStack stack = null;
+		if(s.equalsIgnoreCase("EMERALD_FRAGMENT")) {
+			stack = new ItemStack(Material.IRON_NUGGET, amt);
+			ItemMeta meta = stack.getItemMeta();
+			meta.setDisplayName(ChatColor.YELLOW + "Emerald Fragment");
+			stack.setItemMeta(meta);
+		}
+		return stack;
+	}
 	public static boolean replacePotionEffect(Player p, PotionEffect effect) {
 		if(p.getActivePotionEffects().contains(effect)) {
 			p.addPotionEffect(effect);

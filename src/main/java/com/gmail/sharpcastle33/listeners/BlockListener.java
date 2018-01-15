@@ -3,8 +3,10 @@ package com.gmail.sharpcastle33.listeners;
 import java.util.Map;
 import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
@@ -43,7 +45,7 @@ public class BlockListener implements Listener{
 			
 			//PICKAXE
 			if(Util.isPickaxe(mainHand)) {
-				
+				//AUTO SMELT
 				if (enchants.containsKey(CustomEnchantment.AUTO_SMELT)) {
 					
 					smelt = true;
@@ -65,7 +67,7 @@ public class BlockListener implements Listener{
 					}
 					
 				}
-
+				//DEMOLISHING
 				if(enchants.containsKey(CustomEnchantment.DEMOLISHING)) {
 					demolished = true;
 					if(block.getType() == Material.STONE) {
@@ -75,7 +77,7 @@ public class BlockListener implements Listener{
 						}
 					}
 				}
-				
+				//CRYSTAL ATTUNEMENT
 				if(enchants.containsKey(CustomEnchantment.CRYSTAL_ATTUNEMENT)) {
 					for(Material m : crystals) {
 						if(block.getType() == m) {
@@ -83,7 +85,68 @@ public class BlockListener implements Listener{
 						}
 					}
 				}
+				//EMERALD RESONANCE
+				//is silk touch a problem? Don't think so.
+				if(enchants.containsKey(CustomEnchantment.EMERALD_RESONANCE)) {
+					if(block.getType() == Material.EMERALD_ORE) {
+						int lvl = enchants.get(CustomEnchantment.EMERALD_RESONANCE);
+						//dissonance
+						if(Util.chance(20 + (10*lvl), 100)) {
+							event.setDropItems(false);
+							block.getLocation().getWorld().playSound(block.getLocation(), Sound.BLOCK_GLASS_BREAK, 1f, 1f);
+							
+							Random rand = new Random();
+							
+							int amount = 0;
+							
+							if(lvl == 1) {
+								amount += rand.nextInt(1);
+							}else if(lvl == 2) {
+								amount += rand.nextInt(2);
+							}else {
+								amount += rand.nextInt(1);
+								
+								if(Util.chance(50, 100)) {
+									amount+=1;
+								}
+								
+								if(Util.chance(5, 100)) {
+									amount+=1;
+								}
+							}
+							
+
+							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), Util.generateItem("EMERALD_FRAGMENT", amount));				
+							int exp = event.getExpToDrop();
+							event.setExpToDrop((int) (exp*(2.5 + (0.5*lvl))));
+						
+						}else {
+							//resonance
+
+							int exp = event.getExpToDrop();
+							
+							if(!(enchants.containsKey(CustomEnchantment.SILK_TOUCH))) {
+								event.setExpToDrop(((int) (exp*(1.1+(0.15*lvl)))));
+								block.getLocation().getWorld().playSound(block.getLocation(), Sound.BLOCK_NOTE_CHIME, 1f, 1f);
+
+							}
+							
+							
+							
+							
+						}
+					}
+				}
 				
+				//PROFICIENT
+				if(enchants.containsKey(CustomEnchantment.PROFICIENT)) {
+					if(block.getType() == Material.STONE) {
+						if(Util.chance(2 + enchants.get(CustomEnchantment.PROFICIENT), 100)) {
+							event.setExpToDrop(1);
+						}
+					}
+				}
+				//STONEMASON
 				if(enchants.containsKey(CustomEnchantment.STONEMASON)) {
 					if(!(demolished)) {
 						if(block.getType() == Material.STONE) {
@@ -101,15 +164,16 @@ public class BlockListener implements Listener{
 						}
 					}
 				}
-				
+				//IRON AFFINITY
 				if(enchants.containsKey(CustomEnchantment.IRON_AFFINITY)){
 					//How do we want to deal with players placing ore?
+					//Drop special iron ore fragments every break.
 					if(block.getType() == Material.IRON_ORE) {
 						
 					}
 		
 				}
-				
+				//GOLD AFFINITY
 				if (enchants.containsKey(CustomEnchantment.GOLD_AFFINITY)) {
 					if(block.getType() == Material.GOLD_ORE) {
 						
@@ -119,7 +183,7 @@ public class BlockListener implements Listener{
 			
 			//AXE
 			if(Util.isAxe(mainHand)) {
-				
+				//CARPENTRY
 				if(enchants.containsKey(CustomEnchantment.CARPENTRY)) {
 					//LOGS
 					if (block.getType() == Material.LOG) {
@@ -157,7 +221,7 @@ public class BlockListener implements Listener{
 					
 					
 				}
-				
+				//TIMBER
 				if (enchants.containsKey(CustomEnchantment.TIMBER)) {
 					if (block.getType() == Material.LOG || block.getType() == Material.LOG_2) {
 						
