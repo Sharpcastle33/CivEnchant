@@ -58,11 +58,12 @@ public enum CustomEnchantment {
 	LIFESTEAL("Lifesteal", 2), //TODO unimplemented
 	RAGE("Rage", 3), //TODO unimplemented
 	SOUL_TAKER("Soul Taker", 3), //TODO unimplemented
+	CORROSIVE("Corrosive", 3), //TODO unimplemented
 	
 	
 	//Ranged Enchants
-	FAR_SHOT("Far Shot", 3), //TODO unimplemented
-	POINT_BLANK("Point Blank", 3), //TODO unimplemented
+	FAR_SHOT("Far Shot", 3), 
+	POINT_BLANK("Point Blank", 3), 
 	TRUE_SHOT("True Shot", 3), //TODO unimplemented
 	HUNTERS_BLESSING("Hunter's Blessing", 3), //TODO unimplemented
 	HUNTERS_MARK("Hunter's Mark", 3), //TODO unimplemented

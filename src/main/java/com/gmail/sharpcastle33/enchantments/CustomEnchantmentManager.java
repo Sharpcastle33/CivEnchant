@@ -190,6 +190,7 @@ public class CustomEnchantmentManager {
 		  addLoreTagEnchantment(meta,CustomEnchantment.ENDURANCE,level);
 		  break;
 	  default:
+		  addLoreTagEnchantment(meta,ench,level);
 		  break;
 		  		  
 	  }

@@ -325,6 +325,7 @@ public class CraftingOrbListener implements Listener {
           }else{
             p.sendMessage(ERROR_ENCHANTED);
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_SNARE, 1, 1);
+            
           }
         }
         
