@@ -3,8 +3,11 @@ package com.gmail.sharpcastle33.listeners;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,17 +15,20 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
 import com.gmail.sharpcastle33.util.Util;
 
 public class DamageListener implements Listener{
 	
+	private CivEnchant plugin = CivEnchant.plugin;
+	
 	@EventHandler
 	public void calculateDamage(EntityDamageByEntityEvent event){
 		Entity offense = event.getDamager();
 		Entity defense = event.getEntity();
-		
+			
 		double dmgFlat = 0;
 		double dmgMod = 0;
 		double dmgMulti = 0;
@@ -83,35 +89,127 @@ public class DamageListener implements Listener{
 			Player attacker = (Player) offense;
 			Player defender = (Player) defense;
 		}
-		
-		double finalDamage = (event.getDamage() + dmgFlat) * (1 + dmgMod) * (1 + dmgMulti);
-	}
 	
-	@EventHandler
-	public void onArrowShoot(EntityShootBowEvent event) {
-		
-		if (event.getEntity() instanceof Player) {
-			
-			Player player = (Player) event.getEntity();
-			ItemStack bow = event.getBow();
-			
-			if (bow.hasItemMeta()) {
+	
+	//PLAYER SHOT BY ARROW
+
+		if (offense instanceof Arrow) {
 				
-				Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(bow);
+				Arrow arrow = (Arrow) offense;
 				
-				if(enchants.containsKey(CustomEnchantment.FAR_SHOT)){
+				if (arrow.getShooter() instanceof Player) {
 					
-					//TODO
+					Player shooter = (Player) arrow.getShooter();
 					
+					double shooterX = shooter.getLocation().getX();
+					double shooterY = shooter.getLocation().getY();
+					double shooterZ = shooter.getLocation().getZ();
+					double defenseX = defense.getLocation().getX();
+					double defenseY = defense.getLocation().getY();
+					double defenseZ = defense.getLocation().getZ();
+					
+					//Distance between
+					double xDistance = Math.abs(shooterX - defenseX);
+					double yDistance = Math.abs(shooterY - defenseY);
+					double zDistance = Math.abs(shooterZ - defenseZ);
+					double diagDistance = Math.sqrt((xDistance * xDistance) + (zDistance * zDistance));
+					
+					double finalDistance = Math.sqrt((diagDistance * diagDistance) + (yDistance * yDistance));
+					
+					if(arrow.getName().contains("farshot1")) {
+						
+						if (finalDistance > 90) {
+							dmgFlat = dmgFlat + 4;
+						}
+						else if (finalDistance > 60 && finalDistance < 90) {
+							dmgFlat = dmgFlat + 3;
+						}
+						
+						else if (finalDistance > 50 && finalDistance < 60){
+							dmgFlat = dmgFlat + 1.5;
+						}
+					}
+					
+					if(arrow.getName().contains("farshot2")) {
+						
+						if (finalDistance > 90) {
+							dmgFlat = dmgFlat + 6;
+						}
+						else if (finalDistance > 60 && finalDistance < 90) {
+							dmgFlat = dmgFlat + 4;
+						}
+						
+						else if (finalDistance > 50 && finalDistance < 60){
+							dmgFlat = dmgFlat + 2;
+						}
+					}
+					
+					if(arrow.getName().contains("pointblank1")) {
+						
+						if (finalDistance > 10) {
+						}
+						else if (finalDistance > 7 && finalDistance < 10) {
+							dmgFlat = dmgFlat + 1;
+						}
+						
+						else if (finalDistance > 3 && finalDistance < 7){
+							dmgFlat = dmgFlat + 2;
+						}
+						else {
+							dmgFlat = dmgFlat + 3;
+						}
+					}
+					
+					if(arrow.getName().contains("pointblank2")) {
+						
+						if (finalDistance > 15) {
+						}
+						else if (finalDistance > 11 && finalDistance < 15) {
+							dmgFlat = dmgFlat + 2;
+						}
+						
+						else if (finalDistance > 5 && finalDistance < 11){
+							dmgFlat = dmgFlat +3 ;
+						}
+						else {
+							dmgFlat = dmgFlat + 4;
+						}
+					}
 				}
+			}
+			
+			double finalDamage = (event.getDamage() + dmgFlat) * (1 + dmgMod) * (1 + dmgMulti);
+			event.setDamage(finalDamage);
+		}
+		
+		@EventHandler
+		public void onArrowShoot(EntityShootBowEvent event) {
+			
+			if (event.getEntity() instanceof Player) {
 				
-				if(enchants.containsKey(CustomEnchantment.POINT_BLANK)) {
+				ItemStack bow = event.getBow();
+				Entity arrow = event.getProjectile();
+				
+				if (event.getForce() > 0.8) {
+				
+					if (bow.hasItemMeta()) {
+						
+						Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(bow);
 					
-					//TODO
+						if(enchants.containsKey(CustomEnchantment.FAR_SHOT)){
+							//Might want to try doing this with metadata instead for future compatibility.
+							arrow.setCustomName(arrow.getName() + "farshot" + enchants.get(CustomEnchantment.FAR_SHOT));
+						
+						}
 					
+						if(enchants.containsKey(CustomEnchantment.POINT_BLANK)) {
+						
+							arrow.setCustomName(arrow.getName() + "pointblank" + enchants.get(CustomEnchantment.POINT_BLANK));
+						
+					}
 				}
 			}
 		}
-	}
 
+	}
 }
