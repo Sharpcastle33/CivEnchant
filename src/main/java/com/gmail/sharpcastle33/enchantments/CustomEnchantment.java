@@ -53,6 +53,11 @@ public enum CustomEnchantment {
 	IRON_AFFINITY("Iron Affinity", 5), //TODO unimplemented
 	GOLD_AFFINITY("Gold Affinity", 5), //TODO unimplemented
 	AUTO_SMELT("Auto Smelt", 3),
+	DEMOLISHING("Demolishing", 4),
+	CRYSTAL_ATTUNEMENT("Crystal Attunement", 3),
+	EMERALD_RESONANCE("Emerald Resonance", 3),
+	PROFICIENT("Proficient", 3),
+	STONEMASON("Stonemason", 5),
 	
 	//Melee Enchants
 	LIFESTEAL("Lifesteal", 2), //TODO unimplemented
