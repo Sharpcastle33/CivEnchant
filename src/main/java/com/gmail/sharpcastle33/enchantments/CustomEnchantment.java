@@ -64,6 +64,7 @@ public enum CustomEnchantment {
 	RAGE("Rage", 3), //TODO unimplemented
 	SOUL_TAKER("Soul Taker", 3), //TODO unimplemented
 	CORROSIVE("Corrosive", 3), //TODO unimplemented
+	LIGHTBANE("Lightbane", 3), //TODO unimplemented
 	
 	
 	//Ranged Enchants
