@@ -183,6 +183,35 @@ public class BlockListener implements Listener{
 			
 			//AXE
 			if(Util.isAxe(mainHand)) {
+				
+				//APPLESEED
+				if(enchants.containsKey(CustomEnchantment.APPLESEED){
+				
+					// For Logs
+					
+					if(block.getType() == Material.LOG || block.getType() == Material.LOG2){
+						// Apple Drop
+						Random rand = new Random();
+						
+						// Higher the level, higher chance it fires
+						// At max lvl(3) there is 16.6% chance of it firing (5.5% for each lvl)
+						// Honestly might need to be lower chance, people will be swimming in apples
+						int fireChance = rand.nextInt(17) + 1;
+						if(fireChance <= enchants.get(CustomEnchantment.APPLESEED)){
+							int amt = rand.nextInt(enchants.get(CustomEnchantment.APPLESEED)) + 1;		
+							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.APPLE,amt));				
+						}
+						
+						
+						// And for fun, a 1/100 chance for gapple drop
+						fireChance = rand.nextInt(99) + 1;
+						if(fireChance == 100){
+							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.GOLDEN_APPLE,amt));	
+						}
+				
+					}
+				
+				}
 				//CARPENTRY
 				if(enchants.containsKey(CustomEnchantment.CARPENTRY)) {
 					//LOGS
