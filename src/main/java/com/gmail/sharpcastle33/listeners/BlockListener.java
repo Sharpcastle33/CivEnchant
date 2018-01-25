@@ -2,6 +2,7 @@ package com.gmail.sharpcastle33.listeners;
 
 import java.util.Map;
 import java.util.Random;
+import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -48,7 +49,7 @@ public class BlockListener implements Listener{
 				//AUTO SMELT
 				if (enchants.containsKey(CustomEnchantment.AUTO_SMELT)) {
 					
-					smelt = true;
+					smelt = true; // no purpose
 					
 					if (event.getBlock().getType().equals(Material.GOLD_ORE)) {
 						
@@ -69,7 +70,7 @@ public class BlockListener implements Listener{
 				}
 				//DEMOLISHING
 				if(enchants.containsKey(CustomEnchantment.DEMOLISHING)) {
-					demolished = true;
+					demolished = true; // no purpose
 					if(block.getType() == Material.STONE) {
 						event.setDropItems(false);
 						if(Util.chance(25*enchants.get(CustomEnchantment.DEMOLISHING), 100)) {
@@ -316,19 +317,28 @@ public class BlockListener implements Listener{
 			if(Util.isHoe(mainHand)) {
 				
 				//Green Thumb
-				if(if (enchants.containsKey(CustomEnchantment.GREENTHUMB)) {
+				if(enchants.containsKey(CustomEnchantment.GREENTHUMB)) {
 					if (block.getType() == Material.DIRT || block.getType() == Material.GRASS) {
 				
 						double x = block.getX();
 						double y = block.getY();
 						double z = block.getZ();
 						
-						Location location; 
+						
 						
 						Block eastBlock = new Location(block.getWorld(), x + 1, y, z).getBlock();
 						Block westBlock = new Location(block.getWorld(), x - 1, y, z).getBlock();
 						Block northBlock = new Location(block.getWorld(), x, y, z - 1).getBlock();
 						Block southBlock = new Location(block.getWorld(), x, y, z + 1).getBlock();
+						
+						
+						// Because corners are all handled @ lvl 3, I just throw em in a list
+						ArrayList<Block> cornerBlocks = new ArrayList<Block>();
+						
+						cornerBlocks.add(new Location(block.getWorld(), x + 1, y, z - 1).getBlock());
+						cornerBlocks.add(new Location(block.getWorld(), x - 1, y, z - 1).getBlock());
+						cornerBlocks.add(new Location(block.getWorld(), x + 1, y, z + 1).getBlock());
+						cornerBlocks.add(new Location(block.getWorld(), x -1 1, y, z + 1).getBlock());
 						
 						
 						
@@ -361,8 +371,17 @@ public class BlockListener implements Listener{
 						}
 						if(level >= 3){
 							
-							//Implement max lvl
-							//Probably corners (northeast, northwest, etc)
+							// Farm blocks in corners
+							// Lvl 3 ench will make 3X3 farmland for all elligible blocks (must be dirt & uncovered)
+							for(Block corner : cornerBlocks){
+								
+								if(corner.getType() == Material.DIRT && new Location(corner.getWorld(), x ,y+1,z).getBlock().getType() == Material.AIR){
+								
+									corner.setBlock(Block.farmland);
+									
+								}
+							
+							}
 							
 						}
 						
