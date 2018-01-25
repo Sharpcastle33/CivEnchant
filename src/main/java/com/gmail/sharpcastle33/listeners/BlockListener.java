@@ -185,7 +185,7 @@ public class BlockListener implements Listener{
 			if(Util.isAxe(mainHand)) {
 				
 				//APPLESEED
-				if(enchants.containsKey(CustomEnchantment.APPLESEED){
+				if(enchants.containsKey(CustomEnchantment.APPLESEED)){
 				
 					// For Logs
 					
@@ -315,6 +315,60 @@ public class BlockListener implements Listener{
 			
 			if(Util.isHoe(mainHand)) {
 				
+				//Green Thumb
+				if(if (enchants.containsKey(CustomEnchantment.GREENTHUMB)) {
+					if (block.getType() == Material.DIRT || block.getType() == Material.GRASS) {
+				
+						double x = block.getX();
+						double y = block.getY();
+						double z = block.getZ();
+						
+						Location location; 
+						
+						Block eastBlock = new Location(block.getWorld(), x + 1, y, z).getBlock();
+						Block westBlock = new Location(block.getWorld(), x - 1, y, z).getBlock();
+						Block northBlock = new Location(block.getWorld(), x, y, z - 1).getBlock();
+						Block southBlock = new Location(block.getWorld(), x, y, z + 1).getBlock();
+						
+						
+						
+						int level = enchants.get(CustomEnchantment.GREENTHUMB);
+						
+						
+						if(level >= 1){
+							
+							// Farm blocks to east/west of target block	
+							if(eastBlock.getType() == Material.DIRT && new Location(block.getWorld(), x + 1,y+1,z).getBlock().getType() == Material.AIR){
+								//setBlock farmland
+								eastBlock.setBlock(Block.farmland);
+							}
+							if(westBlock.getType() == Material.DIRT && new Location(block.getWorld(), x - 1,y+1,z).getBlock().getType() == Material.AIR){
+								westBlock.setBlock(Block.farmland);
+							}
+						}
+						
+						if(level >= 2){
+							// Farm blocks to north/south of target block
+							if(northBlock.getType() == Material.DIRT && new Location(block.getWorld(), x ,y+1,z-1).getBlock().getType() == Material.AIR){
+								//setBlock farmland
+								northBlock.setBlock(Block.farmland);
+							}	
+							if(southBlock.getType() == Material.DIRT && new Location(block.getWorld(), x ,y+1,z+1).getBlock().getType() == Material.AIR){
+								//setBlock farmland
+								northBlock.setBlock(Block.farmland);
+							}
+							
+						}
+						if(level >= 3){
+							
+							//Implement max lvl
+							//Probably corners (northeast, northwest, etc)
+							
+						}
+						
+				
+					}
+				}
 			}
 			
 			
