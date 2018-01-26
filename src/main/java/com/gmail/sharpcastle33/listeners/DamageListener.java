@@ -63,6 +63,12 @@ public class DamageListener implements Listener{
 					
 					if(enchants.containsKey(CustomEnchantment.EVASIVE)){
 						
+						// Accumulate levels of evasion for each armor piece
+						// (Maximum of 12 evasion (lvl 3 ench on 4 pieces of armor))
+						
+						evadeChance += enchants.get(CustomEnchantment.EVASIVE);	
+						
+						
 					}
 					
 					if(enchants.containsKey(CustomEnchantment.ENDURANCE)){
@@ -178,7 +184,21 @@ public class DamageListener implements Listener{
 				}
 			}
 			
-			double finalDamage = (event.getDamage() + dmgFlat) * (1 + dmgMod) * (1 + dmgMulti);
+		
+			//Calculate chance to evade
+			Random ran = new Random();
+			int roll = ran.nextInt(99) + 1; // Roll between 1-100 ## CHANGE THIS TO CHANGE PROBABILITY OF EVADE
+			int evade = 1; // 1 is no evade, 0 is successful evade (for calculating finalDamage below)
+		
+			if(roll <= evadeChance){
+				//successful evasion
+				evade = 0;
+				// Trying to figure out playing a neato particle effect when evasion occurs, such as the happy villager effect (green diamonds)
+				//defense.getLocation().getWorld().playEffect(defense.getLocation(), Effect.STEP_SOUND, Material.REDSTONE.getID());
+			}
+		
+		
+			double finalDamage = (event.getDamage() + dmgFlat) * (1 + dmgMod) * (1 + dmgMulti) * evade;
 			event.setDamage(finalDamage);
 		}
 		
