@@ -57,6 +57,8 @@ public class DamageListener implements Listener{
 			Player defender = (Player) defense;
 			ItemStack[] armor = defender.getInventory().getArmorContents();
 			int evadeChance = 0;
+			int endureChance = 0;
+			
 			for(ItemStack stack : armor){
 				if(stack != null && stack.hasItemMeta()){
 					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(stack);
@@ -72,9 +74,8 @@ public class DamageListener implements Listener{
 					}
 					
 					if(enchants.containsKey(CustomEnchantment.ENDURANCE)){
-						//TODO
-						defender.sendMessage("endured hit");
-						dmgFlat-=(enchants.get(CustomEnchantment.ENDURANCE)*0.15);
+						//Similar logic as evasion, but chance to mitigate dmg and not avoid entirely
+						endureChance += enchants.get(CustomEnchantment.ENDURANCE);
 					}
 					
 					if(enchants.containsKey(CustomEnchantment.VIGOR)){
@@ -94,6 +95,11 @@ public class DamageListener implements Listener{
 		if(offense instanceof Player && defense instanceof Player){
 			Player attacker = (Player) offense;
 			Player defender = (Player) defense;
+			
+			
+			
+
+			
 		}
 	
 	
@@ -189,16 +195,27 @@ public class DamageListener implements Listener{
 			Random ran = new Random();
 			int roll = ran.nextInt(99) + 1; // Roll between 1-100 ## CHANGE THIS TO CHANGE PROBABILITY OF EVADE
 			int evade = 1; // 1 is no evade, 0 is successful evade (for calculating finalDamage below)
+			int enduredDamage = 0;
 		
 			if(roll <= evadeChance){
 				//successful evasion
 				evade = 0;
-				// Trying to figure out playing a neato particle effect when evasion occurs, such as the happy villager effect (green diamonds)
-				//defense.getLocation().getWorld().playEffect(defense.getLocation(), Effect.STEP_SOUND, Material.REDSTONE.getID());
+				defense.sendMessage("You evaded their attack!");
+				defense.spawnParticle(Particle.VILLAGER_HAPPY, defense.getLocation.getX(), defense.getLocation.getY(), defense.getLocation.getZ(), 2)
+					//spawnParticle​(Particle particle, double x, double y, double z, int count)
+			}
+			
+			if(roll <= endureChance*3){	// I use roll from evade, but can be easily changed
+				// Successful endure (about 1/3 chance @ max lvl)
+					
+				enduredDamage = endureChance / 2; // Max dmg endured is 6
+				defense.sendMessage("You endured a hit!");
+				
 			}
 		
 		
-			double finalDamage = (event.getDamage() + dmgFlat) * (1 + dmgMod) * (1 + dmgMulti) * evade;
+		
+			double finalDamage = ((event.getDamage() + dmgFlat) * (1 + dmgMod) * (1 + dmgMulti) * evade) - enduredDamage;
 			event.setDamage(finalDamage);
 		}
 		
@@ -231,5 +248,37 @@ public class DamageListener implements Listener{
 			}
 		}
 
+	}
+	
+	
+	
+	@EventHandler
+	public void onPlayerDeath(PlayerDeathEvent event){
+		
+		Player killed = event.getEntity();
+		Entity killer = event.getEntity().getKiller();
+		
+		if(killer instanceof Player){
+			
+			if(killer.getInventory().getItemInMainHand() != null){
+				ItemStack weapon = killer.getInventory().getItemInMainHand();
+				
+				if(weapon.hasItemMeta()){
+					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
+					
+					if(enchants.containsKey(CustomEnchantment.SOUL_TAKER)){
+					
+						if(killed.getBedSpawnLocation != NULL){
+							
+							killed.sendMessage(killer.getName() + "'s weapon destroyed your bed!");
+							killed.getBedSpawnLocation().getBlock().breakNaturally();
+							
+						}
+						
+					}
+				}
+			}
+		}
+		
 	}
 }
