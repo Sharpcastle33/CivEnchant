@@ -226,7 +226,7 @@ public class DamageListener implements Listener{
 		
 		
 		
-			double finalDamage = ((event.getDamage() + dmgFlat) * (1 + dmgMod) * (1 + dmgMulti) * evade) - enduredDamage;
+			double finalDamage = ((event.getDamage() + dmgFlat) * (1 + dmgMod) * (1 + dmgMulti) * evade) + trueShot - enduredDamage;
 			event.setDamage(finalDamage);
 		}
 		
