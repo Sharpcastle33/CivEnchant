@@ -32,6 +32,11 @@ public class DamageListener implements Listener{
 		double dmgFlat = 0;
 		double dmgMod = 0;
 		double dmgMulti = 0;
+		int evadeChance = 0;
+		int endureChance = 0;
+		int trueShot = 0;
+		
+		
 		
 		//ATTACKING PLAYER
 		if(offense instanceof Player){
@@ -56,8 +61,8 @@ public class DamageListener implements Listener{
 		if(defense instanceof Player){
 			Player defender = (Player) defense;
 			ItemStack[] armor = defender.getInventory().getArmorContents();
-			int evadeChance = 0;
-			int endureChance = 0;
+			
+			
 			
 			for(ItemStack stack : armor){
 				if(stack != null && stack.hasItemMeta()){
@@ -127,6 +132,12 @@ public class DamageListener implements Listener{
 					double diagDistance = Math.sqrt((xDistance * xDistance) + (zDistance * zDistance));
 					
 					double finalDistance = Math.sqrt((diagDistance * diagDistance) + (yDistance * yDistance));
+					
+					
+					if(arrow.getName().contains("trueshot")){
+						trueshot = 1;	
+					}
+					
 					
 					if(arrow.getName().contains("farshot1")) {
 						
@@ -199,7 +210,7 @@ public class DamageListener implements Listener{
 		
 			if(roll <= evadeChance){
 				//successful evasion
-				evade = 0;
+				evade = 0 + trueShot;
 				defense.sendMessage("You evaded their attack!");
 				defense.spawnParticle(Particle.VILLAGER_HAPPY, defense.getLocation.getX(), defense.getLocation.getY(), defense.getLocation.getZ(), 2)
 					//spawnParticle​(Particle particle, double x, double y, double z, int count)
