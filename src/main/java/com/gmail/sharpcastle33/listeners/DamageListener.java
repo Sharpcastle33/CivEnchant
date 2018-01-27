@@ -14,6 +14,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
+
 
 import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
@@ -265,11 +267,13 @@ public class DamageListener implements Listener{
 	
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event){
-		
+		// SOUL TAKER
 		Player killed = event.getEntity();
-		Entity killer = event.getEntity().getKiller();
+		Entity entityKiller = event.getEntity().getKiller();
 		
-		if(killer instanceof Player){
+		if(entityKiller instanceof Player){
+			
+			Player killer = (Player) entityKiller;
 			
 			if(killer.getInventory().getItemInMainHand() != null){
 				ItemStack weapon = killer.getInventory().getItemInMainHand();
@@ -292,4 +296,70 @@ public class DamageListener implements Listener{
 		}
 		
 	}
+	
+	@EventHandler
+	public void onLivingEntityDeath(EntityDeathEvent event){
+		//HEADHUNTER
+		LivingEntity killed = event.getEntity();
+		Entity entityKiller = event.getEntity().getKiller();
+		
+		ItemStack headDrop = null;
+		
+		if(entityKiller instanceof Player){
+		
+			Player killer = (Player) entityKiller;
+			
+			if(killer.getInventory().getItemInMainHand() != null){
+				ItemStack weapon = killer.getInventory().getItemInMainHand();
+				
+				if(weapon.hasItemMeta()){
+					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
+					
+					if(enchants.containsKey(CustomEnchantment.HEADHUNTER)){
+						
+						Random ran = new Random();
+						int roll = ran.nextInt(99) + 1;
+						int chance = enchants.get(CustomEnchantment.HEADHUNTER);
+						
+						if(roll <= chance * 3 == 0){	// each lvl increments chance by 3%, so max lvl has 9% chance of drop
+
+							switch(killed.getEntityType()){
+								case EntityType.SKELETON: headDrop = new ItemStack(Material.SKULL_ITEM, 1,(short) 0);
+									break;
+								case EntityType.PLAYER: 
+
+											headDrop = new ItemStack(Material.SKULL_ITEM, 1, (short)3);
+										
+											// Make head appear to be killed's head
+											SkullMeta sm = (SkullMeta) headDrop.getItemMeta();
+											sm.setOwningPlayer(Bukkit.getOfflinePlayer(killed));
+											headDrop.setItemMeta(sm);
+									
+											// Make head's name appear to be killed's head
+											ItemMeta itemMeta = headDrop.getItemMeta();
+											itemMeta.setDisplayName(ChatColor.RED + killed.getName() + "s head");
+											headDrop.setItemMeta(itemMeta);
+									
+											
+											//The above method might be buggy
+											// People online were having a hard time aswell, it seems
+
+									break;
+								case EntityType.ZOMBIE: headDrop = new ItemStack(Material.SKULL_ITEM, 1, (short)2);
+									break;
+								case EntityType.CREEPER: headDrop = new ItemStack(Material.SKULL_ITEM, 1, (short)4);
+									break;
+							}
+							
+						event.getDrops().add(headDrop);	
+						}	
+					}
+			
+				}
+			}
+		}
+	}
+		
+		
 }
+
