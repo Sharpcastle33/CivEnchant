@@ -220,6 +220,10 @@ public class CustomEnchantmentManager {
 		
 		ret.put(CustomEnchantment.LIFESTEAL, 1);
 		ret.put(CustomEnchantment.RAGE, 1);
+		ret.put(CustomEnchantment.CORROSIVE, 1);
+		ret.put(CustomEnchantment.HELLFIRE, 1);
+		ret.put(CustomEnchantment.SOUL_TAKER, 1);
+		ret.put(CustomEnchantment.LIGHTBANE, 1);
 	}
 	
 	if(Util.isArmor(stack)){
@@ -233,18 +237,34 @@ public class CustomEnchantmentManager {
 		ret.put(CustomEnchantment.ENDURANCE, 1);
 		ret.put(CustomEnchantment.VIGOR, 1);
 		ret.put(CustomEnchantment.VITALITY, 1);
+		ret.put(CustomEnchantment.EVASIVE, 1);
 		
 	}
 	
 	if(Util.isTool(stack)){
 		ret.put(CustomEnchantment.FORTUNE, 1);
 		ret.put(CustomEnchantment.SILK_TOUCH, 1);
+		ret.put(CustomEnchantment.MUTANDIS, 1);
+		ret.put(CustomEnchantment.NATURES_BOUNTY, 1);
 	}
 	
 	if(Util.isPickaxe(stack)){
 		ret.put(CustomEnchantment.GOLD_AFFINITY, 1);
 		ret.put(CustomEnchantment.IRON_AFFINITY, 1);
 		ret.put(CustomEnchantment.AUTO_SMELT, 1);
+		ret.put(CustomEnchantment.DEMOLISHING, 1);
+		ret.put(CustomEnchantment.CRYSTAL_ATTUNEMENT, 1);
+		ret.put(CustomEnchantment.EMERALD_RESONANCE, 1);
+		ret.put(CustomEnchantment.STONEMASON, 1);
+		ret.put(CustomEnchantment.PROFICIENT, 1);
+		
+	}
+	
+	if(Util.isAxe(stack)){
+		ret.put(CustomEnchantment.TIMBER, 1);
+		ret.put(CustomEnchantment.WOODSMAN, 1);
+		ret.put(CustomEnchantment.CARPENTRY, 1);
+		ret.put(CustomEnchantment.APPLESEED, 1);
 	}
 	
 	if(Util.isBow(stack)){
@@ -253,6 +273,9 @@ public class CustomEnchantmentManager {
 		
 		ret.put(CustomEnchantment.FAR_SHOT, 1);
 		ret.put(CustomEnchantment.POINT_BLANK, 1);
+		ret.put(CustomEnchantment.TRUE_SHOT, 1);
+		ret.put(CustomEnchantment.HUNTERS_BLESSING, 1);
+		ret.put(CustomEnchantment.HUNTERS_MARK, 1);
 	}
 	
     return ret;
