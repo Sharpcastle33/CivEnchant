@@ -257,6 +257,12 @@ public class DamageListener implements Listener{
 							arrow.setCustomName(arrow.getName() + "pointblank" + enchants.get(CustomEnchantment.POINT_BLANK));
 						
 					}
+						
+						if(enchants.containsKey(CustomEnchantment.TRUESHOT)) {
+						
+							arrow.setCustomName(arrow.getName() + "trueshot");
+							
+						}
 				}
 			}
 		}
