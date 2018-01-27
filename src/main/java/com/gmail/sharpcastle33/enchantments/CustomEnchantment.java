@@ -66,6 +66,7 @@ public enum CustomEnchantment {
 	CORROSIVE("Corrosive", 3), //TODO unimplemented
 	LIGHTBANE("Lightbane", 3), //TODO unimplemented
 	HELLFIRE("Hellfire", 3), //TODO unimplemented
+	HEADHUNTER("Headhunter", 3),
 	
 	
 	//Ranged Enchants
