@@ -107,27 +107,33 @@ public class DamageListener implements Listener{
 						// Vigor Tag for scheduler = 1
 						if(!Bukkit.getServer().getScheduler().isCurrentlyRunning(asciiID * 10 + 1)){
 							
-							Bukkit.getServer().getSchedular().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 1, 10));
+							Bukkit.getServer().getScheduler().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 1, 10));
 							// Add Vigor Effects
+							
 							
 						} 
 					}
 					
 					if(enchants.containsKey(CustomEnchantment.SECOND_WIND)){
 						// Second Wind tag for schedular = 2
-						if(!Bukkit.getServer().getScheduler().isCurrentlyRunning(asciiID * 10 + 2)){
 						
-							Bukkit.getServer().getSchedular().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 2, 10));
-							
+						if(defender.getHealth() - event.getFinalDamage() < 4)	{	// Does not consider ench changes in dmg
+							if(!Bukkit.getServer().getScheduler().isCurrentlyRunning(asciiID * 10 + 2)){
+
+								Bukkit.getServer().getScheduler().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 2, 10));
+
+								Util.replacePotionEffect(defender, new PotionEffect(PotionEffectType.REGENERATION, 10, 1));
+								Util.replacePotionEffect(defender, new PotionEffect(PotionEffectType.SPEED, 10, 1));
+							}
+						
 						}
-						
 					}
 					
 					if(enchants.containsKey(CustomEnchantment.LAST_STAND)){
 						// Last Stand tag for schedular = 3
 						if(!Bukkit.getServer().getScheduler().isCurrentlyRunning(asciiID * 10 + 3)){
 						
-							Bukkit.getServer().getSchedular().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 3, 10));
+							Bukkit.getServer().getScheduler().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 3, 10));
 							
 						}
 					
@@ -137,7 +143,7 @@ public class DamageListener implements Listener{
 						// Adrenaline tag for schedular = 4;
 						if(!Bukkit.getServer().getScheduler().isCurrentlyRunning(asciiID * 10 + 4)){
 						
-							Bukkit.getServer().getSchedular().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 4, 10));
+							Bukkit.getServer().getScheduler().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 4, 10));
 							
 						}
 					
