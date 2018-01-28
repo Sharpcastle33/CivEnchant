@@ -36,13 +36,14 @@ public class BlockListener implements Listener{
 		Player player = event.getPlayer();
 		Block block = event.getBlock();
 		ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
+		Map<CustomEnchantment, Integer> enchants;
 		
 		boolean demolished = false;
 		boolean smelt = false;
 		
 		if (mainHand.hasItemMeta()) {
 			
-			Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(mainHand);
+			 enchants = CustomEnchantmentManager.getCustomEnchantments(mainHand);
 			
 			//PICKAXE
 			if(Util.isPickaxe(mainHand)) {
@@ -184,71 +185,18 @@ public class BlockListener implements Listener{
 			
 			//AXE
 			if(Util.isAxe(mainHand)) {
+				// Placed Axe enchants in methods to accomodate Timber
 				
 				//APPLESEED
 				if(enchants.containsKey(CustomEnchantment.APPLESEED)){
-				
-					// For Logs
 					
-					if(block.getType() == Material.LOG || block.getType() == Material.LOG2){
-						// Apple Drop
-						Random rand = new Random();
-						
-						// Higher the level, higher chance it fires
-						// At max lvl(3) there is 16.6% chance of it firing (5.5% for each lvl)
-						// Honestly might need to be lower chance, people will be swimming in apples
-						int fireChance = rand.nextInt(17) + 1;
-						if(fireChance <= enchants.get(CustomEnchantment.APPLESEED)){
-							int amt = rand.nextInt(enchants.get(CustomEnchantment.APPLESEED)) + 1;		
-							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.APPLE,amt));				
-						}
-						
-						
-						// And for fun, a 1/100 chance for gapple drop
-						fireChance = rand.nextInt(99) + 1;
-						if(fireChance == 100){
-							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.GOLDEN_APPLE,amt));	
-						}
-				
-					}
+					appleSeed(event.getBlock());
 				
 				}
 				//CARPENTRY
 				if(enchants.containsKey(CustomEnchantment.CARPENTRY)) {
-					//LOGS
-					if (block.getType() == Material.LOG) {
-						//STICK DROP
-						if(Util.chance(5*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
-							Random rand = new Random();
-							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY))+1;		
-							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.STICK,amt));				
-						}
-						//FENCE DROP
-						if(Util.chance(2*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
-							Byte data = block.getData();
-							Random rand = new Random();
-							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY)/2)+1;		
-							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.FENCE,amt,data));				
-						}
-						
-						
-					//LOG_2s	
-					}else if (block.getType() == Material.LOG_2) {
-						//STICK DROP
-						if(Util.chance(5*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
-							Random rand = new Random();
-							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY))+1;		
-							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.STICK,amt));				
-						}
-						//FENCE DROP
-						if(Util.chance(2*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
-							Byte data = block.getData();
-							Random rand = new Random();
-							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY)/2)+1;		
-							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.FENCE,amt,data));				
-						}
-					}
 					
+					carpentry(event.getBlock());
 					
 				}
 				//TIMBER
@@ -278,7 +226,27 @@ public class BlockListener implements Listener{
 							
 								if (location.getBlock().getType() == Material.LOG || location.getBlock().getType() == Material.LOG_2) {
 								
+									
+									
+									if(enchants.containsKey(CustomEnchantment.APPLESEED)){
+				
+										appleSeed(location.getBlock());
+				
+									}
+									//CARPENTRY
+									if(enchants.containsKey(CustomEnchantment.CARPENTRY)) {
+
+										carpentry(location.getBlock());
+
+									}
+									
 									location.getBlock().breakNaturally();
+									
+									
+									
+									
+									
+									
 								
 									if (enchants.containsKey(CustomEnchantment.UNBREAKING)) {
 									
@@ -383,20 +351,99 @@ public class BlockListener implements Listener{
 							
 							}
 							
-						}
+						} 
 						
 				
-					}
-				}
-			}
+					} 
+				}// green thumb end
+			} // hoe end
 			
 			
 			
 			
 
 			
-		}
+		} // if hasitemMeta end
+		
+	} // Class end
+	
+	
+	
+	
+	
+	
+	private void carpentry(Block theBlock){
+	
+//LOGS
+					if (theBlock.getType() == Material.LOG) {
+						//STICK DROP
+						if(Util.chance(5*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
+							Random rand = new Random();
+							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY))+1;		
+							theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.STICK,amt));				
+						}
+						//FENCE DROP
+						if(Util.chance(2*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
+							Byte data = theBlock.getData();
+							Random rand = new Random();
+							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY)/2)+1;		
+							theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.FENCE,amt,data));				
+						}
+						
+						
+					//LOG_2s	
+					}else if (theBlock.getType() == Material.LOG_2) {
+						//STICK DROP
+						if(Util.chance(5*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
+							Random rand = new Random();
+							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY))+1;		
+							theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.STICK,amt));				
+						}
+						//FENCE DROP
+						if(Util.chance(2*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
+							Byte data = theBlock.getData();
+							Random rand = new Random();
+							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY)/2)+1;		
+							theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.FENCE,amt,data));				
+						}
+					}	
+	
+	
+	}
+	
+	
+	
+	private void appleSeed(Block theBlock){
+		
+// For Logs
+					
+					if(theBlock.getType() == Material.LOG || theBlock.getType() == Material.LOG2){
+						// Apple Drop
+						Random rand = new Random();
+						
+						// Higher the level, higher chance it fires
+						// At max lvl(3) there is 16.6% chance of it firing (5.5% for each lvl)
+						// Honestly might need to be lower chance, people will be swimming in apples
+						int fireChance = rand.nextInt(17) + 1;
+						if(fireChance <= enchants.get(CustomEnchantment.APPLESEED)){
+							int amt = rand.nextInt(enchants.get(CustomEnchantment.APPLESEED)) + 1;		
+							theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.APPLE,amt));				
+						}
+						
+						
+						// And for fun, a 1/100 chance for gapple drop
+						fireChance = rand.nextInt(99) + 1;
+						if(fireChance == 100){
+							theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.GOLDEN_APPLE,amt));	
+						}
+				
+					}		
+		
+		
+		
 		
 	}
+	
+	
 
 }
