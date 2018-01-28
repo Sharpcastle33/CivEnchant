@@ -29,7 +29,7 @@ public class ScheduledPotionReplace extends BukkitRunnable {
         } else {
         
           player.addPotionEffect(effect);
-          
+          this.cancel();
         }
 
 
