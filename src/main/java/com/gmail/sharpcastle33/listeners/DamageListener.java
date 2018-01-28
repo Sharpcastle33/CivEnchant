@@ -63,6 +63,14 @@ public class DamageListener implements Listener{
 		if(defense instanceof Player){
 			Player defender = (Player) defense;
 			ItemStack[] armor = defender.getInventory().getArmorContents();
+			int asciiID; // integer ID for player
+			
+			// Get ascii code for player name
+			for( Char c : defender.getName().toCharArray() ) {
+				
+				asciiID = asciiID * 1000; // slide digits
+				asciiID += (int) c;
+			}
 			
 			
 			
@@ -85,9 +93,57 @@ public class DamageListener implements Listener{
 						endureChance += enchants.get(CustomEnchantment.ENDURANCE);
 					}
 					
+					
+					
+					
+					
+					// task ID's for schedular is the ascii version of defender's name with a tag for each enchantment
+					// So for name "JOE" 
+					// ASCII ID would be "74079069"
+					// And task ID for Vigor would be "740790691"
+					// This process ensures players tasks in scheduler don't get mixed up
+				
 					if(enchants.containsKey(CustomEnchantment.VIGOR)){
+						// Vigor Tag for scheduler = 1
+						if(!Bukkit.getServer().getScheduler().isCurrentlyRunning(asciiID * 10 + 1)){
+							
+							Bukkit.getServer().getSchedular().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 1, 10));
+							// Add Vigor Effects
+							
+						} 
+					}
+					
+					if(enchants.containsKey(CustomEnchantment.SECOND_WIND)){
+						// Second Wind tag for schedular = 2
+						if(!Bukkit.getServer().getScheduler().isCurrentlyRunning(asciiID * 10 + 2)){
+						
+							Bukkit.getServer().getSchedular().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 2, 10));
+							
+						}
 						
 					}
+					
+					if(enchants.containsKey(CustomEnchantment.LAST_STAND)){
+						// Last Stand tag for schedular = 3
+						if(!Bukkit.getServer().getScheduler().isCurrentlyRunning(asciiID * 10 + 3)){
+						
+							Bukkit.getServer().getSchedular().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 3, 10));
+							
+						}
+					
+					}
+					
+					if(enchants.containsKey(CustomEnchantment.ADRENALINE)){
+						// Adrenaline tag for schedular = 4;
+						if(!Bukkit.getServer().getScheduler().isCurrentlyRunning(asciiID * 10 + 4)){
+						
+							Bukkit.getServer().getSchedular().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 4, 10));
+							
+						}
+					
+					}
+					
+					
 				}
 			}
 			
@@ -96,6 +152,9 @@ public class DamageListener implements Listener{
 			if(stack != null && stack.getType() == Material.SHIELD){
 				dmgFlat-=1;
 			}
+			
+			
+			
 		}
 		
 		//PLAYER VS PLAYER
