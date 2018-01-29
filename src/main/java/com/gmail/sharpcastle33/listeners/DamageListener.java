@@ -57,8 +57,22 @@ public class DamageListener implements Listener{
 					}
 					
 					
+					
+					if(enchants.containsKey(CustomEnchantment.HUNTERS_MARK)){
+						if(defense instanceof LivingEntity){
+							LivingEntity target = (LivingEntity) defense;
+
+							target.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,
+								10 * enchants.get(CustomEnchantment.HUNTERS_MARK),	// Duration
+								   1))); //Amplifier
+						}
+					}
+					
+					
+					
 				}
 			}
+			
 		}
 		
 		//DEFENDING PLAYER
@@ -155,6 +169,35 @@ public class DamageListener implements Listener{
 		if(offense instanceof Player && defense instanceof Player){
 			Player attacker = (Player) offense;
 			Player defender = (Player) defense;
+			
+			if(attacker.getInventory().getItemInMainHand() != null){
+				ItemStack weapon = attacker.getInventory().getItemInMainHand();
+				if(weapon.hasItemMeta()){
+					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
+					
+					if(enchants.containsKey(CustomEnchantment.CORROSIVE)){
+						
+						Random rand = new Random();
+						int roll = rand.nextInt(100) + 1;
+						
+						if(roll < 5 ){ // Max lvl 1/20 chance of corrosive hit
+							ItemStack[] armor = defender.getInventory().getArmorContents();
+
+							for(ItemStack stack : armor){
+								if(stack != null && stack.hasItemMeta()){
+									
+									double corrode = enchants.get(CustomEnchantment.CORROSIVE) * 0.03; // Each lvl corrodes 3%
+									armor.setDurability(armor.getDurability() - (armor.getDurability() * corrode));
+									defender.sendMessage(attacker.getName() + "'s weapon has corroded your armor!");
+									defense.spawnParticle(Particle.VILLAGER_ANGRY, defense.getLocation.getX(), defense.getLocation.getY(), defense.getLocation.getZ(), 2)
+									
+
+								}
+							}
+						}				
+					}	// Corrosive end
+				}
+			}
 			
 			
 			
