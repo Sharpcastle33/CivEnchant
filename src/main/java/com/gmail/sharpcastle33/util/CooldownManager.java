@@ -1,6 +1,6 @@
 package com.gmail.sharpcastle33.util;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import com.gmail.sharpcastle33.CivEnchant;
 import java.util.ArrayList;
 import org.bukkit.entity.Player;
 import com.gmail.sharpcastle33.CivEnchant;
@@ -12,7 +12,7 @@ public class CooldownManager {
   ArrayList<Player> secondWind;
   ArrayList<Player> lastStand;
   ArrayList<Player> adrenaline;
-  JavaPlugin plugin;
+  CivEnchant plugin;
 
 
  public CooldownManager(){
