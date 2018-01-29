@@ -1,4 +1,6 @@
-import org.bukkit.plugin.java.JavaPlugin;
+package com.gmail.sharpcastle33.util;
+
+
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
