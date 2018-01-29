@@ -55,6 +55,8 @@ public class DamageListener implements Listener{
 							Bukkit.getLogger().info("healed " + attacker.getName());
 						}
 					}
+					
+					
 				}
 			}
 		}
@@ -63,14 +65,7 @@ public class DamageListener implements Listener{
 		if(defense instanceof Player){
 			Player defender = (Player) defense;
 			ItemStack[] armor = defender.getInventory().getArmorContents();
-			int asciiID; // integer ID for player
 			
-			// Get ascii code for player name
-			for( Char c : defender.getName().toCharArray() ) {
-				
-				asciiID = asciiID * 1000; // slide digits
-				asciiID += (int) c;
-			}
 			
 			
 			
@@ -94,57 +89,50 @@ public class DamageListener implements Listener{
 					}
 					
 					
-					
-					
-					
-					// task ID's for schedular is the ascii version of defender's name with a tag for each enchantment
-					// So for name "JOE" 
-					// ASCII ID would be "74079069"
-					// And task ID for Vigor would be "740790691"
-					// This process ensures players tasks in scheduler don't get mixed up
-				
 					if(enchants.containsKey(CustomEnchantment.VIGOR)){
-						// Vigor Tag for scheduler = 1
-						if(!Bukkit.getServer().getScheduler().isCurrentlyRunning(asciiID * 10 + 1)){
-							
-							Bukkit.getServer().getScheduler().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 1, 10));
-							// Add Vigor Effects
-							
-							
-						} 
+						
+						
+						
+						
 					}
 					
 					if(enchants.containsKey(CustomEnchantment.SECOND_WIND)){
-						// Second Wind tag for schedular = 2
 						
-						if(defender.getHealth() - event.getFinalDamage() < 4)	{	// Does not consider ench changes in dmg
-							if(!Bukkit.getServer().getScheduler().isCurrentlyRunning(asciiID * 10 + 2)){
+						if(defender.getHealth - event.getFinalDamage() < 4){	// Does not account for ench dmg change
+							if(!CivEnchant.cdManager.secondWind.contains(defender)){ // if SW is off CD
 
-								Bukkit.getServer().getScheduler().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 2, 10));
+								CivEnchant.cdManager.add(defender, CustomEnchantment.SECOND_WIND, 10);
+								Utils.replacePotionEffect(defender, new PotionEffect(PotionEffectType.REGENERATION, 10, 1));
+								Utils.replacePotionEffect(defender, new PotionEffect(PotionEffectType.SPEED, 10, 1));
 
-								Util.replacePotionEffect(defender, new PotionEffect(PotionEffectType.REGENERATION, 10, 1));
-								Util.replacePotionEffect(defender, new PotionEffect(PotionEffectType.SPEED, 10, 1));
 							}
-						
 						}
 					}
 					
 					if(enchants.containsKey(CustomEnchantment.LAST_STAND)){
-						// Last Stand tag for schedular = 3
-						if(!Bukkit.getServer().getScheduler().isCurrentlyRunning(asciiID * 10 + 3)){
 						
-							Bukkit.getServer().getScheduler().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 3, 10));
-							
+						if(defender.getHealth - event.getFinalDamage() < 2){	// Does not account for ench dmg change
+							if(!CivEnchant.cdManager.lastStand.contains(defender)){ // if SW is off CD
+
+								CivEnchant.cdManager.add(defender, CustomEnchantment.LAST_STAND, 10);
+								Utils.replacePotionEffect(defender, new PotionEffect(PotionEffectType.REGENERATION, 10, 1));
+								Utils.replacePotionEffect(defender, new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 10, 1));
+
+							}
 						}
+						
 					
 					}
 					
 					if(enchants.containsKey(CustomEnchantment.ADRENALINE)){
-						// Adrenaline tag for schedular = 4;
-						if(!Bukkit.getServer().getScheduler().isCurrentlyRunning(asciiID * 10 + 4)){
 						
-							Bukkit.getServer().getScheduler().runTask(this.getPlugin(), new EnchantmentCooldown(asciiID * 10 + 4, 10));
-							
+						if(defender.getHealth - event.getFinalDamage() < 4){	// Does not account for ench dmg change
+							if(!CivEnchant.cdManager.adrenaline.contains(defender)){ // if SW is off CD
+
+								CivEnchant.cdManager.add(defender, CustomEnchantment.ADRENALINE, 10);
+								Utils.replacePotionEffect(defender, new PotionEffect(PotionEffectType.SPEED, 10, 3));
+
+							}
 						}
 					
 					}
@@ -370,12 +358,36 @@ public class DamageListener implements Listener{
 	
 	@EventHandler
 	public void onLivingEntityDeath(EntityDeathEvent event){
-		//HEADHUNTER
+		
 		LivingEntity killed = event.getEntity();
 		Entity entityKiller = event.getEntity().getKiller();
 		
 		ItemStack headDrop = null;
 		
+		//HUNTERS BLESSING
+		if(killed instanceof Animal && entityKiller instanceof Player){
+			
+			Player killer = (Player) entityKiller;
+			
+			if(killer.getInventory().getItemInMainHand() != null){
+				ItemStack weapon = killer.getInventory().getItemInMainHand();
+				
+				if(weapon.hasItemMeta()){
+					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
+					
+					if(enchants.containsKey(CustomEnchantment.HUNTERS_BLESSING)){
+						
+						killer.addPotionEffect(new PotionEffect(PotionEffectType.LUCK,
+							10 * enchants.get(CustomEnchantment.HUNTERS_BLESSING),	// Duration
+							   1*enchants.get(CustomEnchantment.HUNTERS_BLESSING))); //Amplifier
+						
+					}
+				}
+			}
+		
+		}
+		
+		//HEADHUNTER
 		if(entityKiller instanceof Player){
 		
 			Player killer = (Player) entityKiller;
@@ -390,9 +402,9 @@ public class DamageListener implements Listener{
 						
 						Random ran = new Random();
 						int roll = ran.nextInt(99) + 1;
-						int chance = enchants.get(CustomEnchantment.HEADHUNTER);
+						int chance = enchants.get(CustomEnchantment.HEADHUNTER) * 3;
 						
-						if(roll <= chance * 3 == 0){	// each lvl increments chance by 3%, so max lvl has 9% chance of drop
+						if(roll <= chance){	// each lvl increments chance by 3%, so max lvl has 9% chance of drop
 
 							switch(killed.getEntityType()){
 								case EntityType.SKELETON: headDrop = new ItemStack(Material.SKULL_ITEM, 1,(short) 0);
