@@ -32,16 +32,7 @@ public class Util {
 
 	CivEnchant plugin = CivEnchant.plugin;
 	
-	/**
-	 * If the player has an existing copy of the effect at a lower value, it stores the players previous duration and applies it back when it runs out.
-	 * @param p
-	 * @param effect
-	 * @param l
-	 * @param d
-	 * @return
-	 */
-	
-	//TODO complete this method
+
 	
 	public static ItemStack generateItem(String s, int amt) {
 		ItemStack stack = null;
@@ -52,6 +43,28 @@ public class Util {
 			stack.setItemMeta(meta);
 		}
 		return stack;
+	}
+	
+	
+	public static void reducePotionDuration(Player p, PotionEffectType effect, int duration){
+		
+		if(p.getActivePotionEffects().contains(effect)){
+		
+			for(PotionEffect reducedEffect : p.getActivePotionEffects()){
+				
+				if(reducedEffect.getType() == effect){
+				
+					PotionEffect newPotion = new PotionEffect(effect, reducedEffect.getDuration() - duration, reducedEffect.getAmplifier());
+					p.removePotionEffect(reducedEffect);
+					p.addPotionEffect(newPotion);
+					
+				}
+				
+				
+			}
+			
+		}
+		
 	}
 	
 	
