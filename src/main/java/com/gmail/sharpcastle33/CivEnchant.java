@@ -16,10 +16,12 @@ public class CivEnchant extends JavaPlugin{
   private static DamageListener damageListener;
   private static BlockListener blockListener;
   public static CustomEnchantmentManager manager;
+  public static CooldownManager cdManager;
   
   public void onEnable(){
     plugin = this;
     manager = new CustomEnchantmentManager();
+    cdManager = new CooldownManager();
     
     enhancementListener = new EnhancementListener();
     this.getServer().getPluginManager().registerEvents(enhancementListener, plugin);
