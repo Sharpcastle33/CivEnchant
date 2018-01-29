@@ -25,6 +25,7 @@ import com.gmail.sharpcastle33.util.Util;
 public class DamageListener implements Listener{
 	
 	private CivEnchant plugin = CivEnchant.plugin;
+	private Random rand = new Random();
 	
 	@EventHandler
 	public void calculateDamage(EntityDamageByEntityEvent event){
@@ -175,9 +176,10 @@ public class DamageListener implements Listener{
 				if(weapon.hasItemMeta()){
 					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
 					
+					//CORROSIVE
 					if(enchants.containsKey(CustomEnchantment.CORROSIVE)){
 						
-						Random rand = new Random();
+						
 						int roll = rand.nextInt(100) + 1;
 						
 						if(roll < 5 ){ // Max lvl 1/20 chance of corrosive hit
@@ -301,17 +303,19 @@ public class DamageListener implements Listener{
 			
 		
 			//Calculate chance to evade
-			Random ran = new Random();
-			int roll = ran.nextInt(99) + 1; // Roll between 1-100 ## CHANGE THIS TO CHANGE PROBABILITY OF EVADE
+			
+			int roll = rand.nextInt(99) + 1; // Roll between 1-100 ## CHANGE THIS TO CHANGE PROBABILITY OF EVADE
 			int evade = 1; // 1 is no evade, 0 is successful evade (for calculating finalDamage below)
 			int enduredDamage = 0;
 		
 			if(roll <= evadeChance){
 				//successful evasion
 				evade = 0 + trueShot;
-				defense.sendMessage("You evaded their attack!");
-				defense.spawnParticle(Particle.VILLAGER_HAPPY, defense.getLocation.getX(), defense.getLocation.getY(), defense.getLocation.getZ(), 2)
-					//spawnParticle​(Particle particle, double x, double y, double z, int count)
+				if(trueShot == 0){
+					defense.sendMessage("You evaded their attack!");
+					defense.spawnParticle(Particle.VILLAGER_HAPPY, defense.getLocation.getX(), defense.getLocation.getY(), defense.getLocation.getZ(), 2)
+						//spawnParticle​(Particle particle, double x, double y, double z, int count)
+				}
 			}
 			
 			if(roll <= endureChance*3){	// I use roll from evade, but can be easily changed
@@ -419,10 +423,12 @@ public class DamageListener implements Listener{
 					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
 					
 					if(enchants.containsKey(CustomEnchantment.HUNTERS_BLESSING)){
-						
-						killer.addPotionEffect(new PotionEffect(PotionEffectType.LUCK,
-							10 * enchants.get(CustomEnchantment.HUNTERS_BLESSING),	// Duration
-							   1*enchants.get(CustomEnchantment.HUNTERS_BLESSING))); //Amplifier
+						int roll = rand.nextInt(100)+1;
+						if(roll == 50){ // 1/100 chance to get luck boost
+							killer.addPotionEffect(new PotionEffect(PotionEffectType.LUCK,
+								10 * enchants.get(CustomEnchantment.HUNTERS_BLESSING),	// Duration
+								   1*enchants.get(CustomEnchantment.HUNTERS_BLESSING))); //Amplifier
+						}
 						
 					}
 				}
@@ -477,7 +483,9 @@ public class DamageListener implements Listener{
 									break;
 							}
 							
-						event.getDrops().add(headDrop);	
+							if(headDrop != null){	
+								event.getDrops().add(headDrop);	
+							}
 						}	
 					}
 			
