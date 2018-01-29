@@ -53,7 +53,7 @@ public class Util {
 	}
 	
 	
-	public static boolean replacePotionEffect(Player p, PotionEffect effect) {
+	public static boolean replacePotionEffect(Plugin plugin, Player p, PotionEffect effect) {
 		if(p.getActivePotionEffects().contains(effect)) {
 			
 			PotionEffect previousEffect = new PotionEffect;
@@ -64,6 +64,7 @@ public class Util {
 					if(playersEffect.getAmplifier() < effect.getAmplifier()){ // Is the one we want to give more powerful?
 						p.removePotionEffect(playersEffect); // If so, remove & replace
 						ScheduledPotionReplace replace = new ScheduledPotionReplace(p, playersEffect, playersEffect.getDuration());
+						replace.runTask(plugin);
 					}
 					
 					
