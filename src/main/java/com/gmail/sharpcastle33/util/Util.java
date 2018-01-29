@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
+import com.gmail.sharpcastle33.CivEnchant;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -29,6 +30,7 @@ public class Util {
 
 	private static Material[] spades = {Material.DIAMOND_SPADE, Material.IRON_SPADE, Material.GOLD_SPADE, Material.STONE_SPADE, Material.WOOD_SPADE};
 
+	CivEnchant plugin = CivEnchant.plugin;
 	
 	/**
 	 * If the player has an existing copy of the effect at a lower value, it stores the players previous duration and applies it back when it runs out.
@@ -53,7 +55,7 @@ public class Util {
 	}
 	
 	
-	public static boolean replacePotionEffect(Plugin plugin, Player p, PotionEffect effect) {
+	public static boolean replacePotionEffect(Player p, PotionEffect effect) {
 		if(p.getActivePotionEffects().contains(effect)) {
 			
 			PotionEffect previousEffect = new PotionEffect;
