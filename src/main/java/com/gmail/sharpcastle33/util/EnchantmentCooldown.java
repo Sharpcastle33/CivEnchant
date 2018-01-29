@@ -5,14 +5,15 @@ import org.bukkit.potion.PotionEffect;
 
 public class EnchantmentCooldown extends BukkitRunnable {
 
-  int taskID;
+  Player player;
   int duration;
+  ArrayList listOfPlayers;
   
-  public EnchantmentCooldown(int taskID, int duration){
+  public EnchantmentCooldown(Player player, int duration, ArrayList listOfPlayers){
       
-    this.taskID = taskID;
+    this.player = player;
     this.duration = duration * 20; // convert ticks to seconds
-    
+    this.listOfPlayers = listOfPlayers;
     
 
   } 
@@ -24,6 +25,8 @@ public class EnchantmentCooldown extends BukkitRunnable {
     duration--;
     
     if(duration <= 0){
+      
+      listOfPlayers.remove(player);
       this.cancel();
     }
   
@@ -31,10 +34,7 @@ public class EnchantmentCooldown extends BukkitRunnable {
   }
   
   
-  @Override
-  public int getTaskId(){
-      return taskID;
-  }
+
 
 
 
