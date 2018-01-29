@@ -14,7 +14,7 @@ public class EnchantmentCooldown extends BukkitRunnable {
   public EnchantmentCooldown(Player player, int duration, ArrayList listOfPlayers){
       
     this.player = player;
-    this.duration = (duration * 20) * 2; //(Duration of potion) * 3 = Cooldown
+    this.duration = (duration * 20) * 3; //(Duration of potion) * 3 = Cooldown
     this.listOfPlayers = listOfPlayers;
     
 
