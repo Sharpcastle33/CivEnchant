@@ -65,7 +65,8 @@ public class Util {
 				
 					if(playersEffect.getAmplifier() < effect.getAmplifier()){ // Is the one we want to give more powerful?
 						p.removePotionEffect(playersEffect); // If so, remove & replace
-						ScheduledPotionReplace replace = new ScheduledPotionReplace(p, playersEffect, playersEffect.getDuration());
+						p.addPotionEffect(effect);
+						ScheduledPotionReplace replace = new ScheduledPotionReplace(p, playersEffect, effect.getDuration());
 						replace.runTask(plugin);
 					}
 					
