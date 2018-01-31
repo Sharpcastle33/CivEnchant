@@ -99,17 +99,13 @@ public class DamageListener implements Listener{
 					}
 					
 					if(enchants.containsKey(CustomEnchantment.ENDURANCE)){
-						//Similar logic as evasion, but chance to mitigate dmg and not avoid entirely
-						endureChance += enchants.get(CustomEnchantment.ENDURANCE);
+						
+						dmgFlat -= (enchants.get(CustomEnchantment.ENDURANCE)*0.15);
+
 					}
 					
 					
-					if(enchants.containsKey(CustomEnchantment.VIGOR)){
-						
-						
-						
-						
-					}
+					// Vigor Moved to ArmorEquipListener (Still needs to be done as of 1/30)
 					
 					if(enchants.containsKey(CustomEnchantment.SECOND_WIND)){
 						
@@ -318,13 +314,7 @@ public class DamageListener implements Listener{
 				}
 			}
 			
-			if(roll <= endureChance*3){	// I use roll from evade, but can be easily changed
-				// Successful endure (about 1/3 chance @ max lvl)
-					
-				enduredDamage = endureChance / 2; // Max dmg endured is 6
-				defense.sendMessage("You endured a hit!");
-				
-			}
+			
 		
 		
 		
@@ -423,11 +413,27 @@ public class DamageListener implements Listener{
 					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
 					
 					if(enchants.containsKey(CustomEnchantment.HUNTERS_BLESSING)){
-						int roll = rand.nextInt(100)+1;
-						if(roll == 50){ // 1/100 chance to get luck boost
-							killer.addPotionEffect(new PotionEffect(PotionEffectType.LUCK,
-								10 * enchants.get(CustomEnchantment.HUNTERS_BLESSING),	// Duration
-								   1*enchants.get(CustomEnchantment.HUNTERS_BLESSING))); //Amplifier
+						int roll = rand.nextInt(60)+1 / enchants.get(CustomEnchantment.HUNTERS_BLESSING);
+						if(roll == 10){ // 1/60 chance on lvl 1, 1/30 on lvl 2, 1/15 on lvl 3
+						
+							for(Itemstack drop : event.getDrops()){
+							
+								switch(drop.getType()){
+									case Material.PORK:
+										event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.PORK,enchants.get(CustomEnchantment.HUNTERS_BLESSING)));	
+										break;
+									case Material.RAW_BEEF:
+										event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.RAW_BEEF,enchants.get(CustomEnchantment.HUNTERS_BLESSING)));										
+										break;
+									case Material.MUTTON:
+										event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.MUTTON,enchants.get(CustomEnchantment.HUNTERS_BLESSING)));	
+										break;
+												
+								}
+								
+							}
+							
+							
 						}
 						
 					}
