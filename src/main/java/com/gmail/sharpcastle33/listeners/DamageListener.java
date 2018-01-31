@@ -25,6 +25,7 @@ import com.gmail.sharpcastle33.util.Util;
 public class DamageListener implements Listener{
 	
 	private CivEnchant plugin = CivEnchant.plugin;
+	private Random rand = new Random();
 	
 	@EventHandler
 	public void calculateDamage(EntityDamageByEntityEvent event){
@@ -35,7 +36,6 @@ public class DamageListener implements Listener{
 		double dmgMod = 0;
 		double dmgMulti = 0;
 		int evadeChance = 0;
-		int endureChance = 0;
 		int trueShot = 0;
 		
 		
@@ -55,14 +55,31 @@ public class DamageListener implements Listener{
 							Bukkit.getLogger().info("healed " + attacker.getName());
 						}
 					}
+					
+					
+					
+					if(enchants.containsKey(CustomEnchantment.HUNTERS_MARK)){
+						if(defense instanceof LivingEntity){
+							LivingEntity target = (LivingEntity) defense;
+
+							target.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,
+								10 * enchants.get(CustomEnchantment.HUNTERS_MARK),	// Duration
+								   1))); //Amplifier
+						}
+					}
+					
+					
+					
 				}
 			}
+			
 		}
 		
 		//DEFENDING PLAYER
 		if(defense instanceof Player){
 			Player defender = (Player) defense;
 			ItemStack[] armor = defender.getInventory().getArmorContents();
+			
 			
 			
 			
@@ -81,13 +98,56 @@ public class DamageListener implements Listener{
 					}
 					
 					if(enchants.containsKey(CustomEnchantment.ENDURANCE)){
-						//Similar logic as evasion, but chance to mitigate dmg and not avoid entirely
-						endureChance += enchants.get(CustomEnchantment.ENDURANCE);
+						
+						dmgFlat -= (enchants.get(CustomEnchantment.ENDURANCE)*0.15);
+
 					}
 					
-					if(enchants.containsKey(CustomEnchantment.VIGOR)){
+					
+					// Vigor Moved to ArmorEquipListener (Still needs to be done as of 1/30)
+					
+					if(enchants.containsKey(CustomEnchantment.SECOND_WIND)){
 						
+						if(defender.getHealth - event.getFinalDamage() < 4){	// Does not account for ench dmg change
+							if(!CivEnchant.cdManager.secondWind.contains(defender)){ // if SW is off CD
+
+								CivEnchant.cdManager.add(defender, CustomEnchantment.SECOND_WIND, 10);
+								Utils.replacePotionEffect(defender, new PotionEffect(PotionEffectType.REGENERATION, 10, 1));
+								Utils.replacePotionEffect(defender, new PotionEffect(PotionEffectType.SPEED, 10, 1));
+
+							}
+						}
 					}
+					
+					if(enchants.containsKey(CustomEnchantment.LAST_STAND)){
+						
+						if(defender.getHealth - event.getFinalDamage() < 2){	// Does not account for ench dmg change
+							if(!CivEnchant.cdManager.lastStand.contains(defender)){ // if SW is off CD
+
+								CivEnchant.cdManager.add(defender, CustomEnchantment.LAST_STAND, 10);
+								Utils.replacePotionEffect(defender, new PotionEffect(PotionEffectType.REGENERATION, 10, 1));
+								Utils.replacePotionEffect(defender, new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 10, 1));
+
+							}
+						}
+						
+					
+					}
+					
+					if(enchants.containsKey(CustomEnchantment.ADRENALINE)){
+						
+						if(defender.getHealth - event.getFinalDamage() < 4){	// Does not account for ench dmg change
+							if(!CivEnchant.cdManager.adrenaline.contains(defender)){ // if SW is off CD
+
+								CivEnchant.cdManager.add(defender, CustomEnchantment.ADRENALINE, 10);
+								Utils.replacePotionEffect(defender, new PotionEffect(PotionEffectType.SPEED, 10, 3));
+
+							}
+						}
+					
+					}
+					
+					
 				}
 			}
 			
@@ -96,12 +156,45 @@ public class DamageListener implements Listener{
 			if(stack != null && stack.getType() == Material.SHIELD){
 				dmgFlat-=1;
 			}
+			
+			
+			
 		}
 		
 		//PLAYER VS PLAYER
 		if(offense instanceof Player && defense instanceof Player){
 			Player attacker = (Player) offense;
 			Player defender = (Player) defense;
+			
+			if(attacker.getInventory().getItemInMainHand() != null){
+				ItemStack weapon = attacker.getInventory().getItemInMainHand();
+				if(weapon.hasItemMeta()){
+					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
+					
+					//CORROSIVE
+					if(enchants.containsKey(CustomEnchantment.CORROSIVE)){
+						
+						
+						int roll = rand.nextInt(100) + 1;
+						
+						if(roll < 5 ){ // Max lvl 1/20 chance of corrosive hit
+							ItemStack[] armor = defender.getInventory().getArmorContents();
+
+							for(ItemStack stack : armor){
+								if(stack != null && stack.hasItemMeta()){
+									
+									double corrode = enchants.get(CustomEnchantment.CORROSIVE) * 0.03; // Each lvl corrodes 3%
+									armor.setDurability(armor.getDurability() - (armor.getDurability() * corrode));
+									defender.sendMessage(attacker.getName() + "'s weapon has corroded your armor!");
+									defense.spawnParticle(Particle.VILLAGER_ANGRY, defense.getLocation.getX(), defense.getLocation.getY(), defense.getLocation.getZ(), 2)
+									
+
+								}
+							}
+						}				
+					}	// Corrosive end
+				}
+			}
 			
 			
 			
@@ -205,26 +298,22 @@ public class DamageListener implements Listener{
 			
 		
 			//Calculate chance to evade
-			Random ran = new Random();
-			int roll = ran.nextInt(99) + 1; // Roll between 1-100 ## CHANGE THIS TO CHANGE PROBABILITY OF EVADE
+			
+			int roll = rand.nextInt(99) + 1; // Roll between 1-100 ## CHANGE THIS TO CHANGE PROBABILITY OF EVADE
 			int evade = 1; // 1 is no evade, 0 is successful evade (for calculating finalDamage below)
 			int enduredDamage = 0;
 		
 			if(roll <= evadeChance){
 				//successful evasion
 				evade = 0 + trueShot;
-				defense.sendMessage("You evaded their attack!");
-				defense.spawnParticle(Particle.VILLAGER_HAPPY, defense.getLocation.getX(), defense.getLocation.getY(), defense.getLocation.getZ(), 2)
-					//spawnParticle​(Particle particle, double x, double y, double z, int count)
+				if(trueShot == 0){
+					defense.sendMessage("You evaded their attack!");
+					defense.spawnParticle(Particle.VILLAGER_HAPPY, defense.getLocation.getX(), defense.getLocation.getY(), defense.getLocation.getZ(), 2)
+						//spawnParticle​(Particle particle, double x, double y, double z, int count)
+				}
 			}
 			
-			if(roll <= endureChance*3){	// I use roll from evade, but can be easily changed
-				// Successful endure (about 1/3 chance @ max lvl)
-					
-				enduredDamage = endureChance / 2; // Max dmg endured is 6
-				defense.sendMessage("You endured a hit!");
-				
-			}
+			
 		
 		
 		
@@ -305,12 +394,54 @@ public class DamageListener implements Listener{
 	
 	@EventHandler
 	public void onLivingEntityDeath(EntityDeathEvent event){
-		//HEADHUNTER
+		
 		LivingEntity killed = event.getEntity();
 		Entity entityKiller = event.getEntity().getKiller();
 		
 		ItemStack headDrop = null;
 		
+		//HUNTERS BLESSING
+		if(killed instanceof Animal && entityKiller instanceof Player){
+			
+			Player killer = (Player) entityKiller;
+			
+			if(killer.getInventory().getItemInMainHand() != null){
+				ItemStack weapon = killer.getInventory().getItemInMainHand();
+				
+				if(weapon.hasItemMeta()){
+					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
+					
+					if(enchants.containsKey(CustomEnchantment.HUNTERS_BLESSING)){
+						int roll = rand.nextInt(60)+1 / enchants.get(CustomEnchantment.HUNTERS_BLESSING);
+						if(roll == 10){ // 1/60 chance on lvl 1, 1/30 on lvl 2, 1/15 on lvl 3
+						
+							for(Itemstack drop : event.getDrops()){
+							
+								switch(drop.getType()){
+									case Material.PORK:
+										event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.PORK,enchants.get(CustomEnchantment.HUNTERS_BLESSING)));	
+										break;
+									case Material.RAW_BEEF:
+										event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.RAW_BEEF,enchants.get(CustomEnchantment.HUNTERS_BLESSING)));										
+										break;
+									case Material.MUTTON:
+										event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.MUTTON,enchants.get(CustomEnchantment.HUNTERS_BLESSING)));	
+										break;
+												
+								}
+								
+							}
+							
+							
+						}
+						
+					}
+				}
+			}
+		
+		}
+		
+		//HEADHUNTER
 		if(entityKiller instanceof Player){
 		
 			Player killer = (Player) entityKiller;
@@ -325,9 +456,9 @@ public class DamageListener implements Listener{
 						
 						Random ran = new Random();
 						int roll = ran.nextInt(99) + 1;
-						int chance = enchants.get(CustomEnchantment.HEADHUNTER);
+						int chance = enchants.get(CustomEnchantment.HEADHUNTER) * 3;
 						
-						if(roll <= chance * 3 == 0){	// each lvl increments chance by 3%, so max lvl has 9% chance of drop
+						if(roll <= chance){	// each lvl increments chance by 3%, so max lvl has 9% chance of drop
 
 							switch(killed.getEntityType()){
 								case EntityType.SKELETON: headDrop = new ItemStack(Material.SKULL_ITEM, 1,(short) 0);
@@ -357,7 +488,9 @@ public class DamageListener implements Listener{
 									break;
 							}
 							
-						event.getDrops().add(headDrop);	
+							if(headDrop != null){	
+								event.getDrops().add(headDrop);	
+							}
 						}	
 					}
 			
