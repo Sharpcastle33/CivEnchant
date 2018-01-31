@@ -23,43 +23,63 @@ import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
 import com.gmail.sharpcastle33.util.Util;
 
 
-public class BlockListener implements Listener{
+public class ArmorEquipListener implements Listener{
 
 
     @EventHandler
     public void onArmorEquip(ArmorEquipEvent event) {
   
         ItemStack newArmor;
-        
+        Player player = event.getPlayer();
       
-        if(event.getNewArmorPiece() != null && event.getNewArmorPiece().getType() != material.AIR){
+        if(event.getNewArmorPiece() != null && event.getNewArmorPiece().getType() != material.AIR){ // Equip
         
           newArmor = e.getNewArmorPiece();
           
-          if (newArmor.hasItemMeta()) {
-			
-			       enchants = CustomEnchantmentManager.getCustomEnchantments(newArmor);
-			
-                if (enchants.containsKey(CustomEnchantment.VIGOR)) {
-                
-                
-                      
-                
-                }
-           }
+		  if (newArmor.hasItemMeta()) {
+
+				       enchants = CustomEnchantmentManager.getCustomEnchantments(newArmor);
+
+					if (enchants.containsKey(CustomEnchantment.VIGOR)) {
+						
+						
+						player.setMaxHealth(player.getMaxHealth() + (enchants.get(CustomEnchantment.VIGOR)*0.25));
+
+
+					}
+
+					if (enchants.containsKey(CustomEnchantment.VITALITY)) {
+
+						
+
+					}
+		   }
           
         
-        } //
+        } // Equip end
+	    
+	    
+	if(event.getOldArmorPiece() != null && event.getOldArmorPiece().getType() != Material.AIR) { // unequip
+		
+		oldArmor = event.getOldArmorPiece();
+	
+		enchants = CustomEnchantmentManager.getCustomEnchantments(oldArmor);
+
+		if (enchants.containsKey(CustomEnchantment.VIGOR)) {
+
+			player.setMaxHealth(player.getMaxHealth() - (enchants.get(CustomEnchantment.VIGOR)*0.25));
+
+
+		}
+
+		if (enchants.containsKey(CustomEnchantment.VITALITY)) {
+
+
+
+		}
+		
+	}
         
-
-
-    }
-
-
-    @EventHandler
-    public void onArmorUnequip(ArmorEquipEvent event) {
-
-
 
 
     }
