@@ -2,6 +2,7 @@ package com.gmail.sharpcastle33.listeners;
 
 import java.util.Map;
 import java.util.Random;
+import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -35,20 +36,21 @@ public class BlockListener implements Listener{
 		Player player = event.getPlayer();
 		Block block = event.getBlock();
 		ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
+		Map<CustomEnchantment, Integer> enchants;
 		
 		boolean demolished = false;
 		boolean smelt = false;
 		
 		if (mainHand.hasItemMeta()) {
 			
-			Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(mainHand);
+			 enchants = CustomEnchantmentManager.getCustomEnchantments(mainHand);
 			
 			//PICKAXE
 			if(Util.isPickaxe(mainHand)) {
 				//AUTO SMELT
 				if (enchants.containsKey(CustomEnchantment.AUTO_SMELT)) {
 					
-					smelt = true;
+					smelt = true; // no purpose
 					
 					if (event.getBlock().getType().equals(Material.GOLD_ORE)) {
 						
@@ -69,7 +71,7 @@ public class BlockListener implements Listener{
 				}
 				//DEMOLISHING
 				if(enchants.containsKey(CustomEnchantment.DEMOLISHING)) {
-					demolished = true;
+					demolished = true; // no purpose
 					if(block.getType() == Material.STONE) {
 						event.setDropItems(false);
 						if(Util.chance(25*enchants.get(CustomEnchantment.DEMOLISHING), 100)) {
@@ -183,42 +185,18 @@ public class BlockListener implements Listener{
 			
 			//AXE
 			if(Util.isAxe(mainHand)) {
+				// Placed Axe enchants in methods to accomodate Timber
+				
+				//APPLESEED
+				if(enchants.containsKey(CustomEnchantment.APPLESEED)){
+					
+					appleSeed(event.getBlock());
+				
+				}
 				//CARPENTRY
 				if(enchants.containsKey(CustomEnchantment.CARPENTRY)) {
-					//LOGS
-					if (block.getType() == Material.LOG) {
-						//STICK DROP
-						if(Util.chance(5*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
-							Random rand = new Random();
-							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY))+1;		
-							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.STICK,amt));				
-						}
-						//FENCE DROP
-						if(Util.chance(2*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
-							Byte data = block.getData();
-							Random rand = new Random();
-							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY)/2)+1;		
-							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.FENCE,amt,data));				
-						}
-						
-						
-					//LOG_2s	
-					}else if (block.getType() == Material.LOG_2) {
-						//STICK DROP
-						if(Util.chance(5*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
-							Random rand = new Random();
-							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY))+1;		
-							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.STICK,amt));				
-						}
-						//FENCE DROP
-						if(Util.chance(2*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
-							Byte data = block.getData();
-							Random rand = new Random();
-							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY)/2)+1;		
-							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.FENCE,amt,data));				
-						}
-					}
 					
+					carpentry(event.getBlock());
 					
 				}
 				//TIMBER
@@ -248,7 +226,27 @@ public class BlockListener implements Listener{
 							
 								if (location.getBlock().getType() == Material.LOG || location.getBlock().getType() == Material.LOG_2) {
 								
+									
+									
+									if(enchants.containsKey(CustomEnchantment.APPLESEED)){
+				
+										appleSeed(location.getBlock());
+				
+									}
+									//CARPENTRY
+									if(enchants.containsKey(CustomEnchantment.CARPENTRY)) {
+
+										carpentry(location.getBlock());
+
+									}
+									
 									location.getBlock().breakNaturally();
+									
+									
+									
+									
+									
+									
 								
 									if (enchants.containsKey(CustomEnchantment.UNBREAKING)) {
 									
@@ -286,15 +284,166 @@ public class BlockListener implements Listener{
 			
 			if(Util.isHoe(mainHand)) {
 				
-			}
+				//Green Thumb
+				if(enchants.containsKey(CustomEnchantment.GREENTHUMB)) {
+					if (block.getType() == Material.DIRT || block.getType() == Material.GRASS) {
+				
+						double x = block.getX();
+						double y = block.getY();
+						double z = block.getZ();
+						
+						
+						
+						Block eastBlock = new Location(block.getWorld(), x + 1, y, z).getBlock();
+						Block westBlock = new Location(block.getWorld(), x - 1, y, z).getBlock();
+						Block northBlock = new Location(block.getWorld(), x, y, z - 1).getBlock();
+						Block southBlock = new Location(block.getWorld(), x, y, z + 1).getBlock();
+						
+						
+						// Because corners are all handled @ lvl 3, I just throw em in a list
+						ArrayList<Block> cornerBlocks = new ArrayList<Block>();
+						
+						cornerBlocks.add(new Location(block.getWorld(), x + 1, y, z - 1).getBlock());
+						cornerBlocks.add(new Location(block.getWorld(), x - 1, y, z - 1).getBlock());
+						cornerBlocks.add(new Location(block.getWorld(), x + 1, y, z + 1).getBlock());
+						cornerBlocks.add(new Location(block.getWorld(), x -1 1, y, z + 1).getBlock());
+						
+						
+						
+						int level = enchants.get(CustomEnchantment.GREENTHUMB);
+						
+						
+						if(level >= 1){
+							
+							// Farm blocks to east/west of target block	
+							if(eastBlock.getType() == Material.DIRT && new Location(block.getWorld(), x + 1,y+1,z).getBlock().getType() == Material.AIR){
+								//setBlock farmland
+								eastBlock.setBlock(Block.farmland);
+							}
+							if(westBlock.getType() == Material.DIRT && new Location(block.getWorld(), x - 1,y+1,z).getBlock().getType() == Material.AIR){
+								westBlock.setBlock(Block.farmland);
+							}
+						}
+						
+						if(level >= 2){
+							// Farm blocks to north/south of target block
+							if(northBlock.getType() == Material.DIRT && new Location(block.getWorld(), x ,y+1,z-1).getBlock().getType() == Material.AIR){
+								//setBlock farmland
+								northBlock.setBlock(Block.farmland);
+							}	
+							if(southBlock.getType() == Material.DIRT && new Location(block.getWorld(), x ,y+1,z+1).getBlock().getType() == Material.AIR){
+								//setBlock farmland
+								northBlock.setBlock(Block.farmland);
+							}
+							
+						}
+						if(level >= 3){
+							
+							// Farm blocks in corners
+							// Lvl 3 ench will make 3X3 farmland for all elligible blocks (must be dirt & uncovered)
+							for(Block corner : cornerBlocks){
+								
+								if(corner.getType() == Material.DIRT && new Location(corner.getWorld(), x ,y+1,z).getBlock().getType() == Material.AIR){
+								
+									corner.setBlock(Block.farmland);
+									
+								}
+							
+							}
+							
+						} 
+						
+				
+					} 
+				}// green thumb end
+			} // hoe end
 			
 			
 			
 			
 
 			
-		}
+		} // if hasitemMeta end
+		
+	} // Class end
+	
+	
+	
+	
+	
+	
+	private void carpentry(Block theBlock){
+	
+//LOGS
+					if (theBlock.getType() == Material.LOG) {
+						//STICK DROP
+						if(Util.chance(5*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
+							Random rand = new Random();
+							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY))+1;		
+							theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.STICK,amt));				
+						}
+						//FENCE DROP
+						if(Util.chance(2*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
+							Byte data = theBlock.getData();
+							Random rand = new Random();
+							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY)/2)+1;		
+							theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.FENCE,amt,data));				
+						}
+						
+						
+					//LOG_2s	
+					}else if (theBlock.getType() == Material.LOG_2) {
+						//STICK DROP
+						if(Util.chance(5*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
+							Random rand = new Random();
+							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY))+1;		
+							theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.STICK,amt));				
+						}
+						//FENCE DROP
+						if(Util.chance(2*enchants.get(CustomEnchantment.CARPENTRY), 100)) {
+							Byte data = theBlock.getData();
+							Random rand = new Random();
+							int amt = rand.nextInt(enchants.get(CustomEnchantment.CARPENTRY)/2)+1;		
+							theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.FENCE,amt,data));				
+						}
+					}	
+	
+	
+	}
+	
+	
+	
+	private void appleSeed(Block theBlock){
+		
+// For Logs
+					
+					if(theBlock.getType() == Material.LOG || theBlock.getType() == Material.LOG2){
+						// Apple Drop
+						Random rand = new Random();
+						
+						// Higher the level, higher chance it fires
+						// At max lvl(3) there is 16.6% chance of it firing (5.5% for each lvl)
+						// Honestly might need to be lower chance, people will be swimming in apples
+						int fireChance = rand.nextInt(17) + 1;
+						if(fireChance <= enchants.get(CustomEnchantment.APPLESEED)){
+							int amt = rand.nextInt(enchants.get(CustomEnchantment.APPLESEED)) + 1;		
+							theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.APPLE,amt));				
+						}
+						
+						
+						// And for fun, a 1/100 chance for gapple drop
+						fireChance = rand.nextInt(99) + 1;
+						if(fireChance == 100){
+							theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.GOLDEN_APPLE,amt));	
+						}
+				
+					}		
+		
+		
+		
 		
 	}
+	
+	
 
 }

@@ -51,9 +51,30 @@ public class Util {
 		}
 		return stack;
 	}
+	
+	
 	public static boolean replacePotionEffect(Player p, PotionEffect effect) {
 		if(p.getActivePotionEffects().contains(effect)) {
-			p.addPotionEffect(effect);
+			
+			PotionEffect previousEffect = new PotionEffect;
+			
+			for(PotionEffect playersEffect : p.getActivePotionEffects(){ // Look at player's effects
+				if(playersEffect.getType() == effect.getType()){	// If what we want to give exists for them
+				
+					if(playersEffect.getAmplifier() < effect.getAmplifier()){ // Is the one we want to give more powerful?
+						p.removePotionEffect(playersEffect); // If so, remove & replace
+						ScheduledPotionReplace replace = new ScheduledPotionReplace(p, playersEffect, playersEffect.getDuration());
+					}
+					
+					
+				}
+				
+				
+			}
+			
+			
+			
+			
 			return true;
 		}else {
 			p.addPotionEffect(effect);
