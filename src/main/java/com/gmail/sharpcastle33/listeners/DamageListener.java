@@ -36,7 +36,6 @@ public class DamageListener implements Listener{
 		double dmgMod = 0;
 		double dmgMulti = 0;
 		int evadeChance = 0;
-		int endureChance = 0;
 		int trueShot = 0;
 		
 		
