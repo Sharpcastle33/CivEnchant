@@ -32,7 +32,7 @@ public class CooldownManager {
   public void addRegen(Player player, int regenAmount){
    
     vitalityPlayers.add(player);
-    vitalityEffects.add(new RegenerationEffect(player, regenAmount, vitality));
+    vitalityEffects.add(new RegenerationEffect(player, regenAmount, vitalityEffects, vitalityPlayers));
     
   }
   
