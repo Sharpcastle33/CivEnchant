@@ -14,14 +14,16 @@ public RegenerationEffect extends BukkitRunnable {
 Player player;
 double regenLevel;
 ArrayList<RegenerationEffect> regenList;
+ArrayList<Player> playerList;
 int ticks;
 double regenAmount = 1;
 
-public RegenerationEffect(Player player, double initialRegenLevel, ArrayList regenList){
+public RegenerationEffect(Player player, double initialRegenLevel, ArrayList regenList, ArrayList playerList){
 
   this.player = player; // The player who is receiving regen
   this.regenLevel = initialRegenLevel; // When this object is created, the initial amount of regen the player recieves
   this.regenList = regenList; // List of players who are receiving regen (used to take player off if regenLevel = 0);
+  this.playerList = playerList;
   this.ticks = 0; // Time passed
   
   
@@ -35,6 +37,7 @@ public RegenerationEffect(Player player, double initialRegenLevel, ArrayList reg
     
     if(regenLevel == 0){
         regenList.remove(this);
+        playerList.remove(player);
         this.cancel();
     }
     
