@@ -5,23 +5,19 @@ import java.util.Random;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.entity.ExperienceOrb;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
+
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import com.gmail.sharpcastle33.CivEnchant;
 
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
 import com.gmail.sharpcastle33.util.Util;
 
+// NEED ARMOREQUIPEVENT DEPENDENCY AND IMPORT
 
 public class ArmorEquipListener implements Listener{
 
@@ -49,8 +45,19 @@ public class ArmorEquipListener implements Listener{
 					}
 
 					if (enchants.containsKey(CustomEnchantment.VITALITY)) {
-
 						
+						if(!CivEnchant.cdManager.vitalityPlayers.contains(player)){
+						
+							CivEnchant.cdManager.addRegen(player, enchants.get(CustomEnchantment.VITALITY));
+							
+						} else {
+						
+							int index = CivEnchant.cdManager.vitalityPlayers.indexOf(player);
+							
+							CivEnchant.cdManager.vitalityEffects.get(index).addLevels(enchants.get(CustomEnchantment.VITALITY));
+							
+							
+						}
 
 					}
 		   }
@@ -74,6 +81,9 @@ public class ArmorEquipListener implements Listener{
 
 		if (enchants.containsKey(CustomEnchantment.VITALITY)) {
 
+			int index = CivEnchant.cdManager.vitalityPlayers.indexOf(player);
+							
+			CivEnchant.cdManager.vitalityEffects.get(index).removeLevels(enchants.get(CustomEnchantment.VITALITY));
 
 
 		}
