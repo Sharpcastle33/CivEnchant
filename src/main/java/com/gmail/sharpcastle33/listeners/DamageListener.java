@@ -1,21 +1,30 @@
 package com.gmail.sharpcastle33.listeners;
 
 import java.util.Map;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.entity.Animals;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
@@ -52,7 +61,7 @@ public class DamageListener implements Listener{
 					if(enchants.containsKey(CustomEnchantment.LIFESTEAL)){
 						if(Util.chance(enchants.get(CustomEnchantment.LIFESTEAL), 33)){
 							attacker.setHealth(Math.min(attacker.getHealth()+1, attacker.getMaxHealth()));
-							Bukkit.getLogger().info("healed " + attacker.getName());
+							//Bukkit.getLogger().info("healed " + attacker.getName());
 						}
 					}
 					
@@ -64,7 +73,7 @@ public class DamageListener implements Listener{
 
 							target.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,
 								10 * enchants.get(CustomEnchantment.HUNTERS_MARK),	// Duration
-								   1))); //Amplifier
+								   1)); //Amplifier
 						}
 					}
 					
@@ -108,12 +117,12 @@ public class DamageListener implements Listener{
 					
 					if(enchants.containsKey(CustomEnchantment.SECOND_WIND)){
 						
-						if(defender.getHealth - event.getFinalDamage() < 4){	// Does not account for ench dmg change
+						if(defender.getHealth() < 4){	// Does not account for ench dmg change
 							if(!CivEnchant.cdManager.secondWind.contains(defender)){ // if SW is off CD
 
 								CivEnchant.cdManager.add(defender, CustomEnchantment.SECOND_WIND, 10);
-								Utils.replacePotionEffect(defender, new PotionEffect(PotionEffectType.REGENERATION, 10, 1));
-								Utils.replacePotionEffect(defender, new PotionEffect(PotionEffectType.SPEED, 10, 1));
+								Util.replacePotionEffect(defender, new PotionEffect(PotionEffectType.REGENERATION, 10, 1));
+								Util.replacePotionEffect(defender, new PotionEffect(PotionEffectType.SPEED, 10, 1));
 
 							}
 						}
@@ -121,12 +130,12 @@ public class DamageListener implements Listener{
 					
 					if(enchants.containsKey(CustomEnchantment.LAST_STAND)){
 						
-						if(defender.getHealth - event.getFinalDamage() < 2){	// Does not account for ench dmg change
+						if(defender.getHealth() < 2){	// Does not account for ench dmg change
 							if(!CivEnchant.cdManager.lastStand.contains(defender)){ // if SW is off CD
 
 								CivEnchant.cdManager.add(defender, CustomEnchantment.LAST_STAND, 10);
-								Utils.replacePotionEffect(defender, new PotionEffect(PotionEffectType.REGENERATION, 10, 1));
-								Utils.replacePotionEffect(defender, new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 10, 1));
+								Util.replacePotionEffect(defender, new PotionEffect(PotionEffectType.REGENERATION, 10, 1));
+								Util.replacePotionEffect(defender, new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 10, 1));
 
 							}
 						}
@@ -136,11 +145,11 @@ public class DamageListener implements Listener{
 					
 					if(enchants.containsKey(CustomEnchantment.ADRENALINE)){
 						
-						if(defender.getHealth - event.getFinalDamage() < 4){	// Does not account for ench dmg change
+						if(defender.getHealth() < 4){	// Does not account for ench dmg change
 							if(!CivEnchant.cdManager.adrenaline.contains(defender)){ // if SW is off CD
 
 								CivEnchant.cdManager.add(defender, CustomEnchantment.ADRENALINE, 10);
-								Utils.replacePotionEffect(defender, new PotionEffect(PotionEffectType.SPEED, 10, 3));
+								Util.replacePotionEffect(defender, new PotionEffect(PotionEffectType.SPEED, 10, 3));
 
 							}
 						}
@@ -182,11 +191,11 @@ public class DamageListener implements Listener{
 
 							for(ItemStack stack : armor){
 								if(stack != null && stack.hasItemMeta()){
-									
-									double corrode = enchants.get(CustomEnchantment.CORROSIVE) * 0.03; // Each lvl corrodes 3%
-									armor.setDurability(armor.getDurability() - (armor.getDurability() * corrode));
-									defender.sendMessage(attacker.getName() + "'s weapon has corroded your armor!");
-									defense.spawnParticle(Particle.VILLAGER_ANGRY, defense.getLocation.getX(), defense.getLocation.getY(), defense.getLocation.getZ(), 2)
+									//TODO fix corrode
+									//double corrode = enchants.get(CustomEnchantment.CORROSIVE) * 0.03; // Each lvl corrodes 3%
+									//stack.setDurability(stack.getDurability() - (stack.getDurability() * corrode));
+									defender.sendMessage(attacker.getName() + "'s weapon has corroded your armor! WIP NO EFFECT");
+									defender.spawnParticle(Particle.VILLAGER_ANGRY, defense.getLocation().getX(), defense.getLocation().getY(), defense.getLocation().getZ(), 2);
 									
 
 								}
@@ -230,7 +239,7 @@ public class DamageListener implements Listener{
 					
 					
 					if(arrow.getName().contains("trueshot")){
-						trueshot = 1;	
+						trueShot = 1;	
 					}
 					
 					
@@ -307,8 +316,11 @@ public class DamageListener implements Listener{
 				//successful evasion
 				evade = 0 + trueShot;
 				if(trueShot == 0){
+					Location loc = defense.getLocation();
 					defense.sendMessage("You evaded their attack!");
-					defense.spawnParticle(Particle.VILLAGER_HAPPY, defense.getLocation.getX(), defense.getLocation.getY(), defense.getLocation.getZ(), 2)
+					loc.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, loc.getX(), loc.getY(), loc.getZ(), 2);
+					
+		
 						//spawnParticle​(Particle particle, double x, double y, double z, int count)
 				}
 			}
@@ -347,7 +359,7 @@ public class DamageListener implements Listener{
 						
 					}
 						
-						if(enchants.containsKey(CustomEnchantment.TRUESHOT)) {
+						if(enchants.containsKey(CustomEnchantment.TRUE_SHOT)) {
 						
 							arrow.setCustomName(arrow.getName() + "trueshot");
 							
@@ -378,7 +390,7 @@ public class DamageListener implements Listener{
 					
 					if(enchants.containsKey(CustomEnchantment.SOUL_TAKER)){
 					
-						if(killed.getBedSpawnLocation != NULL){
+						if(killed.getBedSpawnLocation() != null){
 							
 							killed.sendMessage(killer.getName() + "'s weapon destroyed your bed!");
 							killed.getBedSpawnLocation().getBlock().breakNaturally();
@@ -401,7 +413,7 @@ public class DamageListener implements Listener{
 		ItemStack headDrop = null;
 		
 		//HUNTERS BLESSING
-		if(killed instanceof Animal && entityKiller instanceof Player){
+		if(killed instanceof Animals && entityKiller instanceof Player){
 			
 			Player killer = (Player) entityKiller;
 			
@@ -415,16 +427,16 @@ public class DamageListener implements Listener{
 						int roll = rand.nextInt(60)+1 / enchants.get(CustomEnchantment.HUNTERS_BLESSING);
 						if(roll == 10){ // 1/60 chance on lvl 1, 1/30 on lvl 2, 1/15 on lvl 3
 						
-							for(Itemstack drop : event.getDrops()){
+							for(ItemStack drop : event.getDrops()){
 							
 								switch(drop.getType()){
-									case Material.PORK:
+									case PORK:
 										event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.PORK,enchants.get(CustomEnchantment.HUNTERS_BLESSING)));	
 										break;
-									case Material.RAW_BEEF:
+									case RAW_BEEF:
 										event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.RAW_BEEF,enchants.get(CustomEnchantment.HUNTERS_BLESSING)));										
 										break;
-									case Material.MUTTON:
+									case MUTTON:
 										event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), new ItemStack(Material.MUTTON,enchants.get(CustomEnchantment.HUNTERS_BLESSING)));	
 										break;
 												
@@ -460,17 +472,17 @@ public class DamageListener implements Listener{
 						
 						if(roll <= chance){	// each lvl increments chance by 3%, so max lvl has 9% chance of drop
 
-							switch(killed.getEntityType()){
-								case EntityType.SKELETON: headDrop = new ItemStack(Material.SKULL_ITEM, 1,(short) 0);
+							switch(killed.getType()){
+								case SKELETON: headDrop = new ItemStack(Material.SKULL_ITEM, 1,(short) 0);
 									break;
-								case EntityType.PLAYER: 
+								case PLAYER: 
 
 											headDrop = new ItemStack(Material.SKULL_ITEM, 1, (short)3);
 										
 											// Make head appear to be killed's head
 											SkullMeta sm = (SkullMeta) headDrop.getItemMeta();
-											sm.setOwningPlayer(Bukkit.getOfflinePlayer(killed));
-											headDrop.setItemMeta(sm);
+											//sm.setOwner(Bukkit.getOfflinePlayer(killed.getName()));
+											sm.setOwner(killed.getName());	
 									
 											// Make head's name appear to be killed's head
 											ItemMeta itemMeta = headDrop.getItemMeta();
@@ -482,9 +494,9 @@ public class DamageListener implements Listener{
 											// People online were having a hard time aswell, it seems
 
 									break;
-								case EntityType.ZOMBIE: headDrop = new ItemStack(Material.SKULL_ITEM, 1, (short)2);
+								case ZOMBIE: headDrop = new ItemStack(Material.SKULL_ITEM, 1, (short)2);
 									break;
-								case EntityType.CREEPER: headDrop = new ItemStack(Material.SKULL_ITEM, 1, (short)4);
+								case CREEPER: headDrop = new ItemStack(Material.SKULL_ITEM, 1, (short)4);
 									break;
 							}
 							

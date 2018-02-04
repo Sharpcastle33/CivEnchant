@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
-import com.gmail.sharpcastle33.CivEnchant;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
+import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 
 import net.md_5.bungee.api.ChatColor;
@@ -30,7 +31,7 @@ public class Util {
 
 	private static Material[] spades = {Material.DIAMOND_SPADE, Material.IRON_SPADE, Material.GOLD_SPADE, Material.STONE_SPADE, Material.WOOD_SPADE};
 
-	CivEnchant plugin = CivEnchant.plugin;
+	static CivEnchant plugin = CivEnchant.plugin;
 	
 
 	
@@ -55,7 +56,7 @@ public class Util {
 				if(reducedEffect.getType() == effect){
 				
 					PotionEffect newPotion = new PotionEffect(effect, reducedEffect.getDuration() - duration, reducedEffect.getAmplifier());
-					p.removePotionEffect(reducedEffect);
+					p.removePotionEffect(reducedEffect.getType());
 					p.addPotionEffect(newPotion);
 					
 				}
@@ -71,13 +72,13 @@ public class Util {
 	public static boolean replacePotionEffect(Player p, PotionEffect effect) {
 		if(p.getActivePotionEffects().contains(effect)) {
 			
-			PotionEffect previousEffect = new PotionEffect;
+			PotionEffect previousEffect;
 			
-			for(PotionEffect playersEffect : p.getActivePotionEffects(){ // Look at player's effects
+			for(PotionEffect playersEffect : p.getActivePotionEffects()){ // Look at player's effects
 				if(playersEffect.getType() == effect.getType()){	// If what we want to give exists for them
 				
 					if(playersEffect.getAmplifier() < effect.getAmplifier()){ // Is the one we want to give more powerful?
-						p.removePotionEffect(playersEffect); // If so, remove & replace
+						p.removePotionEffect(playersEffect.getType()); // If so, remove & replace
 						p.addPotionEffect(effect);
 						ScheduledPotionReplace replace = new ScheduledPotionReplace(p, playersEffect, effect.getDuration());
 						replace.runTask(plugin);

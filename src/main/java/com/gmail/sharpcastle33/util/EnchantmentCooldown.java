@@ -35,6 +35,18 @@ public class EnchantmentCooldown extends BukkitRunnable {
   
   }
   
+  public void setList(ArrayList list){
+	  listOfPlayers = list;
+  }
+  
+  public void setPlayer(Player p){
+	  this.player = p;
+  }
+  
+  public void setDuration(int d){
+	  this.duration = d;
+  }
+  
   
 
 
