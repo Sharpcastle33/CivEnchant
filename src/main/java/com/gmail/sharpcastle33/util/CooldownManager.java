@@ -3,7 +3,6 @@ package com.gmail.sharpcastle33.util;
 import com.gmail.sharpcastle33.CivEnchant;
 import java.util.ArrayList;
 import org.bukkit.entity.Player;
-import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 
 
