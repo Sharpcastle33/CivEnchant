@@ -12,7 +12,7 @@ public class CooldownManager {
   ArrayList<Player> secondWind;
   ArrayList<Player> lastStand;
   ArrayList<Player> adrenaline;
-  ArrayList<Player> vitality;
+  ArrayList<RegenerationEffect> vitality;
   CivEnchant plugin;
 
 
@@ -21,7 +21,7 @@ public class CooldownManager {
       secondWind = new ArrayList<Player>();
       lastStand = new ArrayList<Player>();
       adrenaline = new ArrayList<Player>();
-      vitality = new ArrayList<Player>();
+      vitality = new ArrayList<RegenerationEffect>();
       plugin = CivEnchant.plugin;
  
  }
