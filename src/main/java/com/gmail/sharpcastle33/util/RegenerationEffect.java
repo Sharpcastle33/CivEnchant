@@ -25,7 +25,7 @@ public RegenerationEffect(Player player, double initialRegenLevel, ArrayList reg
   this.regenList = regenList; // List of players who are receiving regen (used to take player off if regenLevel = 0);
   this.playerList = playerList;
   this.ticks = 0; // Time passed
-  
+  this.runTask(CivEnchant.plugin);
   
 
 }
