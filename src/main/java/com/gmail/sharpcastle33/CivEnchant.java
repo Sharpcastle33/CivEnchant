@@ -15,8 +15,11 @@ public class CivEnchant extends JavaPlugin{
   private static CraftingOrbListener craftingOrbListener;
   private static DamageListener damageListener;
   private static BlockListener blockListener;
+  private static ArmorEquipListener armorEquipListener;
+  
   public static CustomEnchantmentManager manager;
   public static CooldownManager cdManager;
+  
   
   public void onEnable(){
     plugin = this;
@@ -34,6 +37,10 @@ public class CivEnchant extends JavaPlugin{
     
     blockListener = new BlockListener();
     this.getServer().getPluginManager().registerEvents(blockListener, plugin);
+    
+    armorEquipListener = new ArmorEquipListener();
+    this.getServer().getPluginManager().registerEvents(armorEquipListener, plugin);
+    
   }
   
   public void onDisable(){
