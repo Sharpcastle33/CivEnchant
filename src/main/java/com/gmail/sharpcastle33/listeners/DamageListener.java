@@ -380,8 +380,8 @@ public class DamageListener implements Listener{
 					
 						if(killed.getBedSpawnLocation != NULL){
 							
-							killed.sendMessage(killer.getName() + "'s weapon destroyed your bed!");
-							killed.getBedSpawnLocation().getBlock().breakNaturally();
+							killed.sendMessage("You have forgotten your bed!");
+							killed.setBedSpawnLocation(null);
 							
 						}
 						
