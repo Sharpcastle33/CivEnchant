@@ -68,6 +68,30 @@ public class DamageListener implements Listener{
 						}
 					}
 					
+					if(enchants.containsKey(CustomEnchantment.RAGE)){
+						if(CivEnchant.cdManager.ragePlayers.contains(attacker)){
+							int playerIndex = CivEnchant.cdManager.ragePlayers.indexOf(attacker);
+							
+							if(CivEnchant.cdManager.rageEffects.get(playerIndex).getLevel() < 5) {
+							
+								CivEnchant.cdManager.rageEffects.get(playerIndex).incrementLevel();
+								
+							} else { 
+								
+								dmgFlat += enchants.get(CustomEnchantment.RAGE);
+								// PLAY NEATO SOUND EFFECT
+								// PLAY NEATO PARTICLE EFFECT
+								
+							}
+						 } else { // if first hit
+							
+							CivEnchant.cdManager.rageEffects.add(new RageEffect()); // new effect
+							CivEnchant.cdManager.ragePlayers.add(attacker);
+							
+							
+						}
+					}
+					
 					
 					
 				}
@@ -80,6 +104,13 @@ public class DamageListener implements Listener{
 			Player defender = (Player) defense;
 			ItemStack[] armor = defender.getInventory().getArmorContents();
 			
+			
+			if(CivEnchant.cdManager.ragePlayers.contains(defender)){
+				int playerIndex = CivEnchant.cdManager.ragePlayers.indexOf(defender);
+				
+				CivEnchant.cdManager.ragePlayers.remove(playerIndex);
+				CivEnchant.cdManager.rageEffects.remove(playerIndex);
+			}
 			
 			
 			
