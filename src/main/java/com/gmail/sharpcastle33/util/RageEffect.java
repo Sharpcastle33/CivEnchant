@@ -43,7 +43,7 @@ public RageEffect(Player player){
   
   public void incrementLevel(){
       level++;
-      duration = level * 20;
+      duration = 60; // Every hit gives 3 second window
   }
     
     
