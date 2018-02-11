@@ -13,6 +13,8 @@ public class CooldownManager {
   ArrayList<Player> adrenaline;
   ArrayList<Player> vitalityPlayers;
   ArrayList<RegenerationEffect> vitalityEffects;
+  ArrayList<RageEffect> rageEffects;
+  ArrayList<Player> ragePlayers;
   
   CivEnchant plugin;
 
@@ -25,6 +27,9 @@ public class CooldownManager {
    
       vitalityPlayers = new ArrayList<Player>();
       vitalityEffects = new ArrayList<RegenerationEffect>();
+   
+      rageEffects = new ArrayList<RageEffect>();
+      ragePlayers = new ArrayList<Player>();
    
       plugin = CivEnchant.plugin;
  
