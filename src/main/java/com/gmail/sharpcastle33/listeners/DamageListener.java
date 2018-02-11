@@ -79,13 +79,14 @@ public class DamageListener implements Listener{
 							} else { 
 								
 								dmgFlat += enchants.get(CustomEnchantment.RAGE);
-								// PLAY NEATO SOUND EFFECT
+								
 								// PLAY NEATO PARTICLE EFFECT
+								defense.spawnParticle(Particle.FIREWORKS_SPARK, attacker.getLocation.getX(), attacker.getLocation.getY(), attacker.getLocation.getZ(), 5)
 								
 							}
 						 } else { // if first hit
 							
-							CivEnchant.cdManager.rageEffects.add(new RageEffect()); // new effect
+							CivEnchant.cdManager.rageEffects.add(new RageEffect(attacker)); // new effect
 							CivEnchant.cdManager.ragePlayers.add(attacker);
 							
 							
