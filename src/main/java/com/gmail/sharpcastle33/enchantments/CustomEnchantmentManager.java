@@ -255,6 +255,12 @@ public class CustomEnchantmentManager {
 		ret.put(CustomEnchantment.POINT_BLANK, 1);
 	}
 	
+	if(Util.isHoe(stack)) {
+		
+		ret.put(CustomEnchantment.GREEN_THUMB, 1);
+		
+	}
+	
     return ret;
   }
   
