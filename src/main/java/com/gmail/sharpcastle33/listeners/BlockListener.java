@@ -190,13 +190,13 @@ public class BlockListener implements Listener{
 				//APPLESEED
 				if(enchants.containsKey(CustomEnchantment.APPLESEED)){
 					
-					appleSeed(event.getBlock());
+					appleSeed(event.getBlock(), enchants.get(CustomEnchantment.APPLESEED));
 				
 				}
 				//CARPENTRY
 				if(enchants.containsKey(CustomEnchantment.CARPENTRY)) {
 					
-					carpentry(event.getBlock());
+					carpentry(event.getBlock(), enchants.get(CustomEnchantment.CARPENTRY));
 					
 				}
 				//TIMBER
@@ -285,7 +285,7 @@ public class BlockListener implements Listener{
 			if(Util.isHoe(mainHand)) {
 				
 				//Green Thumb
-				if(enchants.containsKey(CustomEnchantment.GREENTHUMB)) {
+				if(enchants.containsKey(CustomEnchantment.GREEN_THUMB)) {
 					if (block.getType() == Material.DIRT || block.getType() == Material.GRASS) {
 				
 						double x = block.getX();
@@ -306,11 +306,11 @@ public class BlockListener implements Listener{
 						cornerBlocks.add(new Location(block.getWorld(), x + 1, y, z - 1).getBlock());
 						cornerBlocks.add(new Location(block.getWorld(), x - 1, y, z - 1).getBlock());
 						cornerBlocks.add(new Location(block.getWorld(), x + 1, y, z + 1).getBlock());
-						cornerBlocks.add(new Location(block.getWorld(), x -1 1, y, z + 1).getBlock());
+						cornerBlocks.add(new Location(block.getWorld(), x - 1, y, z + 1).getBlock());
 						
 						
 						
-						int level = enchants.get(CustomEnchantment.GREENTHUMB);
+						int level = enchants.get(CustomEnchantment.GREEN_THUMB);
 						
 						
 						if(level >= 1){
@@ -318,10 +318,10 @@ public class BlockListener implements Listener{
 							// Farm blocks to east/west of target block	
 							if(eastBlock.getType() == Material.DIRT && new Location(block.getWorld(), x + 1,y+1,z).getBlock().getType() == Material.AIR){
 								//setBlock farmland
-								eastBlock.setBlock(Block.farmland);
+								eastBlock.setType(Material.SOIL);
 							}
 							if(westBlock.getType() == Material.DIRT && new Location(block.getWorld(), x - 1,y+1,z).getBlock().getType() == Material.AIR){
-								westBlock.setBlock(Block.farmland);
+								westBlock.setType(Material.SOIL);
 							}
 						}
 						
@@ -329,11 +329,11 @@ public class BlockListener implements Listener{
 							// Farm blocks to north/south of target block
 							if(northBlock.getType() == Material.DIRT && new Location(block.getWorld(), x ,y+1,z-1).getBlock().getType() == Material.AIR){
 								//setBlock farmland
-								northBlock.setBlock(Block.farmland);
+								northBlock.setType(Material.SOIL);
 							}	
 							if(southBlock.getType() == Material.DIRT && new Location(block.getWorld(), x ,y+1,z+1).getBlock().getType() == Material.AIR){
 								//setBlock farmland
-								northBlock.setBlock(Block.farmland);
+								northBlock.setType(Material.SOIL);
 							}
 							
 						}
@@ -345,7 +345,7 @@ public class BlockListener implements Listener{
 								
 								if(corner.getType() == Material.DIRT && new Location(corner.getWorld(), x ,y+1,z).getBlock().getType() == Material.AIR){
 								
-									corner.setBlock(Block.farmland);
+									corner.setType(Material.SOIL);
 									
 								}
 							
@@ -417,7 +417,7 @@ public class BlockListener implements Listener{
 		
 // For Logs
 					
-					if(theBlock.getType() == Material.LOG || theBlock.getType() == Material.LOG2){
+					if(theBlock.getType() == Material.LOG || theBlock.getType() == Material.LOG_2){
 						// Apple Drop
 						Random rand = new Random();
 						
