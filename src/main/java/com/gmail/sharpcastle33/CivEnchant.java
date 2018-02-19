@@ -3,10 +3,12 @@ package com.gmail.sharpcastle33;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
+import com.gmail.sharpcastle33.listeners.ArmorEquipListener;
 import com.gmail.sharpcastle33.listeners.BlockListener;
 import com.gmail.sharpcastle33.listeners.CraftingOrbListener;
 import com.gmail.sharpcastle33.listeners.DamageListener;
 import com.gmail.sharpcastle33.listeners.EnhancementListener;
+import com.gmail.sharpcastle33.util.CooldownManager;
 
 public class CivEnchant extends JavaPlugin{
   
