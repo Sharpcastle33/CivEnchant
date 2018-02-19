@@ -8,13 +8,13 @@ import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 
 public class CooldownManager {
 
-  ArrayList<Player> secondWind;
-  ArrayList<Player> lastStand;
-  ArrayList<Player> adrenaline;
-  ArrayList<Player> vitalityPlayers;
-  ArrayList<RegenerationEffect> vitalityEffects;
-  ArrayList<RageEffect> rageEffects;
-  ArrayList<Player> ragePlayers;
+  public ArrayList<Player> secondWind;
+  public ArrayList<Player> lastStand;
+  public ArrayList<Player> adrenaline;
+  public ArrayList<Player> vitalityPlayers;
+  public ArrayList<RegenerationEffect> vitalityEffects;
+  public ArrayList<RageEffect> rageEffects;
+  public ArrayList<Player> ragePlayers;
   
   CivEnchant plugin;
 
@@ -45,28 +45,30 @@ public class CooldownManager {
 
   public void add(Player player, CustomEnchantment ench, int duration){
   
+	  EnchantmentCooldown cd;
+	  
       switch(ench){
       
-        case CustomEnchantment.SECOND_WIND:
+        case SECOND_WIND:
         
           secondWind.add(player);
-          EnchantCooldown cd = new EnchantCooldown(player, duration, secondWind);
+           cd = new EnchantmentCooldown(player, duration, secondWind);
           cd.runTask(plugin);
            
         break;
         
-        case CustomEnchantment.LAST_STAND:
+        case LAST_STAND:
         
             lastStand.add(player);
-            EnchantCooldown cd = new EnchantCooldown(player, duration, lastStand);
+             cd = new EnchantmentCooldown(player, duration, lastStand);
             cd.runTask(plugin);
             
         break;
         
-        case CustomEnchantment.ADRENALINE:  
+        case ADRENALINE:  
         
             adrenaline.add(player);
-            EnchantCooldown cd = new EnchantCooldown(player, duration, adrenaline);
+            cd = new EnchantmentCooldown(player, duration, adrenaline);
             cd.runTask(plugin);
             
         break;

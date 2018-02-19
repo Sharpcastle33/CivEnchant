@@ -3,10 +3,10 @@ package com.gmail.sharpcastle33.util;
 import java.util.ArrayList;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.entity.Player;
+import com.gmail.sharpcastle33.CivEnchant;
 
 
-
-public RageEffect extends BukkitRunnable {
+public class RageEffect extends BukkitRunnable {
 
   int level;
   int duration;

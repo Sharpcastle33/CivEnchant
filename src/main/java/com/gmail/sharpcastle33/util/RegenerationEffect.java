@@ -5,10 +5,10 @@ package com.gmail.sharpcastle33.util;
 import java.util.ArrayList;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.entity.Player;
+import com.gmail.sharpcastle33.CivEnchant;
 
 
-
-public RegenerationEffect extends BukkitRunnable {
+public class RegenerationEffect extends BukkitRunnable {
 
 
 Player player;
