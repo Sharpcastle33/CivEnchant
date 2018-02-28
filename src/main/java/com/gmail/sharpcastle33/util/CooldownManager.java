@@ -11,11 +11,13 @@ public class CooldownManager {
   public ArrayList<Player> secondWind;
   public ArrayList<Player> lastStand;
   public ArrayList<Player> adrenaline;
+
   public ArrayList<Player> vitalityPlayers;
   public ArrayList<RegenerationEffect> vitalityEffects;
   public ArrayList<RageEffect> rageEffects;
   public ArrayList<Player> ragePlayers;
   
+
   CivEnchant plugin;
 
 
@@ -45,31 +47,42 @@ public class CooldownManager {
 
   public void add(Player player, CustomEnchantment ench, int duration){
   
+
 	  EnchantmentCooldown cd;
 	  
+
       switch(ench){
       
         case SECOND_WIND:
         
+        	cd.setList(secondWind);
           secondWind.add(player);
+
            cd = new EnchantmentCooldown(player, duration, secondWind);
           cd.runTask(plugin);
+
            
         break;
         
         case LAST_STAND:
         
+        	cd.setList(lastStand);
             lastStand.add(player);
+
              cd = new EnchantmentCooldown(player, duration, lastStand);
             cd.runTask(plugin);
+
             
         break;
         
         case ADRENALINE:  
         
+        	cd.setList(adrenaline);
             adrenaline.add(player);
+
             cd = new EnchantmentCooldown(player, duration, adrenaline);
             cd.runTask(plugin);
+
             
         break;
       
@@ -77,6 +90,8 @@ public class CooldownManager {
       
       
       }
+      
+      cd.runTask(plugin);
   
   
   

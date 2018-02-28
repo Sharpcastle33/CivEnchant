@@ -48,6 +48,8 @@ public enum CustomEnchantment {
 	APPLESEED("Appleseed", 3),
 	
 	//Shovel Enchants
+	SIFTING("Sifting", 5),
+	BRICKLAYER("Bricklayer", 5),
 	
 	//Pickaxe Enchants
 	IRON_AFFINITY("Iron Affinity", 5), //TODO unimplemented

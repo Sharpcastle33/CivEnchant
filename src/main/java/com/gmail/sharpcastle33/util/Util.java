@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
-import com.gmail.sharpcastle33.CivEnchant;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 
 import net.md_5.bungee.api.ChatColor;
@@ -31,7 +31,7 @@ public class Util {
 
 	private static Material[] spades = {Material.DIAMOND_SPADE, Material.IRON_SPADE, Material.GOLD_SPADE, Material.STONE_SPADE, Material.WOOD_SPADE};
 
-	CivEnchant plugin = CivEnchant.plugin;
+	static CivEnchant plugin = CivEnchant.plugin;
 	
 
 	
@@ -73,7 +73,9 @@ public class Util {
 		
 		if(p.getActivePotionEffects().contains(effect)) {
 			
+
 			PotionEffect previousEffect = effect;
+
 			
 			for(PotionEffect playersEffect : p.getActivePotionEffects()){ // Look at player's effects
 				if(playersEffect.getType() == effect.getType()){	// If what we want to give exists for them

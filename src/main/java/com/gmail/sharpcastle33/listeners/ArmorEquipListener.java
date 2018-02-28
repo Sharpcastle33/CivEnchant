@@ -1,8 +1,7 @@
 package com.gmail.sharpcastle33.listeners;
 
 import java.util.Map;
-import java.util.Random;
-import java.util.ArrayList;
+
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -13,9 +12,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import com.gmail.sharpcastle33.CivEnchant;
 
+import com.codingforcookies.armorequip.ArmorEquipEvent;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
-import com.gmail.sharpcastle33.util.Util;
 
 // NEED ARMOREQUIPEVENT DEPENDENCY AND IMPORT
 
@@ -24,7 +23,7 @@ public class ArmorEquipListener implements Listener{
 
     @EventHandler
     public void onArmorEquip(ArmorEquipEvent event) {
-  
+ 
         ItemStack newArmor;
         ItemStack oldArmor;
         Player player = event.getPlayer();

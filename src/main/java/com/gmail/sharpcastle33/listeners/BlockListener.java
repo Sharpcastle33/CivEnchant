@@ -306,6 +306,7 @@ public class BlockListener implements Listener{
 						cornerBlocks.add(new Location(block.getWorld(), x + 1, y, z - 1).getBlock());
 						cornerBlocks.add(new Location(block.getWorld(), x - 1, y, z - 1).getBlock());
 						cornerBlocks.add(new Location(block.getWorld(), x + 1, y, z + 1).getBlock());
+
 						cornerBlocks.add(new Location(block.getWorld(), x - 1, y, z + 1).getBlock());
 						
 						

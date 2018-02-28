@@ -160,10 +160,10 @@ public class EnhancementListener implements Listener{
         	upgradeEnchantment(meta,Enchantment.DAMAGE_ALL);
         }
         
-        if(stack.getType() == Material.DIAMOND_AXE){
+       /* if(stack.getType() == Material.DIAMOND_AXE){
         	enhanceTag(stack,meta);
         	upgradeEnchantment(meta,Enchantment.DAMAGE_ALL);
-        }
+        }*/
       }
       
       

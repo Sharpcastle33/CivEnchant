@@ -5,11 +5,13 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -60,7 +62,7 @@ public class DamageListener implements Listener{
 					if(enchants.containsKey(CustomEnchantment.LIFESTEAL)){
 						if(Util.chance(enchants.get(CustomEnchantment.LIFESTEAL), 33)){
 							attacker.setHealth(Math.min(attacker.getHealth()+1, attacker.getMaxHealth()));
-							Bukkit.getLogger().info("healed " + attacker.getName());
+							//Bukkit.getLogger().info("healed " + attacker.getName());
 						}
 					}
 					
@@ -148,7 +150,7 @@ public class DamageListener implements Listener{
 					
 					if(enchants.containsKey(CustomEnchantment.SECOND_WIND)){
 						
-						if(defender.getHealth() - event.getFinalDamage() < 4){	// Does not account for ench dmg change
+						if(defender.getHealth() < 4){	// Does not account for ench dmg change
 							if(!CivEnchant.cdManager.secondWind.contains(defender)){ // if SW is off CD
 
 								CivEnchant.cdManager.add(defender, CustomEnchantment.SECOND_WIND, 10);
@@ -160,8 +162,9 @@ public class DamageListener implements Listener{
 					}
 					
 					if(enchants.containsKey(CustomEnchantment.LAST_STAND)){
-						
-						if(defender.getHealth() - event.getFinalDamage() < 2){	// Does not account for ench dmg change
+
+						if(defender.getHealth() < 2){	// Does not account for ench dmg change
+
 							if(!CivEnchant.cdManager.lastStand.contains(defender)){ // if SW is off CD
 
 								CivEnchant.cdManager.add(defender, CustomEnchantment.LAST_STAND, 10);
@@ -176,7 +179,9 @@ public class DamageListener implements Listener{
 					
 					if(enchants.containsKey(CustomEnchantment.ADRENALINE)){
 						
-						if(defender.getHealth() - event.getFinalDamage() < 4){	// Does not account for ench dmg change
+
+						if(defender.getHealth() < 4){	// Does not account for ench dmg change
+
 							if(!CivEnchant.cdManager.adrenaline.contains(defender)){ // if SW is off CD
 
 								CivEnchant.cdManager.add(defender, CustomEnchantment.ADRENALINE, 10);
@@ -222,11 +227,11 @@ public class DamageListener implements Listener{
 
 							for(ItemStack stack : armor){
 								if(stack != null && stack.hasItemMeta()){
-									
-									double corrode = enchants.get(CustomEnchantment.CORROSIVE) * 0.03; // Each lvl corrodes 3%
-									stack.setDurability((short)(stack.getDurability() - (stack.getDurability() * corrode)));
-									
-									defender.sendMessage(attacker.getName() + "'s weapon has corroded your armor!");
+									//TODO fix corrode
+									//double corrode = enchants.get(CustomEnchantment.CORROSIVE) * 0.03; // Each lvl corrodes 3%
+									//stack.setDurability(stack.getDurability() - (stack.getDurability() * corrode));
+									defender.sendMessage(attacker.getName() + "'s weapon has corroded your armor! WIP NO EFFECT");
+
 									defender.spawnParticle(Particle.VILLAGER_ANGRY, defense.getLocation().getX(), defense.getLocation().getY(), defense.getLocation().getZ(), 2);
 									
 
@@ -340,6 +345,7 @@ public class DamageListener implements Listener{
 		
 			//Calculate chance to evade
 			
+
 				
 				
 				int roll = rand.nextInt(99) + 1; // Roll between 1-100 ## CHANGE THIS TO CHANGE PROBABILITY OF EVADE
@@ -358,6 +364,7 @@ public class DamageListener implements Listener{
 						defender.spawnParticle(Particle.VILLAGER_HAPPY, defense.getLocation().getX(), defense.getLocation().getY(), defense.getLocation().getZ(), 2);
 							//spawnParticle​(Particle particle, double x, double y, double z, int count)
 					}
+
 				}
 			}
 			
@@ -516,10 +523,11 @@ public class DamageListener implements Listener{
 										
 											// Make head appear to be killed's head
 											SkullMeta sm = (SkullMeta) headDrop.getItemMeta();
+
 											sm.setOwner(killed.getName()); // COULD BE PROBLEMATIC, SKULLMETA IS FUCKY
 										
 											headDrop.setItemMeta(sm);
-									
+	
 											// Make head's name appear to be killed's head
 											ItemMeta itemMeta = headDrop.getItemMeta();
 											itemMeta.setDisplayName(ChatColor.RED + killed.getName() + "s head");
