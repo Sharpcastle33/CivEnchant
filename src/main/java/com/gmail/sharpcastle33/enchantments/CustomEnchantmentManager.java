@@ -278,6 +278,12 @@ public class CustomEnchantmentManager {
 		ret.put(CustomEnchantment.HUNTERS_MARK, 1);
 	}
 	
+	if(Util.isHoe(stack)) {
+		
+		ret.put(CustomEnchantment.GREEN_THUMB, 1);
+		
+	}
+	
     return ret;
   }
   

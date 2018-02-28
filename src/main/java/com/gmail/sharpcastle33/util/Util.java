@@ -70,9 +70,12 @@ public class Util {
 	
 	
 	public static boolean replacePotionEffect(Player p, PotionEffect effect) {
+		
 		if(p.getActivePotionEffects().contains(effect)) {
 			
-			PotionEffect previousEffect;
+
+			PotionEffect previousEffect = effect;
+
 			
 			for(PotionEffect playersEffect : p.getActivePotionEffects()){ // Look at player's effects
 				if(playersEffect.getType() == effect.getType()){	// If what we want to give exists for them
@@ -81,7 +84,7 @@ public class Util {
 						p.removePotionEffect(playersEffect.getType()); // If so, remove & replace
 						p.addPotionEffect(effect);
 						ScheduledPotionReplace replace = new ScheduledPotionReplace(p, playersEffect, effect.getDuration());
-						replace.runTask(plugin);
+						replace.runTask(CivEnchant.plugin);
 					}
 					
 					

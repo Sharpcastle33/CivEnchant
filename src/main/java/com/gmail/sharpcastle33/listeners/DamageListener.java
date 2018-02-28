@@ -29,6 +29,7 @@ import org.bukkit.potion.PotionEffectType;
 import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
+import com.gmail.sharpcastle33.util.RageEffect;
 import com.gmail.sharpcastle33.util.Util;
 
 public class DamageListener implements Listener{
@@ -77,6 +78,31 @@ public class DamageListener implements Listener{
 						}
 					}
 					
+					if(enchants.containsKey(CustomEnchantment.RAGE)){
+						if(CivEnchant.cdManager.ragePlayers.contains(attacker)){
+							int playerIndex = CivEnchant.cdManager.ragePlayers.indexOf(attacker);
+							
+							if(CivEnchant.cdManager.rageEffects.get(playerIndex).getLevel() < 5) {
+							
+								CivEnchant.cdManager.rageEffects.get(playerIndex).incrementLevel();
+								
+							} else { 
+								
+								dmgFlat += enchants.get(CustomEnchantment.RAGE);
+								
+								// PLAY NEATO PARTICLE EFFECT
+								attacker.spawnParticle(Particle.FIREWORKS_SPARK, attacker.getLocation().getX(), attacker.getLocation().getY(), attacker.getLocation().getZ(), 5);
+								
+							}
+						 } else { // if first hit
+							
+							CivEnchant.cdManager.rageEffects.add(new RageEffect(attacker)); // new effect
+							CivEnchant.cdManager.ragePlayers.add(attacker);
+							
+							
+						}
+					}
+					
 					
 					
 				}
@@ -89,6 +115,13 @@ public class DamageListener implements Listener{
 			Player defender = (Player) defense;
 			ItemStack[] armor = defender.getInventory().getArmorContents();
 			
+			
+			if(CivEnchant.cdManager.ragePlayers.contains(defender)){
+				int playerIndex = CivEnchant.cdManager.ragePlayers.indexOf(defender);
+				
+				CivEnchant.cdManager.ragePlayers.remove(playerIndex);
+				CivEnchant.cdManager.rageEffects.remove(playerIndex);
+			}
 			
 			
 			
@@ -129,8 +162,9 @@ public class DamageListener implements Listener{
 					}
 					
 					if(enchants.containsKey(CustomEnchantment.LAST_STAND)){
-						
+
 						if(defender.getHealth() < 2){	// Does not account for ench dmg change
+
 							if(!CivEnchant.cdManager.lastStand.contains(defender)){ // if SW is off CD
 
 								CivEnchant.cdManager.add(defender, CustomEnchantment.LAST_STAND, 10);
@@ -145,7 +179,9 @@ public class DamageListener implements Listener{
 					
 					if(enchants.containsKey(CustomEnchantment.ADRENALINE)){
 						
+
 						if(defender.getHealth() < 4){	// Does not account for ench dmg change
+
 							if(!CivEnchant.cdManager.adrenaline.contains(defender)){ // if SW is off CD
 
 								CivEnchant.cdManager.add(defender, CustomEnchantment.ADRENALINE, 10);
@@ -195,6 +231,7 @@ public class DamageListener implements Listener{
 									//double corrode = enchants.get(CustomEnchantment.CORROSIVE) * 0.03; // Each lvl corrodes 3%
 									//stack.setDurability(stack.getDurability() - (stack.getDurability() * corrode));
 									defender.sendMessage(attacker.getName() + "'s weapon has corroded your armor! WIP NO EFFECT");
+
 									defender.spawnParticle(Particle.VILLAGER_ANGRY, defense.getLocation().getX(), defense.getLocation().getY(), defense.getLocation().getZ(), 2);
 									
 
@@ -308,23 +345,28 @@ public class DamageListener implements Listener{
 		
 			//Calculate chance to evade
 			
-			int roll = rand.nextInt(99) + 1; // Roll between 1-100 ## CHANGE THIS TO CHANGE PROBABILITY OF EVADE
-			int evade = 1; // 1 is no evade, 0 is successful evade (for calculating finalDamage below)
-			int enduredDamage = 0;
-		
-			if(roll <= evadeChance){
-				//successful evasion
-				evade = 0 + trueShot;
-				if(trueShot == 0){
-					Location loc = defense.getLocation();
-					defense.sendMessage("You evaded their attack!");
-					loc.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, loc.getX(), loc.getY(), loc.getZ(), 2);
-					
-		
-						//spawnParticle​(Particle particle, double x, double y, double z, int count)
+
+				
+				
+				int roll = rand.nextInt(99) + 1; // Roll between 1-100 ## CHANGE THIS TO CHANGE PROBABILITY OF EVADE
+				int evade = 1; // 1 is no evade, 0 is successful evade (for calculating finalDamage below)
+				int enduredDamage = 0;
+				
+			if(defense instanceof Player) {
+				
+				Player defender = (Player) defense;
+				
+				if(roll <= evadeChance){
+					//successful evasion
+					evade = 0 + trueShot;
+					if(trueShot == 0){
+						defender.sendMessage("You evaded their attack!");
+						defender.spawnParticle(Particle.VILLAGER_HAPPY, defense.getLocation().getX(), defense.getLocation().getY(), defense.getLocation().getZ(), 2);
+							//spawnParticle​(Particle particle, double x, double y, double z, int count)
+					}
+
 				}
 			}
-			
 			
 		
 		
@@ -392,8 +434,8 @@ public class DamageListener implements Listener{
 					
 						if(killed.getBedSpawnLocation() != null){
 							
-							killed.sendMessage(killer.getName() + "'s weapon destroyed your bed!");
-							killed.getBedSpawnLocation().getBlock().breakNaturally();
+							killed.sendMessage("You have forgotten your bed!");
+							killed.setBedSpawnLocation(null);
 							
 						}
 						
@@ -481,9 +523,11 @@ public class DamageListener implements Listener{
 										
 											// Make head appear to be killed's head
 											SkullMeta sm = (SkullMeta) headDrop.getItemMeta();
-											//sm.setOwner(Bukkit.getOfflinePlayer(killed.getName()));
-											sm.setOwner(killed.getName());	
-									
+
+											sm.setOwner(killed.getName()); // COULD BE PROBLEMATIC, SKULLMETA IS FUCKY
+										
+											headDrop.setItemMeta(sm);
+	
 											// Make head's name appear to be killed's head
 											ItemMeta itemMeta = headDrop.getItemMeta();
 											itemMeta.setDisplayName(ChatColor.RED + killed.getName() + "s head");
