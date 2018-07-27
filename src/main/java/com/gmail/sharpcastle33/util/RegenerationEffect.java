@@ -18,7 +18,7 @@ ArrayList<Player> playerList;
 int ticks;
 double regenAmount = 1;
 
-public RegenerationEffect(Player player, double initialRegenLevel, ArrayList regenList, ArrayList playerList){
+public RegenerationEffect(Player player, double initialRegenLevel, ArrayList<RegenerationEffect> regenList, ArrayList<Player> playerList){
 
   this.player = player; // The player who is receiving regen
   this.regenLevel = initialRegenLevel; // When this object is created, the initial amount of regen the player recieves

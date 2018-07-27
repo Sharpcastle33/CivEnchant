@@ -4,7 +4,7 @@ public enum CustomEnchantment {
 	
 	
 	NO_ENCHANTMENT("null", 0),
-	ENHANCED("Enhancement", 5),
+	INFUSION("Infusion", 5),
 	
 	//Vanilla Enchantments
 	

@@ -1,6 +1,5 @@
 package com.gmail.sharpcastle33.enchantments;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -61,7 +60,7 @@ public class CustomEnchantmentManager {
 		  
 		  for(CustomEnchantment ench : enchants.keySet()){
 			  
-			  if(ench.equals(CustomEnchantment.ENHANCED))
+			  if(ench.equals(CustomEnchantment.INFUSION))
 				  continue;
 			  
 			  String level = Util.getRomanNumeral(enchants.get(ench));
@@ -381,7 +380,7 @@ public class CustomEnchantmentManager {
 	  if(e.equals(Enchantment.DURABILITY))
 		  return CustomEnchantment.UNBREAKING;
 	  if(e.equals(Enchantment.DIG_SPEED) || e.equals(Enchantment.DAMAGE_ALL) || e.equals(Enchantment.ARROW_DAMAGE) || e.equals(Enchantment.PROTECTION_ENVIRONMENTAL))
-		  return CustomEnchantment.ENHANCED;
+		  return CustomEnchantment.INFUSION;
 	  return CustomEnchantment.NO_ENCHANTMENT;
 	}
   
@@ -395,7 +394,7 @@ public class CustomEnchantmentManager {
 	  Map<CustomEnchantment, Integer> ret = new HashMap<CustomEnchantment, Integer>();
 	  
 	  ItemMeta meta = stack.getItemMeta();
-	  java.util.List<String> lore = meta.getLore();
+	  List<String> lore = meta.getLore();
 	  
 	  //fix this set to remove vanilla enchants
 	  EnumSet<CustomEnchantment> enchantments = EnumSet.allOf( CustomEnchantment.class);

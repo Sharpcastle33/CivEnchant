@@ -3,6 +3,7 @@ package com.gmail.sharpcastle33;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
+import com.gmail.sharpcastle33.listeners.AnvilListener;
 import com.gmail.sharpcastle33.listeners.ArmorEquipListener;
 import com.gmail.sharpcastle33.listeners.BlockListener;
 import com.gmail.sharpcastle33.listeners.CraftingOrbListener;
@@ -18,6 +19,7 @@ public class CivEnchant extends JavaPlugin{
   private static DamageListener damageListener;
   private static BlockListener blockListener;
   private static ArmorEquipListener armorEquipListener;
+  private static AnvilListener anvilListener;
   
   public static CustomEnchantmentManager manager;
   public static CooldownManager cdManager;
@@ -42,6 +44,9 @@ public class CivEnchant extends JavaPlugin{
     
     armorEquipListener = new ArmorEquipListener();
     this.getServer().getPluginManager().registerEvents(armorEquipListener, plugin);
+    
+    anvilListener = new AnvilListener();
+    this.getServer().getPluginManager().registerEvents(anvilListener, plugin);
     
   }
   

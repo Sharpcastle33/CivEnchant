@@ -1,10 +1,9 @@
 package com.gmail.sharpcastle33.listeners;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
-import java.util.ArrayList;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;

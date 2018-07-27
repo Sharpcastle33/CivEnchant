@@ -2,17 +2,14 @@ package com.gmail.sharpcastle33.listeners;
 
 import java.util.Map;
 
-
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-
 import org.bukkit.inventory.ItemStack;
-import com.gmail.sharpcastle33.CivEnchant;
 
 import com.codingforcookies.armorequip.ArmorEquipEvent;
+import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
 
@@ -27,7 +24,7 @@ public class ArmorEquipListener implements Listener{
         ItemStack newArmor;
         ItemStack oldArmor;
         Player player = event.getPlayer();
-        Map enchants;
+        Map<CustomEnchantment, Integer> enchants;
       
         if(event.getNewArmorPiece() != null && event.getNewArmorPiece().getType() != Material.AIR){ // Equip
         

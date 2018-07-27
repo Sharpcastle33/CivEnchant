@@ -1,13 +1,8 @@
 package com.gmail.sharpcastle33.listeners;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -105,7 +100,7 @@ public class CraftingOrbListener implements Listener {
   private int countCustomEnchantments(ItemStack stack){
 	Map<CustomEnchantment, Integer> enchs = CustomEnchantmentManager.getLoreTagEnchantments(stack);
     
-	enchs.remove(CustomEnchantment.ENHANCED);
+	enchs.remove(CustomEnchantment.INFUSION);
 	
 	return enchs.size();
   }
@@ -230,7 +225,7 @@ public class CraftingOrbListener implements Listener {
 			  
 			  for (Map.Entry<CustomEnchantment, Integer> e : original.entrySet()) {
 				  
-				  if (!(e.getKey() == CustomEnchantment.ENHANCED)) {
+				  if (!(e.getKey() == CustomEnchantment.INFUSION)) {
 					  
 					  Random rand = new Random();
 					  int level = rand.nextInt((e.getKey().getMaxLevel()));
@@ -283,7 +278,7 @@ public class CraftingOrbListener implements Listener {
 				  
 				  else {
 					  
-					  if (e.getKey() == CustomEnchantment.ENHANCED) {
+					  if (e.getKey() == CustomEnchantment.INFUSION) {
 						   
 						  counter = counter - 1;
 					  }

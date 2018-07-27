@@ -46,9 +46,10 @@ public class Util {
 		return stack;
 	}
 	
-	
+
 	public static void reducePotionDuration(Player p, PotionEffectType effect, int duration){
-		
+
+		// I'm 85% sure this will never be true
 		if(p.getActivePotionEffects().contains(effect)){
 		
 			for(PotionEffect reducedEffect : p.getActivePotionEffects()){
