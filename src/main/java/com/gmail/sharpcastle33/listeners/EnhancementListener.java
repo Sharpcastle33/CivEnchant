@@ -20,7 +20,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class EnhancementListener implements Listener{
   
-  final static boolean REQUIRE_SNEAKING = true;
+  final static boolean REQUIRE_SNEAKING = false;
   final static String ARMOR_ENHANCEMENT = ChatColor.YELLOW + "Enhancement Orb (Armor)";
   final static String TOOL_ENHANCEMENT = ChatColor.YELLOW + "Enhancement Orb (Tool)";
   final static String WEAPON_ENHANCEMENT = ChatColor.YELLOW + "Enhancement Orb (Weapon)";
@@ -37,7 +37,7 @@ public class EnhancementListener implements Listener{
   final static String ENHANCEMENT_FAILURE = ChatColor.RED + "Enhancement Failed.";
   
   final static String MAX_ENHANCEMENT_ERROR = ChatColor.RED + "Your item is at its current maximum enhancement level. It cannot be enhanced further (yet).";
-  final static String ENHANCEMENT = ChatColor.GRAY + "Enhancement: +";
+  final static String ENHANCEMENT = ChatColor.GRAY + "Infusion: +";
   
   public EnhancementListener(){
     for(Material m : armor){

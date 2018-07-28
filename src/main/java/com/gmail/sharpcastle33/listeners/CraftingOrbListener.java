@@ -21,7 +21,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class CraftingOrbListener implements Listener {
   
-  final static boolean REQUIRE_SNEAKING = true;
+  final static boolean REQUIRE_SNEAKING = false;
  
   final static String ARMOR_ENHANCEMENT = ChatColor.YELLOW + "Enhancement Orb (Armor)";
   final static String TOOL_ENHANCEMENT = ChatColor.YELLOW + "Enhancement Orb (Tool)";
