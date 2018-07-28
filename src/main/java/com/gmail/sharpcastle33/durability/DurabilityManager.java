@@ -86,11 +86,6 @@ public class DurabilityManager {
 		}
 		
 		List<Integer> dur = new ArrayList<Integer>();
-		/*Matcher m = Pattern.compile("\\d+").matcher(lore);
-		while(m.find())
-			dur.add(Integer.parseInt(m.group()));
-		
-		return dur;*/
 		String[] a = lore.split("Durability: ");
 		String[] duras = a[1].split("/");
 		dur.add(Integer.parseInt(duras[0]));
@@ -124,7 +119,7 @@ public class DurabilityManager {
 		int vanillaMax = item.getType().getMaxDurability();
 		int vanillaCur = vanillaMax - (vanillaMax * cur / max);
 		item.setDurability((short) vanillaCur);
-		Bukkit.getServer().getLogger().info("Max durability: " + item.getType().getMaxDurability() + "Current: " + cur + "setting to: " + vanillaCur);
+		//Bukkit.getServer().getLogger().info("Max durability: " + item.getType().getMaxDurability() + "Current: " + cur + "setting to: " + vanillaCur);
 		
 		//check if item is nearly broken
 		if(cur <= 1) {

@@ -8,11 +8,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class DamageListener extends DurabilityManager implements Listener {
+public class DurabilityListener extends DurabilityManager implements Listener {
 
 	
 	@EventHandler
 	public void onItemDamage(PlayerItemDamageEvent event) {
+		//Bukkit.getServer().getLogger().info("hey hi hello dura");
 		if(!(event.isCancelled()))
 		{
 			ItemStack item =  event.getItem();
