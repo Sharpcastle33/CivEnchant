@@ -61,7 +61,7 @@ public class DurabilityManager {
 						
 						for(int i = 0; i < lore.size(); i++){
 							if(lore.get(i).contains(ChatColor.GRAY + "Durability:")) {
-								Bukkit.getServer().getLogger().info("Contains dura lore!");
+								//Bukkit.getServer().getLogger().info("Contains dura lore!");
 								//return the String with durability
 								return i;
 							}

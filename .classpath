@@ -23,6 +23,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Stephen/Downloads/ArmorEquipEvent-1.6.5.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

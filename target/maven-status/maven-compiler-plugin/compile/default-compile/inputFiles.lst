@@ -3,14 +3,17 @@ C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\util\RegenerationEffect.java
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\codingforcookies\armorequip\Main.java
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\listeners\DamageListener.java
+C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\durability\DurabilityManager.java
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\CivEnchant.java
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\util\Util.java
+C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\durability\DurabilityListener.java
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\codingforcookies\armorequip\ArmorType.java
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\listeners\AnvilListener.java
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\enchantments\CustomEnchantment.java
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\codingforcookies\armorequip\ArmorEquipEvent.java
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\listeners\BlockListener.java
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\util\CooldownManager.java
+C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\listeners\EmeraldInfusionListener.java
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\repair\ItemRepair.java
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\listeners\EnhancementListener.java
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\listeners\CraftingOrbListener.java
@@ -18,3 +21,4 @@ C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\codingforcookies\ar
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\enchantments\CustomEnchantmentManager.java
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\util\ScheduledPotionReplace.java
 C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\listeners\ArmorEquipListener.java
+C:\Users\sther\Documents\GitHub\CivEnchant\src\main\java\com\gmail\sharpcastle33\listeners\SetBonusListener.java
