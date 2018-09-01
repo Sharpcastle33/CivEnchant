@@ -184,9 +184,9 @@ public class DamageListener implements Listener {
 
 			ItemStack stack = defender.getInventory().getItemInOffHand();
 
-			if (stack != null && stack.getType() == Material.SHIELD) {
+			/*if (stack != null && stack.getType() == Material.SHIELD) {
 				dmgFlat -= 1;
-			}
+			}*/
 
 		}
 
@@ -215,8 +215,8 @@ public class DamageListener implements Listener {
 									// lvl corrodes 3%
 									// stack.setDurability(stack.getDurability() - (stack.getDurability() *
 									// corrode));
-									defender.sendMessage(
-											attacker.getName() + "'s weapon has corroded your armor! WIP NO EFFECT");
+									//defender.sendMessage(
+											//attacker.getName() + "'s weapon has corroded your armor! WIP NO EFFECT");
 
 									defender.spawnParticle(Particle.VILLAGER_ANGRY, defense.getLocation().getX(),
 											defense.getLocation().getY(), defense.getLocation().getZ(), 2);

@@ -80,7 +80,7 @@ public class DurabilityManager {
 	 * dur[0] = 23 = dur[CURRENT_DURABILITY]
 	 * dur[1] = 42 = dur[MAX_DURABILITY]
 	 */
-	public List<Integer> getDurability(String lore) {
+	public static List<Integer> getDurability(String lore) {
 		if(lore == null){
 			return null;
 		}

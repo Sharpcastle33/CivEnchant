@@ -1,5 +1,6 @@
 package com.gmail.sharpcastle33.listeners;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -12,7 +13,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
+import com.gmail.sharpcastle33.durability.DurabilityManager;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
 import com.gmail.sharpcastle33.util.Util;
@@ -33,6 +36,7 @@ public class CraftingOrbListener implements Listener {
   final static String AWAKENED_ORB = ChatColor.YELLOW + "Awakened Orb";
   final static String DISCORD_ORB = ChatColor.YELLOW + "Orb of Discord";
   final static String SCOUR_ORB = ChatColor.YELLOW + "Orb of Scouring";
+  final static String REPAIR_ORB = ChatColor.YELLOW + "Orb of Repair";
   
  // final static Material[] armor = {Material.DIAMOND_CHESTPLATE, Material.DIAMOND_HELMET, Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS, Material.CHAINMAIL_BOOTS, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_HELMET, Material.CHAINMAIL_LEGGINGS};
   //final static Material[] weps = {Material.DIAMOND_SWORD, Material.DIAMOND_AXE, Material.BOW};
@@ -49,6 +53,7 @@ public class CraftingOrbListener implements Listener {
   final static String ERROR_NO_ENCHANTMENTS = ChatColor.RED + "You may only use a " + SCOUR_ORB + ChatColor.RED + " on an enchanted item.";
   final static String DISCORD_FAILURE = ChatColor.RED + "You may only use a " + DISCORD_ORB + ChatColor.RED + " on an enchanted item.";
 
+  final static String REPAIR_INFO = ChatColor.BLUE + "This is a temporary item. When a new repair system is added, you will be able to craft this item into Tinker's Talc.";
   public CraftingOrbListener(){
    
   }
@@ -322,6 +327,44 @@ public class CraftingOrbListener implements Listener {
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_SNARE, 1, 1);
             
           }
+        }
+        
+        //REPAIR ORB
+        if(off.hasItemMeta() && off.getItemMeta().getDisplayName().contains(REPAIR_ORB) && main != null){
+            event.setCancelled(true);
+            p.sendMessage(REPAIR_INFO);
+            p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1, 1);
+            
+            if(main.hasItemMeta()) {
+            	if(main.getItemMeta().hasLore()) {
+            		List lore = main.getItemMeta().getLore();
+            		for(int i = 0; i < lore.size(); i++) {
+            			String s = (String) lore.get(i);
+            			if(s.contains("Durability:")) {
+            				
+            				lore.remove(i);
+            				
+            				List<Integer> dur = DurabilityManager.getDurability(s);
+            				int cur = dur.get(0);
+            				int max = dur.get(1);
+            				
+            				s = ChatColor.GRAY + "Durability: " + Integer.toString(max) + "/" + Integer.toString(max);
+            				
+            				lore.add(i, s);
+            				ItemMeta meta = main.getItemMeta();
+            				meta.setLore(lore);
+            				main.setItemMeta(meta);
+            				main.setDurability((short) 0);
+            	            Util.decrementOffhand(p);
+            				return;
+            			}
+            		}
+            	}
+            	
+            }
+            
+            main.setDurability((short) 0);
+            Util.decrementOffhand(p);
         }
         
         //CELESTIAL ORB

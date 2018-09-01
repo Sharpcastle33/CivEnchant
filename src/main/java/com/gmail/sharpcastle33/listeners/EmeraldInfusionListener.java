@@ -10,6 +10,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.gmail.sharpcastle33.util.ExperienceManager;
+
 import net.md_5.bungee.api.ChatColor;
 
 public class EmeraldInfusionListener implements Listener{
@@ -22,7 +24,7 @@ public class EmeraldInfusionListener implements Listener{
 
 			if(p.getInventory().getItemInMainHand() != null && p.getInventory().getItemInMainHand().getType() == Material.EMERALD && p.getInventory().getItemInMainHand().hasItemMeta() == false) {
 				p.sendMessage("click withemmy");
-				if(p.getTotalExperience() >= 7) {
+				if(p.getLevel() >= 1) {
 					if(p.getInventory().getItemInMainHand().getAmount() > 1) {
 						p.getInventory().getItemInMainHand().setAmount(p.getInventory().getItemInMainHand().getAmount()-1);
 					}else { p.getInventory().setItemInMainHand(null); }
@@ -33,12 +35,57 @@ public class EmeraldInfusionListener implements Listener{
 					stack.setItemMeta(meta);
 					
 					p.getWorld().dropItem(p.getLocation(), stack);
-					p.giveExp(-7);
-					p.sendMessage("success");
-				}else { p.sendMessage("not enough xp, " + p.getTotalExperience()); }
+
+					//calculate xp loss
+					
+					int l = p.getLevel();
+					float f = p.getExp();
+					
+					
+					if(l < 5) {
+						p.setLevel(l-1);
+					}else if(l < 10) {
+						if(f>0.16f) {
+							p.setExp(f-0.16f);
+						}else {
+							p.setLevel(l-1);
+							p.setExp(1+f-0.16f);
+						}
+					}else if(l < 15) {
+						if(f>0.14f) {
+							p.setExp(f-0.14f);
+						}else {
+							p.setLevel(l-1);
+							p.setExp(1+f-0.14f);
+						}
+					}else if(l < 25) {
+						if(f>0.12f) {
+							p.setExp(f-0.12f);
+						}else {
+							p.setLevel(l-1);
+							p.setExp(1+f-0.12f);
+						}
+					}else {
+						if(f>0.1f) {
+							p.setExp(f-0.1f);
+						}else {
+							p.setLevel(l-1);
+							p.setExp(1+f-0.1f);
+						}
+					}
+					
+					
+					
+					
+					
+					
+					
+				}else { p.sendMessage(ChatColor.RED + "You do not have enough experience to create an infused emerald."); }
 			}
 		}
+		
+		
 			
 	}
-
+	
 }
