@@ -6,3 +6,7 @@ commands:
       description: (OP ONLY) debug command for setting an enchant on an item
       usage: with an item in main hand /gce <enchant> <level>
       aliases: [ gce ]
+   listcivenchants:
+      description: (OP ONLY) debug command to list all enchantments
+      usage: /lce
+      aliases: [ lce ]
