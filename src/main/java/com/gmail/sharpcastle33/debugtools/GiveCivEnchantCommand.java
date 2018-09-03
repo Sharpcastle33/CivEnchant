@@ -16,12 +16,21 @@ public class GiveCivEnchantCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
-			if(!player.isOp()) player.sendMessage(ChatColor.RED + "You do not have permission to use this command");
+			if(!player.isOp()) { 
+				player.sendMessage(ChatColor.RED + "You do not have permission to use this command");
+				return true;
+			} // if
 			
 			if(args.length == 0 || args.length > 2 ) return false;
-				
-			CustomEnchantment customEnchant = CustomEnchantment.valueOf(args[0]);
-			if(customEnchant == null) return false;
+			
+			CustomEnchantment customEnchant;
+			try {
+				customEnchant = CustomEnchantment.valueOf(args[0]);
+				if(customEnchant == null) return false;
+			} catch(IllegalArgumentException e) {
+				player.sendMessage(ChatColor.RED + "Invalid Enchantment (try /lce to list all enchants)");
+				return true;
+			} // try/catch
 			
 			int level;
 			try {
