@@ -21,7 +21,7 @@ public class GiveCivEnchantCommand implements CommandExecutor {
 				return true;
 			} // if
 			
-			if(args.length == 0 || args.length > 2 ) return false;
+			if(args.length != 2) return false;
 			
 			CustomEnchantment customEnchant;
 			try {
