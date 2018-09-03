@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.codingforcookies.armorequip.ArmorListener;
+import com.gmail.sharpcastle33.debugtools.CivEnchantInfoCommand;
 import com.gmail.sharpcastle33.debugtools.GiveCivEnchantCommand;
 import com.gmail.sharpcastle33.debugtools.ListCivEnchantsCommand;
 import com.gmail.sharpcastle33.durability.DurabilityListener;
@@ -86,6 +87,7 @@ public class CivEnchant extends JavaPlugin{
     
     getCommand("givecivenchant").setExecutor(new GiveCivEnchantCommand());
     getCommand("listcivenchants").setExecutor(new ListCivEnchantsCommand());
+    getCommand("civenchantinfo").setExecutor(new CivEnchantInfoCommand());
   }
   
   public void onDisable(){

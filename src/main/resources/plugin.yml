@@ -10,3 +10,7 @@ commands:
       description: (OP ONLY) debug command to list all enchantments
       usage: /lce
       aliases: [ lce ]
+   civenchantinfo:
+      description: Gives information on the usage of each enchant on an item in your main hand
+      usage: with item in main hand /cei
+      aliases: [ cei ]
