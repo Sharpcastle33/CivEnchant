@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.codingforcookies.armorequip.ArmorListener;
+import com.gmail.sharpcastle33.debugtools.GiveCivEnchantCommand;
 import com.gmail.sharpcastle33.durability.DurabilityListener;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
 import com.gmail.sharpcastle33.listeners.AnvilListener;
@@ -79,6 +80,10 @@ public class CivEnchant extends JavaPlugin{
     
     emeraldListener = new EmeraldInfusionListener();
     this.getServer().getPluginManager().registerEvents(emeraldListener, plugin);
+    
+    // DEBUGTOOLS
+    
+    getCommand("givecivenchant").setExecutor(new GiveCivEnchantCommand());
   }
   
   public void onDisable(){
