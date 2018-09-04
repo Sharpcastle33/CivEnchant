@@ -39,7 +39,7 @@ public enum CustomEnchantment {
 	NATURES_BOUNTY("Nature's Bounty", 5), //TODO unimplemented
 	
 	//Hoe Enchants
-	GREEN_THUMB("Green Thumb", 3), //TODO unimplemented
+	GREEN_THUMB("Green Thumb", 3), // DISABLED
 	
 	//Axe Enchants
 	TIMBER("Timber", 5), //TODO unimplemented
@@ -79,7 +79,7 @@ public enum CustomEnchantment {
 	HUNTERS_MARK("Hunter's Mark", 3), //TODO unimplemented
 	
 	//Shield Enchants
-	VANGUARD("Vanguard", 5),
+	VANGUARD("Vanguard", 5), // DISABLED
 	
 	//Armor Enchants
 	EVASIVE("Evasive", 3), //TODO unimplemented
