@@ -163,6 +163,8 @@ public class CivEnchantInfoCommand implements CommandExecutor {
 				return "Chops down logs above the block broken (2 additional logs per level); does not work with reinforced blocks";
 			case TRUE_SHOT:
 				return "Small flat damage increase to all targets; very high chance to counter the effects of Evasive";
+			case UMBRAL:
+				return "10% more coal drops and 3-5% chance to drop Nightmare fuel from coal";
 			case UNBREAKING:
 				return "Increases effective durability";
 			case VANGUARD:
