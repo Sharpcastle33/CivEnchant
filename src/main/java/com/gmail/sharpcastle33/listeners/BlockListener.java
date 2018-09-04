@@ -2,6 +2,7 @@ package com.gmail.sharpcastle33.listeners;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -32,10 +33,15 @@ public class BlockListener implements Listener {
 	final static Material[] crystals = { Material.DIAMOND_ORE, Material.EMERALD_ORE, Material.QUARTZ_ORE };
 	
 	final static Map<Material, Byte> stones = new HashMap<>();
+	static List<Material> stonesList = new ArrayList<>();
 	final static Map<Material, Byte> sands = new HashMap<>();
+	static List<Material> sandsList = new ArrayList<>();
 	final static Map<Material, Byte> logs = new HashMap<>();
+	static List<Material> logsList = new ArrayList<>();
 	final static Map<Material, Byte> woods = new HashMap<>();
+	static List<Material> woodsList = new ArrayList<>();
 	final static Map<Material, Byte> flowers = new HashMap<>();
+	static List<Material> flowersList = new ArrayList<>();
 	
 	static {
 		stones.put(Material.STONE, (byte) 0);
@@ -57,6 +63,7 @@ public class BlockListener implements Listener {
 		stones.put(Material.RED_SANDSTONE, (byte) 0);
 		stones.put(Material.RED_SANDSTONE, (byte) 1);
 		stones.put(Material.RED_SANDSTONE, (byte) 2);
+		stonesList.addAll(stones.keySet());
 		
 		sands.put(Material.SAND, (byte) 0);
 		sands.put(Material.SAND, (byte) 1);
@@ -67,6 +74,7 @@ public class BlockListener implements Listener {
 		sands.put(Material.GRASS, (byte) 0);
 		sands.put(Material.GRASS_PATH, (byte) 0);
 		sands.put(Material.GRAVEL, (byte) 0);
+		sandsList.addAll(sands.keySet());
 		
 		logs.put(Material.LOG, (byte) 0);
 		logs.put(Material.LOG, (byte) 1);
@@ -74,6 +82,7 @@ public class BlockListener implements Listener {
 		logs.put(Material.LOG, (byte) 3);
 		logs.put(Material.LOG_2, (byte) 0);
 		logs.put(Material.LOG_2, (byte) 1);
+		logsList.addAll(logs.keySet());
 		
 		woods.put(Material.WOOD, (byte) 0);
 		woods.put(Material.WOOD, (byte) 1);
@@ -81,6 +90,7 @@ public class BlockListener implements Listener {
 		woods.put(Material.WOOD, (byte) 3);
 		woods.put(Material.WOOD, (byte) 4);
 		woods.put(Material.WOOD, (byte) 5);
+		woodsList.addAll(woods.keySet());
 		
 		flowers.put(Material.LONG_GRASS, (byte) 0);
 		flowers.put(Material.LONG_GRASS, (byte) 1);
@@ -98,6 +108,7 @@ public class BlockListener implements Listener {
 		flowers.put(Material.RED_ROSE, (byte) 8);
 		flowers.put(Material.BROWN_MUSHROOM, (byte) 0);
 		flowers.put(Material.RED_MUSHROOM, (byte) 0);
+		flowersList.addAll(flowers.keySet());
 	}
 
 	@EventHandler
@@ -119,29 +130,24 @@ public class BlockListener implements Listener {
 			if(Util.isTool(mainHand)) {
 				// MUTANDIS
 				if(enchants.containsKey(CustomEnchantment.MUTANDIS) && Math.random() > 0.75) {
-					if(stones.containsKey(block.getType())) {
-						Object[] values = stones.entrySet().toArray();
-						Material newMat = (Material) values[(int) (Math.random() * values.length)];
+					if(stonesList.contains(block.getType())) {
+						Material newMat = stonesList.get((int) (Math.random() * stonesList.size()));
 						block.setType(newMat);
 						block.setData(stones.get(newMat));
-					} else if(sands.containsKey(block.getType())) {
-						Object[] values = sands.entrySet().toArray();
-						Material newMat = (Material) values[(int) (Math.random() * values.length)];
+					} else if(sandsList.contains(block.getType())) {
+						Material newMat = sandsList.get((int) (Math.random() * sandsList.size()));
 						block.setType(newMat);
 						block.setData(sands.get(newMat));
-					} else if(logs.containsKey(block.getType())) {
-						Object[] values = logs.entrySet().toArray();
-						Material newMat = (Material) values[(int) (Math.random() * values.length)];
+					} else if(logsList.contains(block.getType())) {
+						Material newMat = logsList.get((int) (Math.random() * logsList.size()));
 						block.setType(newMat);
 						block.setData(logs.get(newMat));
-					} else if(woods.containsKey(block.getType())) {
-						Object[] values = woods.entrySet().toArray();
-						Material newMat = (Material) values[(int) (Math.random() * values.length)];
+					} else if(woodsList.contains(block.getType())) {
+						Material newMat = woodsList.get((int) (Math.random() * woodsList.size()));
 						block.setType(newMat);
 						block.setData(woods.get(newMat));
-					} else if(flowers.containsKey(block.getType())) {
-						Object[] values = flowers.entrySet().toArray();
-						Material newMat = (Material) values[(int) (Math.random() * values.length)];
+					} else if(flowersList.contains(block.getType())) {
+						Material newMat = flowersList.get((int) (Math.random() * flowersList.size()));
 						block.setType(newMat);
 						block.setData(flowers.get(newMat));
 					} // if/else if/else if/else if/else if
