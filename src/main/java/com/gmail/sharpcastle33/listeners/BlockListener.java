@@ -306,14 +306,26 @@ public class BlockListener implements Listener {
 					// How do we want to deal with players placing ore?
 					// Drop special iron ore fragments every break.
 					if (block.getType() == Material.IRON_ORE) {
-
+					  ItemStack frag = new ItemStack(Material.PAPER, 1);
+					  ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.PAPER);
+					  meta.setDisplayName(ChatColor.YELLOW + "Iron Ore Fragment");
+					  frag.setItemMeta(meta);
+					  
+					  block.setType(Material.AIR);
+					  block.getWorld().dropItemNaturally(block.getLocation(), frag);
 					}
 
 				}
 				// GOLD AFFINITY
 				if (enchants.containsKey(CustomEnchantment.GOLD_AFFINITY)) {
 					if (block.getType() == Material.GOLD_ORE) {
-
+                      ItemStack frag = new ItemStack(Material.PAPER, 1);
+                      ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.PAPER);
+                      meta.setDisplayName(ChatColor.YELLOW + "Gold Ore Fragment");
+                      frag.setItemMeta(meta);
+                      
+                      block.setType(Material.AIR);
+                      block.getWorld().dropItemNaturally(block.getLocation(), frag);
 					}
 				}
 			}
