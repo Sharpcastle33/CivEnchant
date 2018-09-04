@@ -52,8 +52,8 @@ public enum CustomEnchantment {
 	BRICKLAYER("Bricklayer", 5),
 	
 	//Pickaxe Enchants
-	IRON_AFFINITY("Iron Affinity", 5), //TODO unimplemented
-	GOLD_AFFINITY("Gold Affinity", 5), //TODO unimplemented
+	IRON_AFFINITY("Iron Affinity", 5),
+	GOLD_AFFINITY("Gold Affinity", 5),
 	AUTO_SMELT("Auto Smelt", 3),
 	DEMOLISHING("Demolishing", 4),
 	CRYSTAL_ATTUNEMENT("Crystal Attunement", 3),
@@ -77,7 +77,7 @@ public enum CustomEnchantment {
 	POINT_BLANK("Point Blank", 3), 
 	TRUE_SHOT("True Shot", 3), //TODO unimplemented
 	HUNTERS_BLESSING("Hunter's Blessing", 3), //TODO unimplemented
-	HUNTERS_MARK("Hunter's Mark", 3), //TODO unimplemented
+	HUNTERS_MARK("Hunter's Mark", 3),
 	
 	//Shield Enchants
 	VANGUARD("Vanguard", 5), // DISABLED
