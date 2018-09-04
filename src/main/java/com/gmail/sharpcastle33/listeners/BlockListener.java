@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -16,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -182,6 +183,23 @@ public class BlockListener implements Listener {
 
 					}
 
+				}
+				//UMBRAL
+				if(enchants.containsKey(CustomEnchantment.UMBRAL)){
+				  if(block.getType() == Material.COAL_ORE){
+				    if(Math.random() > (0.03 + 0.01*enchants.get(CustomEnchantment.UMBRAL))){
+				      ItemStack fuel = new ItemStack(Material.COAL,1);
+				      ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.COAL);
+				      meta.setDisplayName(ChatColor.YELLOW + "Nightmare Fuel");
+				      fuel.setItemMeta(meta);
+	                  block.getWorld().dropItemNaturally(block.getLocation(), fuel);
+				    }
+				    
+				    if(Math.random() > 0.1){
+				      ItemStack coal = new ItemStack(Material.COAL,1);
+				      block.getWorld().dropItemNaturally(block.getLocation(), coal);
+				    }
+				  }
 				}
 				// DEMOLISHING
 				if (enchants.containsKey(CustomEnchantment.DEMOLISHING)) {

@@ -60,6 +60,7 @@ public enum CustomEnchantment {
 	EMERALD_RESONANCE("Emerald Resonance", 3),
 	PROFICIENT("Proficient", 3),
 	STONEMASON("Stonemason", 5),
+	UMBRAL("Umbral", 3),
 	
 	//Melee Enchants
 	LIFESTEAL("Lifesteal", 2), //TODO unimplemented
