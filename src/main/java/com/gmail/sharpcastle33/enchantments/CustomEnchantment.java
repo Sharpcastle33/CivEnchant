@@ -35,7 +35,7 @@ public enum CustomEnchantment {
 	//Custom Enchantments
 	
 	//Tool Enchants
-	MUTANDIS("Mutandis", 3), //TODO unimplemented
+	MUTANDIS("Mutandis", 3),
 	NATURES_BOUNTY("Nature's Bounty", 5), //TODO unimplemented
 	
 	//Hoe Enchants
