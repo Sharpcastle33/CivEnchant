@@ -1,8 +1,8 @@
 package com.gmail.sharpcastle33.listeners;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -22,7 +22,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
 import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
@@ -66,8 +65,9 @@ public class DamageListener implements Listener {
 							LivingEntity target = (LivingEntity) defense;
 
 							target.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,
-									10 * enchants.get(CustomEnchantment.HUNTERS_MARK), // Duration
+									20 * enchants.get(CustomEnchantment.HUNTERS_MARK), // Duration
 									1)); // Amplifier
+							
 						}
 					}
 
@@ -105,6 +105,8 @@ public class DamageListener implements Listener {
 		if (defense instanceof Player) {
 			Player defender = (Player) defense;
 			ItemStack[] armor = defender.getInventory().getArmorContents();
+			
+
 
 			if (CivEnchant.cdManager.ragePlayers.contains(defender)) {
 				int playerIndex = CivEnchant.cdManager.ragePlayers.indexOf(defender);
@@ -194,6 +196,10 @@ public class DamageListener implements Listener {
 		if (offense instanceof Player && defense instanceof Player) {
 			Player attacker = (Player) offense;
 			Player defender = (Player) defense;
+			
+	         if(((Player) defense).hasPotionEffect(PotionEffectType.GLOWING)){
+	              dmgMod+=0.25;
+	         }
 
 			if (attacker.getInventory().getItemInMainHand() != null) {
 				ItemStack weapon = attacker.getInventory().getItemInMainHand();
