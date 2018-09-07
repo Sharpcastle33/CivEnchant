@@ -130,7 +130,7 @@ public class BlockListener implements Listener {
 			// TOOL
 			if(Util.isTool(mainHand)) {
 				// MUTANDIS
-				if(enchants.containsKey(CustomEnchantment.MUTANDIS) && Math.random() > 0.75) {
+				if(enchants.containsKey(CustomEnchantment.MUTANDIS) && Math.random() > 1.00 - (enchants.get(CustomEnchantment.MUTANDIS).intValue() * 0.25)) {
 					if(stonesList.contains(block.getType())) {
 						Material newMat = stonesList.get((int) (Math.random() * stonesList.size()));
 						block.setType(newMat);
