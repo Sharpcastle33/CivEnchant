@@ -71,7 +71,9 @@ public enum CustomEnchantment {
 	SOUL_TAKER("Soul Taker", 3), //TODO unimplemented
 	CORROSIVE("Corrosive", 3), //TODO unimplemented
 	LIGHTBANE("Lightbane", 3), //TODO unimplemented
-	HELLFIRE("Hellfire", 3), //TODO unimplemented
+	HELLFIRE("Hellfire", 5), //TODO unimplemented
+	BERSERKING("Berserking", 3), //TODO unimplemented
+	AQUATIC_COMBATANT("Aquatic Combatant", 2), //TODO unimplemented
 	HEADHUNTER("Headhunter", 3),
 	
 	
@@ -82,6 +84,9 @@ public enum CustomEnchantment {
 	HUNTERS_BLESSING("Hunter's Blessing", 3), //TODO unimplemented
 	HUNTERS_MARK("Hunter's Mark", 3),
 	CRIPPLING("Crippling", 3), //TODO unimplemented
+	MULTISHOT("Multishot", 2), //TODO unimplemented
+	PIERCING("Piercing", 1), //TODO unimplemented
+	HARPOONING("Harpooning", 3), //TODO unimplemented
 	
 	//Shield Enchants
 	VANGUARD("Vanguard", 5), // DISABLED
@@ -94,7 +99,9 @@ public enum CustomEnchantment {
 	LAST_STAND("Last Stand", 3),
 	DIVINE_INTERVENTION("Divine Intervention", 3),
 	ADRENALINE("Adrenaline", 3),
-    SURVIVALIST("Survivalist", 3),
+    SURVIVALIST("Survivalist", 3), //TODO unimplemented
+    ICE_AEGIS("Ice Aegis", 3), //TODO unimplemented
+    PROTECTOR_OF_THE_SANDS("Protector of the Sands", 3), //TODO unimplemented
 	ENDURANCE("Endurance", 3); //TODO unimplemented
 	
 	
