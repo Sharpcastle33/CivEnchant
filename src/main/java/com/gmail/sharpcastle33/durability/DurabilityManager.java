@@ -16,12 +16,32 @@ public class DurabilityManager {
 	//CONSTANTS
 	//constants for Lore
 	int LORE_DURABILITY = 1;
-    String STR_DURABILITY = "Durability: ";
+    static String STR_DURABILITY = "Durability: ";
 	String STR_DELIMITER = "/";
 	//constants for integer placement here: durability: cur / max
     int CURRENT_DURABILITY = 0;
     int MAX_DURABILITY = 1;
 	
+    public static boolean hasCustomDurability(ItemStack stack){
+      if(getDurabilityLore(stack) != null){
+        return true;
+      }else return false;
+    }
+    
+    public static void addDurability(ItemStack stack, int value){
+      if(hasCustomDurability(stack)){
+        
+        String lore = getDurabilityLore(stack);
+        List<Integer> dur = getDurability(lore);
+        
+        int cur = dur.get(0);
+        int max = dur.get(1);
+        setNewDurability(stack, cur+value, max);
+        
+      }else{
+        stack.setDurability((short) (stack.getDurability() + value));
+      }
+    }
     
 	/**
 	 * String getCustomDurability(ItemStack item)
@@ -102,7 +122,7 @@ public class DurabilityManager {
 	 * item cannot be broken with this method
 	 * updates the vanilla durability bar
 	 */
-	public void setNewDurability(ItemStack item, int cur, int max) {
+	public static void setNewDurability(ItemStack item, int cur, int max) {
 
 		//create String with new values for durability
 		String newdur = ChatColor.GRAY + STR_DURABILITY + Integer.toString(cur) + STR_DELIMITER + Integer.toString(max);	

@@ -19,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
+import com.gmail.sharpcastle33.durability.DurabilityManager;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
 import com.gmail.sharpcastle33.util.Util;
@@ -221,6 +221,14 @@ public class BlockListener implements Listener {
 						}
 					}
 				}
+				// CRYSTAL RESTORATION
+				if (enchants.containsKey(CustomEnchantment.CRYSTAL_RESTORATION)){
+                  for (Material m : crystals) {
+                    if (block.getType() == m) {
+                     DurabilityManager.addDurability(mainHand, 10*enchants.get(CustomEnchantment.CRYSTAL_RESTORATION));
+                    }
+                  }
+				}
 				// EMERALD RESONANCE
 				// is silk touch a problem? Don't think so.
 				if (enchants.containsKey(CustomEnchantment.EMERALD_RESONANCE)) {
@@ -281,6 +289,29 @@ public class BlockListener implements Listener {
 						}
 					}
 				}
+				// PROSPERITY
+                if (enchants.containsKey(CustomEnchantment.PROSPERITY)) {
+                  int lvl = enchants.get(CustomEnchantment.PROSPERITY); 
+                 
+                  if(!enchants.containsKey(CustomEnchantment.SILK_TOUCH)){
+                    if(block.getType() == Material.GOLD_ORE){
+                      if (Util.chance(10 + 15*lvl, 100)){
+                        ItemStack drop = new ItemStack(Material.GOLD_NUGGET, 3);
+                        block.getWorld().dropItemNaturally(block.getLocation(), drop);
+                      }
+                    }
+                    
+                    if(block.getType() == Material.DIAMOND_ORE){
+                      if (Util.chance(15 + 5*lvl, 100)){
+                        ItemStack drop = new ItemStack(Material.DIAMOND, 1);
+                        block.getWorld().dropItemNaturally(block.getLocation(), drop);
+             
+                      }
+                    }
+                  }
+                 
+                  
+                }
 				// STONEMASON
 				if (enchants.containsKey(CustomEnchantment.STONEMASON)) {
 					if (!(demolished)) {
@@ -417,6 +448,30 @@ public class BlockListener implements Listener {
 			}
 
 			if (Util.isShovel(mainHand)) {
+			  
+              if (enchants.containsKey(CustomEnchantment.SHIFTING_SANDS)) {
+                if(block.getType() == Material.SAND){
+                  if(Util.chance(50, 100)){
+                    ItemStack drop = new ItemStack(Material.SAND, 1, (short) 1);
+                    block.getWorld().dropItemNaturally(block.getLocation(), drop);
+                  }
+                }
+                
+                if(block.getType() == Material.SANDSTONE){
+                  if(Util.chance(50, 100)){
+                    ItemStack drop = new ItemStack(Material.RED_SANDSTONE, 1);
+                    block.getWorld().dropItemNaturally(block.getLocation(), drop);
+                  }
+                }
+                
+                if(block.getType() == Material.RED_SANDSTONE){
+                  if(Util.chance(50, 100)){
+                    ItemStack drop = new ItemStack(Material.SANDSTONE, 1);
+                    block.getWorld().dropItemNaturally(block.getLocation(), drop);
+                  }
+                }
+              }
+
 
 			}
 

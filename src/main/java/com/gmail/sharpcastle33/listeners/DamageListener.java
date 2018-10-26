@@ -6,6 +6,7 @@ import java.util.Random;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -32,6 +33,8 @@ public class DamageListener implements Listener {
 
 	private CivEnchant plugin = CivEnchant.plugin;
 	private Random rand = new Random();
+	
+	ArrayList<Biome> survivalistBiomes;
 
 	@EventHandler
 	public void calculateDamage(EntityDamageByEntityEvent event) {
@@ -133,6 +136,13 @@ public class DamageListener implements Listener {
 						dmgFlat -= (enchants.get(CustomEnchantment.ENDURANCE) * 0.15);
 
 					}
+					
+	                if (enchants.containsKey(CustomEnchantment.SURVIVALIST)) {
+	                  Biome b = defender.getLocation().getWorld().getBiome(defender.getLocation().getBlockX(), defender.getLocation().getBlockZ());
+	                  if(survivalistBiomes.contains(b))
+	                    dmgFlat -= (enchants.get(CustomEnchantment.SURVIVALIST) * 0.33);
+
+	                }
 
 					// Vigor Moved to ArmorEquipListener (Still needs to be done as of 1/30)
 

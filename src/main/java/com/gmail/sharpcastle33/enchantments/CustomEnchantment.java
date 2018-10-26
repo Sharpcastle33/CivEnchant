@@ -49,6 +49,7 @@ public enum CustomEnchantment {
 	
 	//Shovel Enchants
 	SIFTING("Sifting", 5),
+	SHIFTING_SANDS("Shifting Sands", 1),
 	BRICKLAYER("Bricklayer", 5),
 	
 	//Pickaxe Enchants
@@ -57,8 +58,10 @@ public enum CustomEnchantment {
 	AUTO_SMELT("Auto Smelt", 3),
 	DEMOLISHING("Demolishing", 4),
 	CRYSTAL_ATTUNEMENT("Crystal Attunement", 3),
+	CRYSTAL_RESTORATION("Crystal Restoration", 3),
 	EMERALD_RESONANCE("Emerald Resonance", 3),
 	PROFICIENT("Proficient", 3),
+	PROSPERITY("Prosperity", 2),
 	STONEMASON("Stonemason", 5),
 	UMBRAL("Umbral", 3),
 	
@@ -78,6 +81,7 @@ public enum CustomEnchantment {
 	TRUE_SHOT("True Shot", 3), //TODO unimplemented
 	HUNTERS_BLESSING("Hunter's Blessing", 3), //TODO unimplemented
 	HUNTERS_MARK("Hunter's Mark", 3),
+	CRIPPLING("Crippling", 3), //TODO unimplemented
 	
 	//Shield Enchants
 	VANGUARD("Vanguard", 5), // DISABLED
@@ -90,6 +94,7 @@ public enum CustomEnchantment {
 	LAST_STAND("Last Stand", 3),
 	DIVINE_INTERVENTION("Divine Intervention", 3),
 	ADRENALINE("Adrenaline", 3),
+    SURVIVALIST("Survivalist", 3),
 	ENDURANCE("Endurance", 3); //TODO unimplemented
 	
 	
