@@ -17,7 +17,7 @@ public class DurabilityManager {
 	//constants for Lore
 	int LORE_DURABILITY = 1;
     static String STR_DURABILITY = "Durability: ";
-	String STR_DELIMITER = "/";
+	static String STR_DELIMITER = "/";
 	//constants for integer placement here: durability: cur / max
     int CURRENT_DURABILITY = 0;
     int MAX_DURABILITY = 1;

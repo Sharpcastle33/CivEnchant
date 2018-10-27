@@ -3,7 +3,10 @@ package com.gmail.sharpcastle33.listeners;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
+
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Biome;
@@ -23,6 +26,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
 import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
@@ -70,6 +74,29 @@ public class DamageListener implements Listener {
 							target.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,
 									20 * enchants.get(CustomEnchantment.HUNTERS_MARK), // Duration
 									1)); // Amplifier
+							
+						}
+					}
+					
+					if (enchants.containsKey(CustomEnchantment.BERSERKING)) {
+						int lvl = enchants.get(CustomEnchantment.BERSERKING);
+						if(attacker.getHealth() < 6) {
+							if(Util.chance(20, 100)){
+								dmgFlat += 3;
+								
+								Location location = event.getEntity().getLocation();
+								
+				                for (int degree = 0; degree < 360; degree+=10) {
+				                    double radians = Math.toRadians(degree);
+				                    double x = Math.cos(radians);
+				                    double z = Math.sin(radians);
+				                    location.add(x, 0, z);
+				                    location.getWorld().playEffect(location, Effect.FLAME, 1);
+				                    location.subtract(x, 0, z);
+				                }
+				                
+				                
+							}else dmgFlat += 0.5*lvl;
 							
 						}
 					}
