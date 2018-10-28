@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -75,6 +76,28 @@ public class DamageListener implements Listener {
 									20 * enchants.get(CustomEnchantment.HUNTERS_MARK), // Duration
 									1)); // Amplifier
 							
+						}
+					}
+					
+					if (enchants.containsKey(CustomEnchantment.AQUATIC_COMBATANT)) {
+						Block  b = attacker.getLocation().getBlock();
+						if(b.getType() == Material.WATER || b.getType() == Material.STATIONARY_WATER) {
+							dmgFlat += 1;
+							
+							if(Util.chance(20, 100)) {
+								attacker.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 200, 1));
+							
+								Location location = attacker.getLocation();
+								
+				                for (int degree = 0; degree < 360; degree+=10) {
+				                    double radians = Math.toRadians(degree);
+				                    double x = Math.cos(radians);
+				                    double z = Math.sin(radians);
+				                    location.add(x, 0, z);
+				                    location.getWorld().playEffect(location, Effect.WATERDRIP, 1);
+				                    location.subtract(x, 0, z);
+				                }
+							}
 						}
 					}
 					
