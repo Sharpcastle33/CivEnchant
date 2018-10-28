@@ -73,7 +73,7 @@ public enum CustomEnchantment {
 	LIGHTBANE("Lightbane", 3), //TODO unimplemented
 	HELLFIRE("Hellfire", 5), //TODO unimplemented
 	BERSERKING("Berserking", 3),
-	AQUATIC_COMBATANT("Aquatic Combatant", 2), //TODO unimplemented
+	AQUATIC_COMBATANT("Aquatic Combatant", 2), 
 	HEADHUNTER("Headhunter", 3),
 	
 	

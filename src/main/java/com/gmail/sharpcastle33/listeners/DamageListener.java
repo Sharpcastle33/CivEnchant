@@ -103,7 +103,7 @@ public class DamageListener implements Listener {
 					
 					if (enchants.containsKey(CustomEnchantment.BERSERKING)) {
 						int lvl = enchants.get(CustomEnchantment.BERSERKING);
-						if(attacker.getHealth() < 6) {
+						if(attacker.getHealth() <= 6) {
 							if(Util.chance(20, 100)){
 								dmgFlat += 3;
 								
