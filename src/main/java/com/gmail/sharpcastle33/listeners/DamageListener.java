@@ -27,6 +27,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
@@ -414,6 +415,7 @@ public class DamageListener implements Listener {
 
 		if (event.getEntity() instanceof Player) {
 
+			Player p = (Player) event.getEntity();
 			ItemStack bow = event.getBow();
 			Entity arrow = event.getProjectile();
 
@@ -439,6 +441,23 @@ public class DamageListener implements Listener {
 					if (enchants.containsKey(CustomEnchantment.TRUE_SHOT)) {
 
 						arrow.setCustomName(arrow.getName() + "trueshot");
+
+					}
+					
+					if (enchants.containsKey(CustomEnchantment.CRIPPLING)) {
+
+						arrow.setCustomName(arrow.getName() + "crippling");
+
+					}
+					
+					if(enchants.containsKey(CustomEnchantment.MULTISHOT)) {
+						Arrow a1 = p.launchProjectile(Arrow.class);
+						
+						a1.setVelocity(a1.getVelocity().add(new Vector(0,2,0)));
+						
+						Arrow b1 = p.launchProjectile(Arrow.class);
+						
+						b1.setVelocity(a1.getVelocity().add(new Vector(0,-2,0)));
 
 					}
 				}
