@@ -3,9 +3,14 @@ package com.gmail.sharpcastle33.listeners;
 
 import java.util.Map;
 import java.util.Random;
+
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -22,6 +27,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
+
 import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
@@ -34,6 +41,8 @@ public class DamageListener implements Listener {
 
 	private CivEnchant plugin = CivEnchant.plugin;
 	private Random rand = new Random();
+	
+	ArrayList<Biome> survivalistBiomes;
 
 	@EventHandler
 	public void calculateDamage(EntityDamageByEntityEvent event) {
@@ -63,6 +72,66 @@ public class DamageListener implements Listener {
                                                         
 						}
 					}
+<<<<<<< HEAD
+=======
+
+					if (enchants.containsKey(CustomEnchantment.HUNTERS_MARK)) {
+						if (defense instanceof LivingEntity) {
+							LivingEntity target = (LivingEntity) defense;
+
+							target.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,
+									20 * enchants.get(CustomEnchantment.HUNTERS_MARK), // Duration
+									1)); // Amplifier
+							
+						}
+					}
+					
+					if (enchants.containsKey(CustomEnchantment.AQUATIC_COMBATANT)) {
+						Block  b = attacker.getLocation().getBlock();
+						if(b.getType() == Material.WATER || b.getType() == Material.STATIONARY_WATER) {
+							dmgFlat += 1;
+							
+							if(Util.chance(20, 100)) {
+								attacker.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 200, 1));
+							
+								Location location = attacker.getLocation();
+								
+				                for (int degree = 0; degree < 360; degree+=10) {
+				                    double radians = Math.toRadians(degree);
+				                    double x = Math.cos(radians);
+				                    double z = Math.sin(radians);
+				                    location.add(x, 0, z);
+				                    location.getWorld().playEffect(location, Effect.WATERDRIP, 1);
+				                    location.subtract(x, 0, z);
+				                }
+							}
+						}
+					}
+					
+					if (enchants.containsKey(CustomEnchantment.BERSERKING)) {
+						int lvl = enchants.get(CustomEnchantment.BERSERKING);
+						if(attacker.getHealth() <= 6) {
+							if(Util.chance(20, 100)){
+								dmgFlat += 3;
+								
+								Location location = event.getEntity().getLocation();
+								
+				                for (int degree = 0; degree < 360; degree+=10) {
+				                    double radians = Math.toRadians(degree);
+				                    double x = Math.cos(radians);
+				                    double z = Math.sin(radians);
+				                    location.add(x, 0, z);
+				                    location.getWorld().playEffect(location, Effect.FLAME, 1);
+				                    location.subtract(x, 0, z);
+				                }
+				                
+				                
+							}else dmgFlat += 0.5*lvl;
+							
+						}
+					}
+
+>>>>>>> master
 					if (enchants.containsKey(CustomEnchantment.RAGE)) {
 						if (CivEnchant.cdManager.ragePlayers.contains(attacker)) {
                                                     boolean hasLostRage = false;
@@ -155,6 +224,13 @@ public class DamageListener implements Listener {
                                                         dmgFlat = 0; // Avoid attacks healing people
                                                     }
 					}
+					
+	                if (enchants.containsKey(CustomEnchantment.SURVIVALIST)) {
+	                  Biome b = defender.getLocation().getWorld().getBiome(defender.getLocation().getBlockX(), defender.getLocation().getBlockZ());
+	                  if(survivalistBiomes.contains(b))
+	                    dmgFlat -= (enchants.get(CustomEnchantment.SURVIVALIST) * 0.33);
+
+	                }
 
 					if (enchants.containsKey(CustomEnchantment.SECOND_WIND)) {
                                                 
@@ -395,6 +471,7 @@ public class DamageListener implements Listener {
 	public void onArrowShoot(EntityShootBowEvent event) {
 		if (event.getEntity() instanceof Player) {
 
+			Player p = (Player) event.getEntity();
 			ItemStack bow = event.getBow();
 			Entity arrow = event.getProjectile();
                         event.getEntity().sendMessage("Arrow Shot, Force: " + event.getForce());
@@ -422,10 +499,28 @@ public class DamageListener implements Listener {
 						arrow.setCustomName(arrow.getName() + "trueshot");
 
 					}
+<<<<<<< HEAD
                                         
                                         if (enchants.containsKey(CustomEnchantment.HUNTERS_MARK)) {
 						// Might want to try doing this with metadata instead for future compatibility.
 						arrow.setCustomName(arrow.getName() + "huntersmark" + enchants.get(CustomEnchantment.HUNTERS_MARK));
+=======
+					
+					if (enchants.containsKey(CustomEnchantment.CRIPPLING)) {
+
+						arrow.setCustomName(arrow.getName() + "crippling");
+
+					}
+					
+					if(enchants.containsKey(CustomEnchantment.MULTISHOT)) {
+						Arrow a1 = p.launchProjectile(Arrow.class);
+						
+						a1.setVelocity(a1.getVelocity().add(new Vector(0,2,0)));
+						
+						Arrow b1 = p.launchProjectile(Arrow.class);
+						
+						b1.setVelocity(a1.getVelocity().add(new Vector(0,-2,0)));
+>>>>>>> master
 
 					}
 				}
