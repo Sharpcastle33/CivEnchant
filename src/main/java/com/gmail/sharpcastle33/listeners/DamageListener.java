@@ -1,6 +1,6 @@
 package com.gmail.sharpcastle33.listeners;
 
-import java.util.ArrayList;
+
 import java.util.Map;
 import java.util.Random;
 import org.bukkit.ChatColor;
@@ -25,8 +25,10 @@ import org.bukkit.potion.PotionEffectType;
 import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
+import com.gmail.sharpcastle33.util.CONSTANTS;
 import com.gmail.sharpcastle33.util.RageEffect;
 import com.gmail.sharpcastle33.util.Util;
+import org.bukkit.Bukkit;
 
 public class DamageListener implements Listener {
 
@@ -37,7 +39,6 @@ public class DamageListener implements Listener {
 	public void calculateDamage(EntityDamageByEntityEvent event) {
 		Entity offense = event.getDamager();
 		Entity defense = event.getEntity();
-
 		double dmgFlat = 0;
 		double dmgMod = 0;
 		double dmgMulti = 0;
@@ -54,50 +55,67 @@ public class DamageListener implements Listener {
 					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
 
 					if (enchants.containsKey(CustomEnchantment.LIFESTEAL)) {
-						if (Util.chance(enchants.get(CustomEnchantment.LIFESTEAL), 33)) {
+                                                attacker.sendMessage("Lifesteal chance");
+						if (Util.chance(enchants.get(CustomEnchantment.LIFESTEAL), CONSTANTS.I_LIFESTEAL_CHANCE_BOUND)) {
+                                                    
+                                                    attacker.sendMessage("Lifesteal hit!");
 							attacker.setHealth(Math.min(attacker.getHealth() + 1, attacker.getMaxHealth()));
-							// Bukkit.getLogger().info("healed " + attacker.getName());
+                                                        
 						}
 					}
-
-					if (enchants.containsKey(CustomEnchantment.HUNTERS_MARK)) {
-						if (defense instanceof LivingEntity) {
-							LivingEntity target = (LivingEntity) defense;
-
-							target.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,
-									20 * enchants.get(CustomEnchantment.HUNTERS_MARK), // Duration
-									1)); // Amplifier
-							
-						}
-					}
-
 					if (enchants.containsKey(CustomEnchantment.RAGE)) {
 						if (CivEnchant.cdManager.ragePlayers.contains(attacker)) {
-							int playerIndex = CivEnchant.cdManager.ragePlayers.indexOf(attacker);
+                                                    boolean hasLostRage = false;
+                                                    int playerIndex = CivEnchant.cdManager.ragePlayers.indexOf(attacker);
+                                                        
+                                                    //Chain must be on same target...
+                                                    if(!CivEnchant.cdManager.rageEffects.get(playerIndex).isTarget(defense)){
+                                                        
+                                                        CivEnchant.cdManager.ragePlayers.remove(playerIndex);
+                                                        CivEnchant.cdManager.rageEffects.get(playerIndex).cancel();
+                                                        CivEnchant.cdManager.rageEffects.remove(playerIndex);
+                                                        
+                                                        attacker.sendMessage("Chain broken..");
+                                                        
+                                                        CivEnchant.cdManager.rageEffects.add(new RageEffect(attacker, defense)); // new effect
+							CivEnchant.cdManager.ragePlayers.add(attacker);
+                                                        
+                                                    } else 
+                                                    if (CivEnchant.cdManager.rageEffects.get(playerIndex).getLevel() < CONSTANTS.I_RAGE_CHAIN_MAX_COUNTER) {
+                                                        
+							CivEnchant.cdManager.rageEffects.get(playerIndex).incrementLevel();
+                                                        attacker.sendMessage("Rage Level: " + CivEnchant.cdManager.rageEffects.get(playerIndex).getLevel());
+                                                        
+                                                    } else {
+                                                        
+                                                        attacker.sendMessage("Rage!!");
+							dmgFlat += enchants.get(CustomEnchantment.RAGE);
 
-							if (CivEnchant.cdManager.rageEffects.get(playerIndex).getLevel() < 5) {
-
-								CivEnchant.cdManager.rageEffects.get(playerIndex).incrementLevel();
-
-							} else {
-
-								dmgFlat += enchants.get(CustomEnchantment.RAGE);
-
-								// PLAY NEATO PARTICLE EFFECT
-								attacker.spawnParticle(Particle.FIREWORKS_SPARK, attacker.getLocation().getX(),
+							// PLAY NEATO PARTICLE EFFECT
+							attacker.spawnParticle(Particle.FIREWORKS_SPARK, attacker.getLocation().getX(),
 										attacker.getLocation().getY(), attacker.getLocation().getZ(), 5);
-
-							}
+                                                        CivEnchant.cdManager.ragePlayers.remove(playerIndex);
+                                                        CivEnchant.cdManager.rageEffects.get(playerIndex).cancel();
+                                                        CivEnchant.cdManager.rageEffects.remove(playerIndex);
+                                                    }
 						} else { // if first hit
 
-							CivEnchant.cdManager.rageEffects.add(new RageEffect(attacker)); // new effect
+							CivEnchant.cdManager.rageEffects.add(new RageEffect(attacker, defense)); // new effect
 							CivEnchant.cdManager.ragePlayers.add(attacker);
+                                                        
 
 						}
 					}
 
 				}
 			}
+                        
+                        //Added damage against glowing enemies HUNTER's MARK
+                        if(((LivingEntity)defense).hasPotionEffect(PotionEffectType.GLOWING)){
+                            
+                             dmgMod += CONSTANTS.D_HUNTERS_MARK_DAMAGE;
+                             
+                        }
 
 		}
 
@@ -107,13 +125,15 @@ public class DamageListener implements Listener {
 			ItemStack[] armor = defender.getInventory().getArmorContents();
 			
 
-
+                        // Break rage combo chain
 			if (CivEnchant.cdManager.ragePlayers.contains(defender)) {
 				int playerIndex = CivEnchant.cdManager.ragePlayers.indexOf(defender);
 
 				CivEnchant.cdManager.ragePlayers.remove(playerIndex);
 				CivEnchant.cdManager.rageEffects.remove(playerIndex);
 			}
+                        
+                        
 
 			for (ItemStack stack : armor) {
 				if (stack != null && stack.hasItemMeta()) {
@@ -129,22 +149,23 @@ public class DamageListener implements Listener {
 					}
 
 					if (enchants.containsKey(CustomEnchantment.ENDURANCE)) {
-
-						dmgFlat -= (enchants.get(CustomEnchantment.ENDURANCE) * 0.15);
-
+                                                
+                                                    dmgFlat -= (enchants.get(CustomEnchantment.ENDURANCE) * CONSTANTS.D_ENDURANCE_DAMAGE_REDUCTION);
+                                                    if(dmgFlat < 0){
+                                                        dmgFlat = 0; // Avoid attacks healing people
+                                                    }
 					}
 
-					// Vigor Moved to ArmorEquipListener (Still needs to be done as of 1/30)
-
 					if (enchants.containsKey(CustomEnchantment.SECOND_WIND)) {
-
-						if (defender.getHealth() < 4) { // Does not account for ench dmg change
+                                                
+						if (defender.getHealth()-event.getDamage() < 4 && defender.getHealth() > 4) { // Does not account for ench dmg change
 							if (!CivEnchant.cdManager.secondWind.contains(defender)) { // if SW is off CD
-
-								CivEnchant.cdManager.add(defender, CustomEnchantment.SECOND_WIND, 10);
+                                                                defender.sendMessage("Second Wind");
+								CivEnchant.cdManager.add(defender, CustomEnchantment.SECOND_WIND, CONSTANTS.I_SECOND_WIND_COOLDOWN_DURATION_SECONDS);
 								Util.replacePotionEffect(defender,
-										new PotionEffect(PotionEffectType.REGENERATION, 10, 1));
-								Util.replacePotionEffect(defender, new PotionEffect(PotionEffectType.SPEED, 10, 1));
+										new PotionEffect(PotionEffectType.REGENERATION, 20*CONSTANTS.I_SECOND_WIND_DURATION_SECONDS, 1));
+								Util.replacePotionEffect(defender, 
+                                                                                new PotionEffect(PotionEffectType.SPEED, 20*CONSTANTS.I_SECOND_WIND_DURATION_SECONDS, 1));
 
 							}
 						}
@@ -152,16 +173,19 @@ public class DamageListener implements Listener {
 
 					if (enchants.containsKey(CustomEnchantment.LAST_STAND)) {
 
-						if (defender.getHealth() < 2) { // Does not account for ench dmg change
-
+                                                
+						if (defender.getHealth()-event.getDamage() < 2 && defender.getHealth() > 2) { // Does not account for ench dmg change
+                                                    
 							if (!CivEnchant.cdManager.lastStand.contains(defender)) { // if SW is off CD
-
-								CivEnchant.cdManager.add(defender, CustomEnchantment.LAST_STAND, 10);
+                                                                
+								CivEnchant.cdManager.add(defender, CustomEnchantment.LAST_STAND, CONSTANTS.I_LAST_STAND_COOLDOWN_DURATION_SECONDS);
+                                                                
 								Util.replacePotionEffect(defender,
-										new PotionEffect(PotionEffectType.REGENERATION, 10, 1));
-								Util.replacePotionEffect(defender,
-										new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 10, 1));
-
+										new PotionEffect(PotionEffectType.REGENERATION, 20*CONSTANTS.I_LAST_STAND_DURATION_SECONDS, 1));
+								
+                                                                Util.replacePotionEffect(defender,
+										new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*CONSTANTS.I_LAST_STAND_DURATION_SECONDS, 1));
+                                                                
 							}
 						}
 
@@ -169,12 +193,12 @@ public class DamageListener implements Listener {
 
 					if (enchants.containsKey(CustomEnchantment.ADRENALINE)) {
 
-						if (defender.getHealth() < 4) { // Does not account for ench dmg change
+						if (defender.getHealth()-event.getDamage() < 4 && defender.getHealth() > 4) { // Does not account for ench dmg change
+                                                        
+							if (!CivEnchant.cdManager.adrenaline.contains(defender)) { // if adrenaline is off CD
 
-							if (!CivEnchant.cdManager.adrenaline.contains(defender)) { // if SW is off CD
-
-								CivEnchant.cdManager.add(defender, CustomEnchantment.ADRENALINE, 10);
-								Util.replacePotionEffect(defender, new PotionEffect(PotionEffectType.SPEED, 10, 3));
+								CivEnchant.cdManager.add(defender, CustomEnchantment.ADRENALINE, CONSTANTS.I_ADRENALINE_COOLDOWN_DURATION_SECONDS);
+								Util.replacePotionEffect(defender, new PotionEffect(PotionEffectType.SPEED, 20*CONSTANTS.I_ADRENALINE_DURATION_SECONDS, 3));
 
 							}
 						}
@@ -197,9 +221,7 @@ public class DamageListener implements Listener {
 			Player attacker = (Player) offense;
 			Player defender = (Player) defense;
 			
-	         if(((Player) defense).hasPotionEffect(PotionEffectType.GLOWING)){
-	              dmgMod+=0.25;
-	         }
+                        
 
 			if (attacker.getInventory().getItemInMainHand() != null) {
 				ItemStack weapon = attacker.getInventory().getItemInMainHand();
@@ -246,76 +268,92 @@ public class DamageListener implements Listener {
 
 				Player shooter = (Player) arrow.getShooter();
 
-				double shooterX = shooter.getLocation().getX();
-				double shooterY = shooter.getLocation().getY();
-				double shooterZ = shooter.getLocation().getZ();
-				double defenseX = defense.getLocation().getX();
-				double defenseY = defense.getLocation().getY();
-				double defenseZ = defense.getLocation().getZ();
-
-				// Distance between
-				double xDistance = Math.abs(shooterX - defenseX);
-				double yDistance = Math.abs(shooterY - defenseY);
-				double zDistance = Math.abs(shooterZ - defenseZ);
-				double diagDistance = Math.sqrt((xDistance * xDistance) + (zDistance * zDistance));
-
-				double finalDistance = Math.sqrt((diagDistance * diagDistance) + (yDistance * yDistance));
-
+				double finalDistance = shooter.getLocation().distance(defense.getLocation());
+                                shooter.sendMessage("Distance of Shot: " + finalDistance);
 				if (arrow.getName().contains("trueshot")) {
+                                        shooter.sendMessage("True Shot!");
 					trueShot = 1;
 				}
 
 				if (arrow.getName().contains("farshot1")) {
-
-					if (finalDistance > 90) {
+					if (finalDistance > CONSTANTS.I_FAR_SHOT_MAX_DISTANCE_BLOCKS) {
 						dmgFlat = dmgFlat + 4;
-					} else if (finalDistance > 60 && finalDistance < 90) {
+					} else if (finalDistance > CONSTANTS.I_FAR_SHOT_MED_DISTANCE_BLOCKS && finalDistance < CONSTANTS.I_FAR_SHOT_MAX_DISTANCE_BLOCKS) {
 						dmgFlat = dmgFlat + 3;
 					}
 
-					else if (finalDistance > 50 && finalDistance < 60) {
+					else if (finalDistance > CONSTANTS.I_FAR_SHOT_MIN_DISTANCE_BLOCKS && finalDistance < CONSTANTS.I_FAR_SHOT_MED_DISTANCE_BLOCKS) {
 						dmgFlat = dmgFlat + 1.5;
 					}
 				}
 
 				if (arrow.getName().contains("farshot2")) {
-
-					if (finalDistance > 90) {
+					if (finalDistance > CONSTANTS.I_FAR_SHOT_MAX_DISTANCE_BLOCKS) {
 						dmgFlat = dmgFlat + 6;
-					} else if (finalDistance > 60 && finalDistance < 90) {
+					} else if (finalDistance > CONSTANTS.I_FAR_SHOT_MED_DISTANCE_BLOCKS && finalDistance < CONSTANTS.I_FAR_SHOT_MAX_DISTANCE_BLOCKS) {
 						dmgFlat = dmgFlat + 4;
 					}
 
-					else if (finalDistance > 50 && finalDistance < 60) {
+					else if (finalDistance > CONSTANTS.I_FAR_SHOT_MIN_DISTANCE_BLOCKS && finalDistance < CONSTANTS.I_FAR_SHOT_MED_DISTANCE_BLOCKS) {
 						dmgFlat = dmgFlat + 2;
 					}
 				}
 
 				if (arrow.getName().contains("pointblank1")) {
-
-					if (finalDistance > 10) {
-					} else if (finalDistance > 7 && finalDistance < 10) {
+                                    
+					if (finalDistance > CONSTANTS.I_POINT_BLANK_MED_DISTANCE_BLOCKS && finalDistance < CONSTANTS.I_POINT_BLANK_MAX_DISTANCE_BLOCKS) {
+                                            
 						dmgFlat = dmgFlat + 1;
-					}
-
-					else if (finalDistance > 3 && finalDistance < 7) {
+					} else if (finalDistance > CONSTANTS.I_POINT_BLANK_MIN_DISTANCE_BLOCKS && finalDistance < CONSTANTS.I_POINT_BLANK_MED_DISTANCE_BLOCKS) {
+                                            
 						dmgFlat = dmgFlat + 2;
-					} else {
+                                                
+					} else if(finalDistance < CONSTANTS.I_POINT_BLANK_MIN_DISTANCE_BLOCKS)  {
+                                            
 						dmgFlat = dmgFlat + 3;
 					}
 				}
 
 				if (arrow.getName().contains("pointblank2")) {
-
-					if (finalDistance > 15) {
-					} else if (finalDistance > 11 && finalDistance < 15) {
+                                    
+                                        if (finalDistance > CONSTANTS.I_POINT_BLANK_MED_DISTANCE_BLOCKS && finalDistance < CONSTANTS.I_POINT_BLANK_MAX_DISTANCE_BLOCKS) {
+                                            
 						dmgFlat = dmgFlat + 2;
-					}
-
-					else if (finalDistance > 5 && finalDistance < 11) {
+					} else if (finalDistance > CONSTANTS.I_POINT_BLANK_MIN_DISTANCE_BLOCKS && finalDistance < CONSTANTS.I_POINT_BLANK_MED_DISTANCE_BLOCKS) {
+                                            
 						dmgFlat = dmgFlat + 3;
-					} else {
+                                                
+					} else if(finalDistance < CONSTANTS.I_POINT_BLANK_MIN_DISTANCE_BLOCKS)  {
+                                            
 						dmgFlat = dmgFlat + 4;
+					}
+				}
+                                
+                                if (arrow.getName().contains("huntersmark1")) {
+					if (defense instanceof LivingEntity) {
+						LivingEntity target = (LivingEntity) defense;
+
+						target.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,
+								20  + (20 * CONSTANTS.I_BASE_HUNTERS_MARK_SECONDS), // Duration
+								1)); // Amplifier
+					}   
+				}
+                                if (arrow.getName().contains("huntersmark2")) {
+					if (defense instanceof LivingEntity) {
+						LivingEntity target = (LivingEntity) defense;
+
+						target.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,
+								20 * 2 + (20 * CONSTANTS.I_BASE_HUNTERS_MARK_SECONDS), // Duration
+								1)); // Amplifier
+					}
+				}
+                                if (arrow.getName().contains("huntersmark3")) {
+					if (defense instanceof LivingEntity) {
+						LivingEntity target = (LivingEntity) defense;
+
+						target.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,
+								20 * 3 + (20 * CONSTANTS.I_BASE_HUNTERS_MARK_SECONDS), // Duration
+								1)); // Amplifier
 					}
 				}
 			}
@@ -323,7 +361,7 @@ public class DamageListener implements Listener {
 
 		// Calculate chance to evade
 
-		int roll = rand.nextInt(99) + 1; // Roll between 1-100 ## CHANGE THIS TO CHANGE PROBABILITY OF EVADE
+		int roll = rand.nextInt(CONSTANTS.I_EVASION_CHANCE_BOUND) + 1; // Roll between 1-100 ## CHANGE THIS TO CHANGE PROBABILITY OF EVADE
 		int evade = 1; // 1 is no evade, 0 is successful evade (for calculating finalDamage below)
 		int enduredDamage = 0;
 
@@ -337,26 +375,29 @@ public class DamageListener implements Listener {
 				if (trueShot == 0) {
 					defender.sendMessage("You evaded their attack!");
 					defender.spawnParticle(Particle.VILLAGER_HAPPY, defense.getLocation().getX(),
-							defense.getLocation().getY(), defense.getLocation().getZ(), 2);
+							defense.getLocation().getY(), defense.getLocation().getZ(), 4);
 					// spawnParticle​(Particle particle, double x, double y, double z, int count)
 				}
 
 			}
 		}
-
+                                    
 		double finalDamage = ((event.getDamage() + dmgFlat) * (1 + dmgMod) * (1 + dmgMulti) * evade) + trueShot
 				- enduredDamage;
 		event.setDamage(finalDamage);
+                
+                Bukkit.getLogger().info("Damage: " + finalDamage);
+                
+                
 	}
 
 	@EventHandler
 	public void onArrowShoot(EntityShootBowEvent event) {
-
 		if (event.getEntity() instanceof Player) {
 
 			ItemStack bow = event.getBow();
 			Entity arrow = event.getProjectile();
-
+                        event.getEntity().sendMessage("Arrow Shot, Force: " + event.getForce());
 			if (event.getForce() > 0.8) {
 
 				if (bow.hasItemMeta()) {
@@ -379,6 +420,12 @@ public class DamageListener implements Listener {
 					if (enchants.containsKey(CustomEnchantment.TRUE_SHOT)) {
 
 						arrow.setCustomName(arrow.getName() + "trueshot");
+
+					}
+                                        
+                                        if (enchants.containsKey(CustomEnchantment.HUNTERS_MARK)) {
+						// Might want to try doing this with metadata instead for future compatibility.
+						arrow.setCustomName(arrow.getName() + "huntersmark" + enchants.get(CustomEnchantment.HUNTERS_MARK));
 
 					}
 				}
@@ -424,7 +471,6 @@ public class DamageListener implements Listener {
 
 		LivingEntity killed = event.getEntity();
 		Entity entityKiller = event.getEntity().getKiller();
-
 		ItemStack headDrop = null;
 
 		// HUNTERS BLESSING
@@ -439,9 +485,9 @@ public class DamageListener implements Listener {
 					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
 
 					if (enchants.containsKey(CustomEnchantment.HUNTERS_BLESSING)) {
-						int roll = rand.nextInt(60) + 1 / enchants.get(CustomEnchantment.HUNTERS_BLESSING);
+						int roll = rand.nextInt(CONSTANTS.I_HUNTERS_BLESSING_CHANCE_BOUND) + 1 / enchants.get(CustomEnchantment.HUNTERS_BLESSING);
 						if (roll == 10) { // 1/60 chance on lvl 1, 1/30 on lvl 2, 1/15 on lvl 3
-
+                                                        killer.sendMessage("Its Raining food!");
 							for (ItemStack drop : event.getDrops()) {
 
 								switch (drop.getType()) {
@@ -489,7 +535,7 @@ public class DamageListener implements Listener {
 					if (enchants.containsKey(CustomEnchantment.HEADHUNTER)) {
 
 						Random ran = new Random();
-						int roll = ran.nextInt(99) + 1;
+						int roll = ran.nextInt(CONSTANTS.I_HEADHUNTER_CHANCE_BOUND) + 1;
 						int chance = enchants.get(CustomEnchantment.HEADHUNTER) * 3;
 
 						if (roll <= chance) { // each lvl increments chance by 3%, so max lvl has 9% chance of drop
@@ -537,6 +583,22 @@ public class DamageListener implements Listener {
 				}
 			}
 		}
+                
+                // If rage target dies..
+                int i = 0;
+                for(RageEffect entity : CivEnchant.cdManager.rageEffects){
+                    if(entity.getTarget().equals(killed)){
+                        Bukkit.getLogger().info("Target died, removing rage");
+                        CivEnchant.cdManager.ragePlayers.remove(i);
+                        CivEnchant.cdManager.rageEffects.get(i).cancel();;
+                        CivEnchant.cdManager.rageEffects.remove(i);
+                    }
+                 
+                    i++;
+                }
+                
+              
+                
 	}
 
 }

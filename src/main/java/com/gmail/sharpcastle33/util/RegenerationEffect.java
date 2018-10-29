@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.entity.Player;
 import com.gmail.sharpcastle33.CivEnchant;
+import org.bukkit.Bukkit;
 
 
 public class RegenerationEffect extends BukkitRunnable {
@@ -25,7 +26,7 @@ public RegenerationEffect(Player player, double initialRegenLevel, ArrayList<Reg
   this.regenList = regenList; // List of players who are receiving regen (used to take player off if regenLevel = 0);
   this.playerList = playerList;
   this.ticks = 0; // Time passed
-  this.runTask(CivEnchant.plugin);
+  this.runTaskTimer(CivEnchant.plugin,0,0);
   
 
 }
@@ -36,6 +37,7 @@ public RegenerationEffect(Player player, double initialRegenLevel, ArrayList<Reg
     ticks++;
     
     if(regenLevel == 0){
+        Bukkit.getLogger().info("Removing Regen Effect..");
         regenList.remove(this);
         playerList.remove(player);
         this.cancel();
@@ -56,11 +58,12 @@ public RegenerationEffect(Player player, double initialRegenLevel, ArrayList<Reg
     }
     
     
-    if(ticks % 300 == 0){ // procs every 15 seconds
+    if(ticks % (20 * CONSTANTS.I_REGEN_INTERVAL_SECONDS) == 0){ // procs every 15 seconds
     
-        if(player.getMaxHealth() != player.getHealth()){
+        if(player.getHealth() < player.getMaxHealth() && player.getHealth() + regenAmount <= player.getMaxHealth()){
             player.setHealth(player.getHealth() + regenAmount);
         }
+      
         
     }
 
@@ -68,11 +71,21 @@ public RegenerationEffect(Player player, double initialRegenLevel, ArrayList<Reg
   
   
   public void removeLevels(int amount){
+      Bukkit.getLogger().info(regenLevel + ": Removing Levels: " + amount);
       regenLevel -= amount;
   }
   
   public void addLevels(int amount){
+      Bukkit.getLogger().info(regenLevel + ": Adding Levels: " + amount);
       regenLevel += amount;
+  }
+  
+  public void setLevel(double amount){
+      regenLevel = amount;
+  }
+  
+  public double getLevel(){
+      return regenLevel;
   }
   
 

@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
@@ -23,14 +24,14 @@ import org.bukkit.potion.PotionEffectType;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
 import com.gmail.sharpcastle33.util.Util;
+import com.gmail.sharpcastle33.util.CONSTANTS;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.Action;
 
-import net.md_5.bungee.api.ChatColor;
-import vg.civcraft.mc.citadel.Citadel;
-import vg.civcraft.mc.citadel.reinforcement.Reinforcement;
+
 
 public class BlockListener implements Listener {
 
-	final static String TIMBER_REINFORCEMENT = ChatColor.RED + "Timber enchantment is disabled for reinforcements.";
 	final static Material[] crystals = { Material.DIAMOND_ORE, Material.EMERALD_ORE, Material.QUARTZ_ORE };
 	
 	final static Map<Material, Byte> stones = new HashMap<>();
@@ -187,23 +188,24 @@ public class BlockListener implements Listener {
 				//UMBRAL
 				if(enchants.containsKey(CustomEnchantment.UMBRAL)){
 				  if(block.getType() == Material.COAL_ORE){
-				    if(Math.random() > (0.03 + 0.01*enchants.get(CustomEnchantment.UMBRAL))){
-				      ItemStack fuel = new ItemStack(Material.COAL,1);
-				      ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.COAL);
-				      meta.setDisplayName(ChatColor.YELLOW + "Nightmare Fuel");
-				      fuel.setItemMeta(meta);
-	                  block.getWorld().dropItemNaturally(block.getLocation(), fuel);
+				    if(Math.random() > (CONSTANTS.D_UMBRAL_CHANCE * enchants.get(CustomEnchantment.UMBRAL))){
+                                        
+                                        ItemStack fuel = new ItemStack(Material.COAL,1);
+                                        ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.COAL);
+                                        fuel.setItemMeta(meta);
+                                        block.getWorld().dropItemNaturally(block.getLocation(), fuel);
+                          
 				    }
 				    
 				    if(Math.random() > 0.1){
-				      ItemStack coal = new ItemStack(Material.COAL,1);
-				      block.getWorld().dropItemNaturally(block.getLocation(), coal);
+                                        ItemStack coal = new ItemStack(Material.COAL,1);
+                                        block.getWorld().dropItemNaturally(block.getLocation(), coal);
 				    }
 				  }
 				}
 				// DEMOLISHING
 				if (enchants.containsKey(CustomEnchantment.DEMOLISHING)) {
-					demolished = true; // no purpose
+					demolished = true;
 					if (block.getType() == Material.STONE) {
 						event.setDropItems(false);
 						if (Util.chance(25 * enchants.get(CustomEnchantment.DEMOLISHING), 100)) {
@@ -216,7 +218,7 @@ public class BlockListener implements Listener {
 				if (enchants.containsKey(CustomEnchantment.CRYSTAL_ATTUNEMENT)) {
 					for (Material m : crystals) {
 						if (block.getType() == m) {
-							Util.replacePotionEffect(player, new PotionEffect(PotionEffectType.FAST_DIGGING, 0,
+							Util.replacePotionEffect(player, new PotionEffect(PotionEffectType.FAST_DIGGING, 20*CONSTANTS.I_CRYSTAL_ATTUNEMENT_DURATION_SECONDS,
 									2 * enchants.get(CustomEnchantment.CRYSTAL_ATTUNEMENT)));
 						}
 					}
@@ -227,7 +229,7 @@ public class BlockListener implements Listener {
 					if (block.getType() == Material.EMERALD_ORE) {
 						int lvl = enchants.get(CustomEnchantment.EMERALD_RESONANCE);
 						// dissonance
-						if (Util.chance(20 + (10 * lvl), 100)) {
+						if (Util.chance(20 + (10 * lvl), CONSTANTS.I_EMERALD_RESONANCE_BOUND)) {
 							event.setDropItems(false);
 							block.getLocation().getWorld().playSound(block.getLocation(), Sound.BLOCK_GLASS_BREAK, 1f,
 									1f);
@@ -276,8 +278,8 @@ public class BlockListener implements Listener {
 				// PROFICIENT
 				if (enchants.containsKey(CustomEnchantment.PROFICIENT)) {
 					if (block.getType() == Material.STONE) {
-						if (Util.chance(2 + enchants.get(CustomEnchantment.PROFICIENT), 100)) {
-							event.setExpToDrop(1);
+						if (Util.chance(enchants.get(CustomEnchantment.PROFICIENT), CONSTANTS.I_PROFICIENT_CHANCE_BOUND)) {
+							event.setExpToDrop(CONSTANTS.I_PROFICIENT_EXP_AMOUNT);
 						}
 					}
 				}
@@ -288,12 +290,12 @@ public class BlockListener implements Listener {
 							byte data = block.getData();
 
 							if (data == 0) {
-								if (Util.chance(5 * enchants.get(CustomEnchantment.STONEMASON), 100)) {
+								if (Util.chance(5 * enchants.get(CustomEnchantment.STONEMASON), CONSTANTS.I_STONEMASON_CHANCE_BOUND)) {
 									event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
 											new ItemStack(Material.COBBLESTONE));
 								}
 							} else {
-								if (Util.chance(20 * enchants.get(CustomEnchantment.STONEMASON), 100)) {
+								if (Util.chance(20 * enchants.get(CustomEnchantment.STONEMASON), CONSTANTS.I_STONEMASON_CHANCE_BOUND)) {
 									event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
 											new ItemStack(Material.STONE, data));
 								}
@@ -308,7 +310,6 @@ public class BlockListener implements Listener {
 					if (block.getType() == Material.IRON_ORE) {
 					  ItemStack frag = new ItemStack(Material.PAPER, 1);
 					  ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.PAPER);
-					  meta.setDisplayName(ChatColor.YELLOW + "Iron Ore Fragment");
 					  frag.setItemMeta(meta);
 					  
 					  block.setType(Material.AIR);
@@ -319,13 +320,12 @@ public class BlockListener implements Listener {
 				// GOLD AFFINITY
 				if (enchants.containsKey(CustomEnchantment.GOLD_AFFINITY)) {
 					if (block.getType() == Material.GOLD_ORE) {
-                      ItemStack frag = new ItemStack(Material.PAPER, 1);
-                      ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.PAPER);
-                      meta.setDisplayName(ChatColor.YELLOW + "Gold Ore Fragment");
-                      frag.setItemMeta(meta);
-                      
-                      block.setType(Material.AIR);
-                      block.getWorld().dropItemNaturally(block.getLocation(), frag);
+                                            ItemStack frag = new ItemStack(Material.PAPER, 1);
+                                            ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.PAPER);
+                                            frag.setItemMeta(meta);
+
+                                            block.setType(Material.AIR);
+                                            block.getWorld().dropItemNaturally(block.getLocation(), frag);
 					}
 				}
 			}
@@ -346,7 +346,7 @@ public class BlockListener implements Listener {
 					carpentry(event.getBlock(), enchants.get(CustomEnchantment.CARPENTRY));
 
 				}
-				// TIMBER
+				/*/ TIMBER
 				if (enchants.containsKey(CustomEnchantment.TIMBER)) {
 					if (block.getType() == Material.LOG || block.getType() == Material.LOG_2) {
 
@@ -357,7 +357,6 @@ public class BlockListener implements Listener {
 						for (double i = y; i < (y + (enchants.get(CustomEnchantment.TIMBER) * 3)); i++) {
 
 							Location location = new Location(block.getWorld(), x, i, z);
-							Reinforcement reinfrocement = Citadel.getCitadelDatabase().getReinforcement(location);
 
 							if (!(reinfrocement == null)) {
 
@@ -414,87 +413,14 @@ public class BlockListener implements Listener {
 
 					}
 				}
+                                */
 			}
 
 			if (Util.isShovel(mainHand)) {
 
 			}
 
-			if (Util.isHoe(mainHand)) {
-
-				// Green Thumb
-				if (enchants.containsKey(CustomEnchantment.GREEN_THUMB)) {
-					if (block.getType() == Material.DIRT || block.getType() == Material.GRASS) {
-
-						double x = block.getX();
-						double y = block.getY();
-						double z = block.getZ();
-
-						Block eastBlock = new Location(block.getWorld(), x + 1, y, z).getBlock();
-						Block westBlock = new Location(block.getWorld(), x - 1, y, z).getBlock();
-						Block northBlock = new Location(block.getWorld(), x, y, z - 1).getBlock();
-						Block southBlock = new Location(block.getWorld(), x, y, z + 1).getBlock();
-
-						// Because corners are all handled @ lvl 3, I just throw em in a list
-						ArrayList<Block> cornerBlocks = new ArrayList<Block>();
-
-						cornerBlocks.add(new Location(block.getWorld(), x + 1, y, z - 1).getBlock());
-						cornerBlocks.add(new Location(block.getWorld(), x - 1, y, z - 1).getBlock());
-						cornerBlocks.add(new Location(block.getWorld(), x + 1, y, z + 1).getBlock());
-
-						cornerBlocks.add(new Location(block.getWorld(), x - 1, y, z + 1).getBlock());
-
-						int level = enchants.get(CustomEnchantment.GREEN_THUMB);
-
-						if (level >= 1) {
-
-							// Farm blocks to east/west of target block
-							if (eastBlock.getType() == Material.DIRT && new Location(block.getWorld(), x + 1, y + 1, z)
-									.getBlock().getType() == Material.AIR) {
-								// setBlock farmland
-								eastBlock.setType(Material.SOIL);
-							}
-							if (westBlock.getType() == Material.DIRT && new Location(block.getWorld(), x - 1, y + 1, z)
-									.getBlock().getType() == Material.AIR) {
-								westBlock.setType(Material.SOIL);
-							}
-						}
-
-						if (level >= 2) {
-							// Farm blocks to north/south of target block
-							if (northBlock.getType() == Material.DIRT && new Location(block.getWorld(), x, y + 1, z - 1)
-									.getBlock().getType() == Material.AIR) {
-								// setBlock farmland
-								northBlock.setType(Material.SOIL);
-							}
-							if (southBlock.getType() == Material.DIRT && new Location(block.getWorld(), x, y + 1, z + 1)
-									.getBlock().getType() == Material.AIR) {
-								// setBlock farmland
-								northBlock.setType(Material.SOIL);
-							}
-
-						}
-						if (level >= 3) {
-
-							// Farm blocks in corners
-							// Lvl 3 ench will make 3X3 farmland for all elligible blocks (must be dirt &
-							// uncovered)
-							for (Block corner : cornerBlocks) {
-
-								if (corner.getType() == Material.DIRT && new Location(corner.getWorld(), x, y + 1, z)
-										.getBlock().getType() == Material.AIR) {
-
-									corner.setType(Material.SOIL);
-
-								}
-
-							}
-
-						}
-
-					}
-				} // green thumb end
-			} // hoe end
+			
 
 		} // if hasitemMeta end
 
@@ -505,13 +431,13 @@ public class BlockListener implements Listener {
 		// LOGS
 		if (theBlock.getType() == Material.LOG) {
 			// STICK DROP
-			if (Util.chance(5 * level, 100)) {
+			if (Util.chance(5 * level, CONSTANTS.I_CARPENTRY_CHANCE_BOUND)) {
 				Random rand = new Random();
 				int amt = rand.nextInt(level) + 1;
 				theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.STICK, amt));
 			}
 			// FENCE DROP
-			if (Util.chance(2 * level, 100)) {
+			if (Util.chance(2 * level, CONSTANTS.I_CARPENTRY_CHANCE_BOUND)) {
 				Byte data = theBlock.getData();
 				Random rand = new Random();
 				int amt = rand.nextInt(level / 2) + 1;
@@ -521,13 +447,13 @@ public class BlockListener implements Listener {
 			// LOG_2s
 		} else if (theBlock.getType() == Material.LOG_2) {
 			// STICK DROP
-			if (Util.chance(5 * level, 100)) {
+			if (Util.chance(5 * level, CONSTANTS.I_CARPENTRY_CHANCE_BOUND)) {
 				Random rand = new Random();
 				int amt = rand.nextInt(level) + 1;
 				theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.STICK, amt));
 			}
 			// FENCE DROP
-			if (Util.chance(2 * level, 100)) {
+			if (Util.chance(2 * level, CONSTANTS.I_CARPENTRY_CHANCE_BOUND)) {
 				Byte data = theBlock.getData();
 				Random rand = new Random();
 				int amt = rand.nextInt(level / 2) + 1;
@@ -548,7 +474,7 @@ public class BlockListener implements Listener {
 			// Higher the level, higher chance it fires
 			// At max lvl(3) there is 16.6% chance of it firing (5.5% for each lvl)
 			// Honestly might need to be lower chance, people will be swimming in apples
-			int fireChance = rand.nextInt(18) + 1;
+			int fireChance = rand.nextInt(CONSTANTS.I_APPLESEED_CHANCE_BOUND) + 1;
 			int amt = rand.nextInt(level) + 1;
 
 			if (fireChance <= level) {
@@ -569,5 +495,91 @@ public class BlockListener implements Listener {
 		}
 
 	}
+        
+        @EventHandler
+        public void playerInteract(PlayerInteractEvent event){
+            
+            if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if(event.getClickedBlock().getType() == Material.DIRT && Util.isHoe(event.getPlayer().getInventory().getItemInMainHand())){
+
+
+
+                Block block = event.getClickedBlock();
+                ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
+                Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(mainHand);
+
+                if (Util.isHoe(event.getItem())) {
+
+                                    // Green Thumb
+                                    if (enchants.containsKey(CustomEnchantment.GREEN_THUMB)) {
+                                            if (block.getType() == Material.DIRT || block.getType() == Material.GRASS) {
+
+                                                    double x = block.getX();
+                                                    double y = block.getY();
+                                                    double z = block.getZ();
+
+                                                    Block eastBlock = block.getRelative(BlockFace.NORTH);
+                                                    Block westBlock =  block.getRelative(BlockFace.WEST);
+                                                    Block northBlock =  block.getRelative(BlockFace.NORTH);
+                                                    Block southBlock =  block.getRelative(BlockFace.SOUTH);
+
+                                                    // Because corners are all handled @ lvl 3, I just throw em in a list
+                                                    ArrayList<Block> cornerBlocks = new ArrayList<Block>();
+
+                                                    cornerBlocks.add(block.getRelative(BlockFace.NORTH_EAST));
+                                                    cornerBlocks.add(block.getRelative(BlockFace.NORTH_WEST));
+                                                    cornerBlocks.add(block.getRelative(BlockFace.SOUTH_EAST));
+                                                    cornerBlocks.add(block.getRelative(BlockFace.SOUTH_WEST));
+
+                                                    int level = enchants.get(CustomEnchantment.GREEN_THUMB);
+
+                                                    if (level >= 1) {
+
+                                                            // Farm blocks to east/west of target block
+                                                            if (eastBlock.getType() == Material.DIRT && eastBlock.getRelative(BlockFace.UP).getType() == Material.AIR) {
+                                                                    // setBlock farmland
+                                                                    eastBlock.setType(Material.SOIL);
+                                                            }
+                                                            if (westBlock.getType() == Material.DIRT && westBlock.getRelative(BlockFace.UP).getType() == Material.AIR) {
+                                                                    westBlock.setType(Material.SOIL);
+                                                            }
+                                                    }
+
+                                                    if (level >= 2) {
+                                                            // Farm blocks to north/south of target block
+                                                            if (northBlock.getType() == Material.DIRT && northBlock.getRelative(BlockFace.UP).getType() == Material.AIR) {
+                                                                    // setBlock farmland
+                                                                    northBlock.setType(Material.SOIL);
+                                                            }
+                                                            if (southBlock.getType() == Material.DIRT && southBlock.getRelative(BlockFace.UP).getType() == Material.AIR) {
+                                                                    // setBlock farmland
+                                                                    southBlock.setType(Material.SOIL);
+                                                            }
+
+                                                    }
+                                                    if (level >= 3) {
+
+                                                            // Farm blocks in corners
+                                                            // Lvl 3 ench will make 3X3 farmland for all elligible blocks (must be dirt &
+                                                            // uncovered)
+                                                            for (Block corner : cornerBlocks) {
+
+                                                                    if (corner.getType() == Material.DIRT && corner.getRelative(BlockFace.UP).getType() == Material.AIR) {
+
+                                                                            corner.setType(Material.SOIL);
+
+                                                                    }
+
+                                                            }
+
+                                                    }
+
+                                            }
+                                    } // green thumb end
+                            } 
+
+                }
+            }
+        }
 
 }

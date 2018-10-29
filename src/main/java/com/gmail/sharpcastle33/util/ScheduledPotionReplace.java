@@ -1,6 +1,7 @@
 package com.gmail.sharpcastle33.util;
 
 
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -17,7 +18,7 @@ public class ScheduledPotionReplace extends BukkitRunnable {
   
       this.player = player;
       this.effect = effect;
-      this.duration = duration * 20;  // MC runs 20 ticks / sec, so duration = seconds * 20
+      this.duration = duration;  
 
   } 
 
@@ -26,10 +27,11 @@ public class ScheduledPotionReplace extends BukkitRunnable {
 
         if(duration > 0){
         
+          Bukkit.getLogger().info("Potion Replace in...: " + effect.getType());
           duration--;
           
         } else {
-        
+          Bukkit.getLogger().info("Putting old potion effect in: " + effect.getType());
           player.addPotionEffect(effect);
           this.cancel();
         }
