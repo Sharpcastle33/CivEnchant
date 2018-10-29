@@ -4,19 +4,21 @@ import com.gmail.sharpcastle33.CivEnchant;
 import java.util.ArrayList;
 import org.bukkit.entity.Player;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
+import java.util.logging.Level;
+import org.bukkit.Bukkit;
 
 public class CooldownManager {
 
-	public ArrayList<Player> secondWind;
-	public ArrayList<Player> lastStand;
-	public ArrayList<Player> adrenaline;
+	static public ArrayList<Player> secondWind;
+	static public ArrayList<Player> lastStand;
+	static public ArrayList<Player> adrenaline;
 
-	public ArrayList<Player> vitalityPlayers;
-	public ArrayList<RegenerationEffect> vitalityEffects;
-	public ArrayList<RageEffect> rageEffects;
-	public ArrayList<Player> ragePlayers;
+	static public ArrayList<Player> vitalityPlayers;
+	static public ArrayList<RegenerationEffect> vitalityEffects;
+	static public ArrayList<RageEffect> rageEffects;
+	static public ArrayList<Player> ragePlayers;
 
-	CivEnchant plugin;
+	
 
 	public CooldownManager() {
 
@@ -30,10 +32,11 @@ public class CooldownManager {
 		rageEffects = new ArrayList<RageEffect>();
 		ragePlayers = new ArrayList<Player>();
 
-		plugin = CivEnchant.plugin;
+		
 
 	}
 
+        //Currently only used for vitality...
 	public void addRegen(Player player, int regenAmount) {
 
 		vitalityPlayers.add(player);
@@ -53,18 +56,24 @@ public class CooldownManager {
 			secondWind.add(player);
 
 			cd = new EnchantmentCooldown(player, duration, secondWind);
-			cd.runTask(plugin);
+			cd.runTaskTimer(CivEnchant.plugin,0,0);
 
 			break;
 
 		case LAST_STAND:
 
-			cd.setList(lastStand);
 			lastStand.add(player);
-
+                        
+                        Bukkit.getLogger().info("Step 1");
+			cd.setList(lastStand);
+                        
+                        Bukkit.getLogger().info("Step 2");
 			cd = new EnchantmentCooldown(player, duration, lastStand);
-			cd.runTask(plugin);
-
+                        
+                        Bukkit.getLogger().info("Step 3");
+			cd.runTaskTimer(CivEnchant.plugin,0,0);
+                        
+                        Bukkit.getLogger().info("Step 4");
 			break;
 
 		case ADRENALINE:
@@ -73,7 +82,7 @@ public class CooldownManager {
 			adrenaline.add(player);
 
 			cd = new EnchantmentCooldown(player, duration, adrenaline);
-			cd.runTask(plugin);
+			cd.runTaskTimer(CivEnchant.plugin,0,0);
 
 			break;
 		default:
@@ -81,7 +90,6 @@ public class CooldownManager {
 
 		}
 
-		cd.runTask(plugin);
 
 	}
 

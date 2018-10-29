@@ -15,7 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 public class Util {
 	
@@ -71,34 +71,32 @@ public class Util {
 	
 	
 	public static boolean replacePotionEffect(Player p, PotionEffect effect) {
-		
-		if(p.getActivePotionEffects().contains(effect)) {
-			
-
-			PotionEffect previousEffect = effect;
-
-			
-			for(PotionEffect playersEffect : p.getActivePotionEffects()){ // Look at player's effects
-				if(playersEffect.getType() == effect.getType()){	// If what we want to give exists for them
-				
+		Bukkit.getLogger().info("ReplacePotionEffect 1");
+                boolean hasPotionEffect = false;
+                PotionEffect playersEffect = null;
+                
+                for(PotionEffect peffect : p.getActivePotionEffects()){
+                    if(peffect.getType().getName().equals(effect.getType().getName())){
+                        hasPotionEffect = true;
+                        playersEffect = peffect;
+                    }
+                    
+                }
+               
+		if(hasPotionEffect) {
+                  
+                                    Bukkit.getLogger().info("ReplacePotionEffect 3");
 					if(playersEffect.getAmplifier() < effect.getAmplifier()){ // Is the one we want to give more powerful?
+                                            
+                                                Bukkit.getLogger().info("ReplacePotionEffect 4");
 						p.removePotionEffect(playersEffect.getType()); // If so, remove & replace
 						p.addPotionEffect(effect);
 						ScheduledPotionReplace replace = new ScheduledPotionReplace(p, playersEffect, effect.getDuration());
-						replace.runTask(CivEnchant.plugin);
+						replace.runTaskTimer(CivEnchant.plugin,0,0);
 					}
 					
-					
-				}
-				
-				
-			}
-			
-			
-			
-			
 			return true;
-		}else {
+		} else {
 			p.addPotionEffect(effect);
 			return false;
 		}

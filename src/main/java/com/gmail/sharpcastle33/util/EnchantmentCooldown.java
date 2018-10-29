@@ -1,6 +1,7 @@
 package com.gmail.sharpcastle33.util;
 
 import java.util.ArrayList;
+import org.bukkit.Bukkit;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -14,29 +15,28 @@ public class EnchantmentCooldown extends BukkitRunnable {
   public EnchantmentCooldown(Player player, int duration, ArrayList<Player> listOfPlayers){
       
     this.player = player;
-    this.duration = (duration * 20) * 3; //(Duration of potion) * 3 = Cooldown
+    this.duration = (duration * 20);
     this.listOfPlayers = listOfPlayers;
     
-
   } 
 
   @Override
   public void run(){
   
-    
+    Bukkit.getLogger().info("Duration: " + duration);
     duration--;
     
     if(duration <= 0){
-      
+      Bukkit.getLogger().info("EXPIRING");
       listOfPlayers.remove(player);
-      this.cancel();
+      cancel();
     }
   
   
   }
   
   public void setList(ArrayList<Player> list){
-	  listOfPlayers = list;
+	  this.listOfPlayers = list;
   }
   
   public void setPlayer(Player p){

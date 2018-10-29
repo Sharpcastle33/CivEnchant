@@ -16,7 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.gmail.sharpcastle33.util.Util;
 
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 public class EnhancementListener implements Listener{
   
