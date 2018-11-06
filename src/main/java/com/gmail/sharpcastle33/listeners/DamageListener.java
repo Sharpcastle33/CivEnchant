@@ -296,6 +296,26 @@ public class DamageListener implements Listener {
 						}
 
 					}
+					
+	                   if (enchants.containsKey(CustomEnchantment.DIVINE_INTERVENTION)) {
+
+                         
+	                        if (defender.getHealth()-event.getDamage() < 2 && defender.getHealth() > 2) { // Does not account for ench dmg change
+	                                                    
+	                            if (!CivEnchant.cdManager.divineIntervention.contains(defender)) { // if SW is off CD
+	                               int lvl = enchants.get(CustomEnchantment.DIVINE_INTERVENTION);                                
+	                                CivEnchant.cdManager.add(defender, CustomEnchantment.DIVINE_INTERVENTION, CONSTANTS.I_DIVINE_INTERVENTION_COOLDOWN_DURATION_SECONDS);
+	                                                                
+	                                Util.replacePotionEffect(defender,
+	                                        new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20*(2 + lvl), 4));
+	                                
+	                                                                Util.replacePotionEffect(defender,
+	                                        new PotionEffect(PotionEffectType.REGENERATION, 20*5 + (20*2*lvl), 3));
+	                                                                
+	                            }
+	                        }
+
+	                    }
 
 					if (enchants.containsKey(CustomEnchantment.ADRENALINE)) {
 

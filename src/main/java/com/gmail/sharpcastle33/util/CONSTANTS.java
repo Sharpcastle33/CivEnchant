@@ -48,6 +48,8 @@ public class CONSTANTS {
     // Duration of Last Stand cooldown in seconds
     public static final int I_LAST_STAND_COOLDOWN_DURATION_SECONDS = 300;
     
+    public static final int I_DIVINE_INTERVENTION_COOLDOWN_DURATION_SECONDS = 1200;
+
     // Duration of Adrenaline cooldown in seconds
     public static final int I_ADRENALINE_COOLDOWN_DURATION_SECONDS = 300;
     
