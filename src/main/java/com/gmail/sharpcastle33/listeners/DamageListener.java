@@ -1,6 +1,7 @@
 package com.gmail.sharpcastle33.listeners;
 
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
@@ -72,8 +73,37 @@ public class DamageListener implements Listener {
                                                         
 						}
 					}
-<<<<<<< HEAD
-=======
+					
+					if(enchants.containsKey(CustomEnchantment.CORROSIVE)){
+					  if(defense instanceof LivingEntity){
+                        LivingEntity target = (LivingEntity) defense;
+                        if(defense.getCustomName() != null){
+                          String name = defense.getCustomName();
+                          if(name.startsWith(ChatColor.YELLOW + "Clockwork") ||
+                              name.startsWith(ChatColor.YELLOW + "Steamwork") ||
+                              name.startsWith(ChatColor.YELLOW + "Unhinged")){
+                            int lvl = enchants.get(CustomEnchantment.CORROSIVE);
+                            dmgFlat += 0.5*lvl;
+                            
+                          }
+                        }
+					  }
+					}
+					
+                    if(enchants.containsKey(CustomEnchantment.PLAGUEBANE)){
+                      if(defense instanceof LivingEntity){
+                        LivingEntity target = (LivingEntity) defense;
+                        if(defense.getCustomName() != null){
+                          String name = defense.getCustomName();
+                          if(name.startsWith(ChatColor.YELLOW + "Plague") ||
+                              name.startsWith(ChatColor.YELLOW + "Plagued")){
+                            int lvl = enchants.get(CustomEnchantment.PLAGUEBANE);
+                            dmgFlat += 0.5*lvl;
+                            
+                          }
+                        }
+                      }
+                    }
 
 					if (enchants.containsKey(CustomEnchantment.HUNTERS_MARK)) {
 						if (defense instanceof LivingEntity) {
@@ -89,7 +119,8 @@ public class DamageListener implements Listener {
 					if (enchants.containsKey(CustomEnchantment.AQUATIC_COMBATANT)) {
 						Block  b = attacker.getLocation().getBlock();
 						if(b.getType() == Material.WATER || b.getType() == Material.STATIONARY_WATER) {
-							dmgFlat += 1;
+		                     int lvl = enchants.get(CustomEnchantment.AQUATIC_COMBATANT);
+						  dmgFlat += 0.5*lvl;
 							
 							if(Util.chance(20, 100)) {
 								attacker.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 200, 1));
@@ -131,7 +162,6 @@ public class DamageListener implements Listener {
 						}
 					}
 
->>>>>>> master
 					if (enchants.containsKey(CustomEnchantment.RAGE)) {
 						if (CivEnchant.cdManager.ragePlayers.contains(attacker)) {
                                                     boolean hasLostRage = false;
@@ -322,9 +352,9 @@ public class DamageListener implements Listener {
 									//defender.sendMessage(
 											//attacker.getName() + "'s weapon has corroded your armor! WIP NO EFFECT");
 
-									defender.spawnParticle(Particle.VILLAGER_ANGRY, defense.getLocation().getX(),
+									/*defender.spawnParticle(Particle.VILLAGER_ANGRY, defense.getLocation().getX(),
 											defense.getLocation().getY(), defense.getLocation().getZ(), 2);
-
+									*/
 								}
 							}
 						}
@@ -345,9 +375,9 @@ public class DamageListener implements Listener {
 				Player shooter = (Player) arrow.getShooter();
 
 				double finalDistance = shooter.getLocation().distance(defense.getLocation());
-                                shooter.sendMessage("Distance of Shot: " + finalDistance);
+                                //shooter.sendMessage("Distance of Shot: " + finalDistance);
 				if (arrow.getName().contains("trueshot")) {
-                                        shooter.sendMessage("True Shot!");
+                                        //shooter.sendMessage("True Shot!");
 					trueShot = 1;
 				}
 
@@ -474,7 +504,7 @@ public class DamageListener implements Listener {
 			Player p = (Player) event.getEntity();
 			ItemStack bow = event.getBow();
 			Entity arrow = event.getProjectile();
-                        event.getEntity().sendMessage("Arrow Shot, Force: " + event.getForce());
+                       // event.getEntity().sendMessage("Arrow Shot, Force: " + event.getForce());
 			if (event.getForce() > 0.8) {
 
 				if (bow.hasItemMeta()) {
@@ -499,13 +529,12 @@ public class DamageListener implements Listener {
 						arrow.setCustomName(arrow.getName() + "trueshot");
 
 					}
-<<<<<<< HEAD
+
                                         
-                                        if (enchants.containsKey(CustomEnchantment.HUNTERS_MARK)) {
+                    if (enchants.containsKey(CustomEnchantment.HUNTERS_MARK)) {
 						// Might want to try doing this with metadata instead for future compatibility.
 						arrow.setCustomName(arrow.getName() + "huntersmark" + enchants.get(CustomEnchantment.HUNTERS_MARK));
-=======
-					
+		
 					if (enchants.containsKey(CustomEnchantment.CRIPPLING)) {
 
 						arrow.setCustomName(arrow.getName() + "crippling");
@@ -520,7 +549,7 @@ public class DamageListener implements Listener {
 						Arrow b1 = p.launchProjectile(Arrow.class);
 						
 						b1.setVelocity(a1.getVelocity().add(new Vector(0,-2,0)));
->>>>>>> master
+
 
 					}
 				}
@@ -528,6 +557,7 @@ public class DamageListener implements Listener {
 		}
 
 	}
+   }
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {

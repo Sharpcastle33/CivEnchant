@@ -73,6 +73,7 @@ public enum CustomEnchantment {
 	LIGHTBANE("Lightbane", 3), //TODO unimplemented
 	HELLFIRE("Hellfire", 5), //TODO unimplemented
 	BERSERKING("Berserking", 3),
+	PLAGUEBANE("Plaguebane", 4),
 	AQUATIC_COMBATANT("Aquatic Combatant", 2), 
 	HEADHUNTER("Headhunter", 3),
 	
@@ -94,7 +95,7 @@ public enum CustomEnchantment {
 	//Armor Enchants
 	EVASIVE("Evasive", 3), //TODO unimplemented
 	VITALITY("Vitality", 3), //TODO unimplemented
-	VIGOR("Vigor", 5), //TODO unimplemented
+	VIGOR("Vigor", 4), //TODO unimplemented
 	SECOND_WIND("Second Wind", 3), //TODO unimplemented
 	LAST_STAND("Last Stand", 3),
 	DIVINE_INTERVENTION("Divine Intervention", 3),
