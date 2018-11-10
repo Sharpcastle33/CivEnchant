@@ -36,7 +36,7 @@ public RageEffect(Player player, Entity target){
     Bukkit.getLogger().info("Rage Players Size: " + CivEnchant.cdManager.ragePlayers.size());
     Bukkit.getLogger().info("Rage Effect Size: " + CivEnchant.cdManager.rageEffects.size());
     Bukkit.getLogger().info("Rage Index " + CivEnchant.cdManager.ragePlayers.indexOf(player));
-    if(duration <= 0){
+    if(duration <= 0 || target.isDead() || player.isDead()){
         player.sendMessage("rage expiring");
         int playerIndex = CivEnchant.cdManager.ragePlayers.indexOf(player);
         

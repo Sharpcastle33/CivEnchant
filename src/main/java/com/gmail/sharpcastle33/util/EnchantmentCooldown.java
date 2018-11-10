@@ -23,11 +23,9 @@ public class EnchantmentCooldown extends BukkitRunnable {
   @Override
   public void run(){
   
-    Bukkit.getLogger().info("Duration: " + duration);
     duration--;
     
     if(duration <= 0){
-      Bukkit.getLogger().info("EXPIRING");
       listOfPlayers.remove(player);
       cancel();
     }

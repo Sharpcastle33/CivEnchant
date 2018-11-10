@@ -43,16 +43,21 @@ public class CONSTANTS {
     public static final int I_ADRENALINE_DURATION_SECONDS = 10;
     
     // Duration of Second Wind cooldown in seconds
-    public static final int I_SECOND_WIND_COOLDOWN_DURATION_SECONDS = 20;
+    public static final int I_SECOND_WIND_COOLDOWN_DURATION_SECONDS = 300;
     
     // Duration of Last Stand cooldown in seconds
-    public static final int I_LAST_STAND_COOLDOWN_DURATION_SECONDS = 20;
+    public static final int I_LAST_STAND_COOLDOWN_DURATION_SECONDS = 300;
     
     // Duration of Adrenaline cooldown in seconds
-    public static final int I_ADRENALINE_COOLDOWN_DURATION_SECONDS = 20;
+    public static final int I_ADRENALINE_COOLDOWN_DURATION_SECONDS = 150;
     
     //Duration of speed boost from crystal attunement
     public static final int I_CRYSTAL_ATTUNEMENT_DURATION_SECONDS = 2;
+    
+    //Duration of divine intervention
+    public static final int I_DIVINE_INTERVENTION_DURATION_SECONDS = 3;
+    
+    public static final int I_DIVINE_INTERVENTION_COOLDOWN_DURATION_SECONDS = 600;
     
     //Amount of time between heals for the regen effect
     public static final int I_REGEN_INTERVAL_SECONDS = 15;
@@ -96,8 +101,14 @@ public class CONSTANTS {
     //Upper bound for Hunter's Blessing, Bound is divided by enchant level, so odds are x/y where x=this value and y=enchant level
     public static final int I_HUNTERS_BLESSING_CHANCE_BOUND = 60;
     
-    //Upper bound for head hunter, chance is (enchant_lvl * 3) / this value, so for ench lvl 3, odds are 9/99
+    //Upper bound for head hunter, chance is (enchant_lvl * 3) / this value
     public static final int I_HEADHUNTER_CHANCE_BOUND = 99;
+    
+    //Upper bound for Bricklayer, chance is (enchant_lvl * 5) / this value
+    public static final int I_BRICKLAYER_CHANCE_BOUND = 50;
+    
+    //Upper bound for demolishing, chance is (25 * ench lvl) / this value
+    public static final int I_DEMOLISHING_CHANCE_BOUND = 100;
     
     
     

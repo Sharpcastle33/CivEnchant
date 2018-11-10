@@ -17,6 +17,7 @@ public class CooldownManager {
 	static public ArrayList<RegenerationEffect> vitalityEffects;
 	static public ArrayList<RageEffect> rageEffects;
 	static public ArrayList<Player> ragePlayers;
+        static public ArrayList<Player> DIPlayers;
 
 	
 
@@ -32,6 +33,8 @@ public class CooldownManager {
 		rageEffects = new ArrayList<RageEffect>();
 		ragePlayers = new ArrayList<Player>();
 
+                DIPlayers = new ArrayList<Player>();
+                
 		
 
 	}
@@ -64,16 +67,12 @@ public class CooldownManager {
 
 			lastStand.add(player);
                         
-                        Bukkit.getLogger().info("Step 1");
 			cd.setList(lastStand);
                         
-                        Bukkit.getLogger().info("Step 2");
 			cd = new EnchantmentCooldown(player, duration, lastStand);
                         
-                        Bukkit.getLogger().info("Step 3");
 			cd.runTaskTimer(CivEnchant.plugin,0,0);
                         
-                        Bukkit.getLogger().info("Step 4");
 			break;
 
 		case ADRENALINE:
@@ -85,7 +84,18 @@ public class CooldownManager {
 			cd.runTaskTimer(CivEnchant.plugin,0,0);
 
 			break;
+                        
+                case DIVINE_INTERVENTION:
+                        cd.setList(DIPlayers);
+                        DIPlayers.add(player);
+                        
+                        cd = new EnchantmentCooldown(player, duration, DIPlayers);
+			cd.runTaskTimer(CivEnchant.plugin,0,0);
+
+			break;
 		default:
+                    
+                        Bukkit.getLogger().info("Wrong CustomEnchantment passed to CooldownManager.add()");
 			break;
 
 		}

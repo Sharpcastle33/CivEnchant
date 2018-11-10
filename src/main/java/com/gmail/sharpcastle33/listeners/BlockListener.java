@@ -208,7 +208,7 @@ public class BlockListener implements Listener {
 					demolished = true;
 					if (block.getType() == Material.STONE) {
 						event.setDropItems(false);
-						if (Util.chance(25 * enchants.get(CustomEnchantment.DEMOLISHING), 100)) {
+						if (Util.chance(25 * enchants.get(CustomEnchantment.DEMOLISHING), CONSTANTS.I_DEMOLISHING_CHANCE_BOUND)) {
 							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
 									new ItemStack(Material.GRAVEL));
 						}
@@ -285,23 +285,21 @@ public class BlockListener implements Listener {
 				}
 				// STONEMASON
 				if (enchants.containsKey(CustomEnchantment.STONEMASON)) {
-					if (!(demolished)) {
-						if (block.getType() == Material.STONE) {
-							byte data = block.getData();
+                                    if (!demolished && block.getType() == Material.STONE) {
+						
+					byte data = block.getData();
 
-							if (data == 0) {
-								if (Util.chance(5 * enchants.get(CustomEnchantment.STONEMASON), CONSTANTS.I_STONEMASON_CHANCE_BOUND)) {
-									event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
-											new ItemStack(Material.COBBLESTONE));
-								}
-							} else {
-								if (Util.chance(20 * enchants.get(CustomEnchantment.STONEMASON), CONSTANTS.I_STONEMASON_CHANCE_BOUND)) {
-									event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
-											new ItemStack(Material.STONE, data));
-								}
-							}
+					if (data == 0) {
+                                            if (Util.chance(5 * enchants.get(CustomEnchantment.STONEMASON), CONSTANTS.I_STONEMASON_CHANCE_BOUND)) {
+						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.COBBLESTONE));
 						}
+					} else {
+                                            if (Util.chance(20 * enchants.get(CustomEnchantment.STONEMASON), CONSTANTS.I_STONEMASON_CHANCE_BOUND)) {
+						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.STONE, data));
+                                            }
 					}
+						
+                                    }
 				}
 				// IRON AFFINITY
 				if (enchants.containsKey(CustomEnchantment.IRON_AFFINITY)) {
@@ -417,7 +415,14 @@ public class BlockListener implements Listener {
 			}
 
 			if (Util.isShovel(mainHand)) {
-
+                            //BrickLayer
+                            if(enchants.containsKey(CustomEnchantment.BRICKLAYER)){
+                                if(block.getType() == Material.CLAY){
+                                        if (Util.chance(5 * enchants.get(CustomEnchantment.BRICKLAYER), CONSTANTS.I_BRICKLAYER_CHANCE_BOUND)) {
+						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.BRICK));
+					}
+                                }
+                            }
 			}
 
 			
@@ -513,7 +518,7 @@ public class BlockListener implements Listener {
                                     // Green Thumb
                                     if (enchants.containsKey(CustomEnchantment.GREEN_THUMB)) {
                                             if (block.getType() == Material.DIRT || block.getType() == Material.GRASS) {
-
+                                                
                                                     double x = block.getX();
                                                     double y = block.getY();
                                                     double z = block.getZ();
