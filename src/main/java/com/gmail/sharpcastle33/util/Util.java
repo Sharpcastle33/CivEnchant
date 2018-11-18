@@ -65,7 +65,7 @@ public class Util {
 	
 	
 	public static boolean replacePotionEffect(Player p, PotionEffect effect) {
-		Bukkit.getLogger().info("ReplacePotionEffect 1");
+		
                 boolean hasPotionEffect = false;
                 PotionEffect playersEffect = null;
                 

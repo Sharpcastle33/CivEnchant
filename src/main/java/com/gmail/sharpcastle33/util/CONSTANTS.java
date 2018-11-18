@@ -87,7 +87,7 @@ public class CONSTANTS {
     public static final int I_STONEMASON_CHANCE_BOUND = 100;
     
     //chance for umbral to trigger
-    public static final double D_UMBRAL_CHANCE = 0.03 + 0.01;
+    public static final double D_UMBRAL_CHANCE = 0.04;
     
     //Upper bound for carpentry
     public static final int I_CARPENTRY_CHANCE_BOUND = 100;
