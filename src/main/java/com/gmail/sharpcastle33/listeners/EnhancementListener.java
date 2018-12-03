@@ -33,10 +33,10 @@ public class EnhancementListener implements Listener{
   final static ArrayList<Material> WEAPON_BASES = new ArrayList<Material>();
   final static ArrayList<Material> TOOL_BASES = new ArrayList<Material>();
   
-  final static String ENHANCEMENT_SUCCESS = ChatColor.BLUE + "Enhancement Success!";
-  final static String ENHANCEMENT_FAILURE = ChatColor.RED + "Enhancement Failed.";
+  final static String ENHANCEMENT_SUCCESS = ChatColor.BLUE + "Infusion Success!";
+  final static String ENHANCEMENT_FAILURE = ChatColor.RED + "Infusion Failed.";
   
-  final static String MAX_ENHANCEMENT_ERROR = ChatColor.RED + "Your item is at its current maximum enhancement level. It cannot be enhanced further (yet).";
+  final static String MAX_ENHANCEMENT_ERROR = ChatColor.RED + "Your item is at its current maximum infusion level. It cannot be infused further (yet).";
   final static String ENHANCEMENT = ChatColor.GRAY + "Infusion: +";
   
   public EnhancementListener(){

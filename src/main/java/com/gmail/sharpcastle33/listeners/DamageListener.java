@@ -512,7 +512,7 @@ public class DamageListener implements Listener {
 				- enduredDamage;
 		event.setDamage(finalDamage);
                 
-                Bukkit.getLogger().info("Damage: " + finalDamage);
+               // Bukkit.getLogger().info("Damage: " + finalDamage);
                 
                 
 	}

@@ -162,7 +162,7 @@ public class BlockListener implements Listener {
 				// AUTO SMELT
 				if (enchants.containsKey(CustomEnchantment.AUTO_SMELT)) {
 
-					smelt = true; // no purpose
+					smelt = true; 
 
 					if (event.getBlock().getType().equals(Material.GOLD_ORE)) {
 
@@ -339,24 +339,29 @@ public class BlockListener implements Listener {
 					// How do we want to deal with players placing ore?
 					// Drop special iron ore fragments every break.
 					if (block.getType() == Material.IRON_ORE) {
-					  ItemStack frag = new ItemStack(Material.PAPER, 1);
-					  ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.PAPER);
-					  frag.setItemMeta(meta);
+						Random rand = new Random();
+						int amount = 0 + rand.nextInt(enchants.get(CustomEnchantment.IRON_AFFINITY));
+						if(!smelt)
+							amount+=4;
+						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
+								Util.generateItem("IRON_FRAGMENT", amount));
 					  
 					  block.setType(Material.AIR);
-					  block.getWorld().dropItemNaturally(block.getLocation(), frag);
 					}
 
 				}
 				// GOLD AFFINITY
 				if (enchants.containsKey(CustomEnchantment.GOLD_AFFINITY)) {
 					if (block.getType() == Material.GOLD_ORE) {
-                                            ItemStack frag = new ItemStack(Material.PAPER, 1);
-                                            ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.PAPER);
-                                            frag.setItemMeta(meta);
+						Random rand = new Random();
+						int amount = 0 + rand.nextInt(enchants.get(CustomEnchantment.GOLD_AFFINITY));
+						if(!smelt)
+							amount+=4;
+						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
+								Util.generateItem("GOLD_FRAGMENT", amount));
 
-                                            block.setType(Material.AIR);
-                                            block.getWorld().dropItemNaturally(block.getLocation(), frag);
+                       block.setType(Material.AIR);
+                                            
 					}
 				}
 			}

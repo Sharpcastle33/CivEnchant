@@ -43,6 +43,18 @@ public class Util {
 			meta.setDisplayName(ChatColor.YELLOW + "Emerald Fragment");
 			stack.setItemMeta(meta);
 		}
+		if(s.equalsIgnoreCase("IRON_FRAGMENT")) {
+			stack = new ItemStack(Material.IRON_NUGGET, amt);
+			ItemMeta meta = stack.getItemMeta();
+			meta.setDisplayName(ChatColor.YELLOW + "Iron Ore Fragment");
+			stack.setItemMeta(meta);
+		}
+		if(s.equalsIgnoreCase("GOLD_FRAGMENT")) {
+			stack = new ItemStack(Material.IRON_NUGGET, amt);
+			ItemMeta meta = stack.getItemMeta();
+			meta.setDisplayName(ChatColor.YELLOW + "Gold Ore Fragment");
+			stack.setItemMeta(meta);
+		}
 		return stack;
 	}
 	
