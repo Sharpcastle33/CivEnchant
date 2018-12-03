@@ -340,7 +340,12 @@ public class BlockListener implements Listener {
 					// Drop special iron ore fragments every break.
 					if (block.getType() == Material.IRON_ORE) {
 						Random rand = new Random();
-						int amount = 0 + rand.nextInt(enchants.get(CustomEnchantment.IRON_AFFINITY));
+						int lvl = enchants.get(CustomEnchantment.IRON_AFFINITY);
+						int amount = 0 + rand.nextInt(Math.max(lvl,2));
+						if(lvl == 5) { amount+=1; }
+						lvl-=3;
+						amount += rand.nextInt(Math.max(lvl,2));
+						
 						if(!smelt)
 							amount+=4;
 						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
@@ -353,8 +358,13 @@ public class BlockListener implements Listener {
 				// GOLD AFFINITY
 				if (enchants.containsKey(CustomEnchantment.GOLD_AFFINITY)) {
 					if (block.getType() == Material.GOLD_ORE) {
+						int lvl = enchants.get(CustomEnchantment.GOLD_AFFINITY);
 						Random rand = new Random();
-						int amount = 0 + rand.nextInt(enchants.get(CustomEnchantment.GOLD_AFFINITY));
+						int amount = 0 + rand.nextInt(Math.max(lvl,2));
+						if(lvl == 5) { amount+=1; }
+						lvl-=3;
+						amount += rand.nextInt(Math.max(lvl,2));
+						
 						if(!smelt)
 							amount+=4;
 						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
