@@ -26,9 +26,9 @@ public class CraftingOrbListener implements Listener {
   
   final static boolean REQUIRE_SNEAKING = false;
  
-  final static String ARMOR_ENHANCEMENT = ChatColor.YELLOW + "Enhancement Orb (Armor)";
-  final static String TOOL_ENHANCEMENT = ChatColor.YELLOW + "Enhancement Orb (Tool)";
-  final static String WEAPON_ENHANCEMENT = ChatColor.YELLOW + "Enhancement Orb (Weapon)";
+  final static String ARMOR_ENHANCEMENT = ChatColor.YELLOW + "Infusion Orb (Armor)";
+  final static String TOOL_ENHANCEMENT = ChatColor.YELLOW + "Infusion Orb (Tool)";
+  final static String WEAPON_ENHANCEMENT = ChatColor.YELLOW + "Infusion Orb (Weapon)";
   
   final static String ENCHANTMENT_ORB = ChatColor.YELLOW + "Orb of Enchantment";
   final static String CELESTIAL_ORB = ChatColor.YELLOW + "Celestial Orb";
