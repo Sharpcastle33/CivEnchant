@@ -105,7 +105,7 @@ public class ArmorEquipListener implements Listener{
          
         for( ItemStack newArmor : player.getInventory().getArmorContents()){
           
-		  if (newArmor.hasItemMeta()) {
+		  if (newArmor != null && newArmor.hasItemMeta()) {
 
 				       Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(newArmor);
 
@@ -134,29 +134,23 @@ public class ArmorEquipListener implements Listener{
      @EventHandler
      public void onPlayerQuit(PlayerQuitEvent event)
      {
-         Bukkit.getLogger().info("Not null yet 1");
+        
          Player player = event.getPlayer();
          
-         Bukkit.getLogger().info("Not null yet 2");
         for( ItemStack newArmor : player.getInventory().getArmorContents()){
           
-         Bukkit.getLogger().info("Not null yet 3");
-		  if (newArmor.hasItemMeta()) {
+            if (newArmor != null && newArmor.hasItemMeta()) {
+	        Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(newArmor);
 
-         Bukkit.getLogger().info("Not null yet 4");
-				       Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(newArmor);
+		if (enchants.containsKey(CustomEnchantment.VITALITY)) {
 
-					if (enchants.containsKey(CustomEnchantment.VITALITY)) {
-						
-					
-         Bukkit.getLogger().info("Not null yet 5");
-							int index = CivEnchant.cdManager.vitalityPlayers.indexOf(player);
-							
-							CivEnchant.cdManager.vitalityEffects.get(index).setLevel(0);
+                    int index = CivEnchant.cdManager.vitalityPlayers.indexOf(player);
+                    
+                        CivEnchant.cdManager.vitalityEffects.get(index).setLevel(0);
+                    
 
-					}
-		   }
-         
+		}
+            }
          
         }
 

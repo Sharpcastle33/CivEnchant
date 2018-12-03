@@ -14,3 +14,11 @@ commands:
       description: Gives information on the usage of each enchant on an item in your main hand
       usage: with item in main hand /cei
       aliases: [ cei ]
+   updateconstants:
+      description: Updates the values in the CONSTANTS class to whatever values that are mentioned in the civenchantconfig.txt file. 
+      usage: /udc
+      aliases: [ udc ]   
+   displayconstants:
+      description: Displays current values in the CONSTANTS class
+      usage: /displayc
+      aliases: [ displayc ]

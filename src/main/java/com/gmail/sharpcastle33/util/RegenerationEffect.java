@@ -37,7 +37,6 @@ public RegenerationEffect(Player player, double initialRegenLevel, ArrayList<Reg
     ticks++;
     
     if(regenLevel == 0){
-        Bukkit.getLogger().info("Removing Regen Effect..");
         regenList.remove(this);
         playerList.remove(player);
         this.cancel();
@@ -71,12 +70,10 @@ public RegenerationEffect(Player player, double initialRegenLevel, ArrayList<Reg
   
   
   public void removeLevels(int amount){
-      Bukkit.getLogger().info(regenLevel + ": Removing Levels: " + amount);
       regenLevel -= amount;
   }
   
   public void addLevels(int amount){
-      Bukkit.getLogger().info(regenLevel + ": Adding Levels: " + amount);
       regenLevel += amount;
   }
   

@@ -34,9 +34,12 @@ import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
 import com.gmail.sharpcastle33.util.CONSTANTS;
+import com.gmail.sharpcastle33.util.ParticlePlayer;
 import com.gmail.sharpcastle33.util.RageEffect;
 import com.gmail.sharpcastle33.util.Util;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class DamageListener implements Listener {
 
@@ -65,10 +68,8 @@ public class DamageListener implements Listener {
 					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
 
 					if (enchants.containsKey(CustomEnchantment.LIFESTEAL)) {
-                                                attacker.sendMessage("Lifesteal chance");
 						if (Util.chance(enchants.get(CustomEnchantment.LIFESTEAL), CONSTANTS.I_LIFESTEAL_CHANCE_BOUND)) {
                                                     
-                                                    attacker.sendMessage("Lifesteal hit!");
 							attacker.setHealth(Math.min(attacker.getHealth() + 1, attacker.getMaxHealth()));
                                                         
 						}
@@ -173,26 +174,24 @@ public class DamageListener implements Listener {
                                                         CivEnchant.cdManager.ragePlayers.remove(playerIndex);
                                                         CivEnchant.cdManager.rageEffects.get(playerIndex).cancel();
                                                         CivEnchant.cdManager.rageEffects.remove(playerIndex);
-                                                        
-                                                        attacker.sendMessage("Chain broken..");
-                                                        
-                                                        CivEnchant.cdManager.rageEffects.add(new RageEffect(attacker, defense)); // new effect
+                                                    
+                                                        // new effect on new target
+                                                        CivEnchant.cdManager.rageEffects.add(new RageEffect(attacker, defense)); 
 							CivEnchant.cdManager.ragePlayers.add(attacker);
                                                         
                                                     } else 
                                                     if (CivEnchant.cdManager.rageEffects.get(playerIndex).getLevel() < CONSTANTS.I_RAGE_CHAIN_MAX_COUNTER) {
                                                         
 							CivEnchant.cdManager.rageEffects.get(playerIndex).incrementLevel();
-                                                        attacker.sendMessage("Rage Level: " + CivEnchant.cdManager.rageEffects.get(playerIndex).getLevel());
+                                                       
                                                         
                                                     } else {
                                                         
-                                                        attacker.sendMessage("Rage!!");
+                                                      
 							dmgFlat += enchants.get(CustomEnchantment.RAGE);
-
-							// PLAY NEATO PARTICLE EFFECT
-							attacker.spawnParticle(Particle.FIREWORKS_SPARK, attacker.getLocation().getX(),
-										attacker.getLocation().getY(), attacker.getLocation().getZ(), 5);
+							ParticlePlayer.playRageEffect(attacker);
+                                                        
+                                                        
                                                         CivEnchant.cdManager.ragePlayers.remove(playerIndex);
                                                         CivEnchant.cdManager.rageEffects.get(playerIndex).cancel();
                                                         CivEnchant.cdManager.rageEffects.remove(playerIndex);
@@ -205,6 +204,22 @@ public class DamageListener implements Listener {
 
 						}
 					}
+                                        
+                                        if(enchants.containsKey(CustomEnchantment.HELLFIRE)){
+                                            // if on fire...
+                                            if(defense.getFireTicks() != 0){
+                                                dmgFlat += enchants.get(CustomEnchantment.HELLFIRE);
+                                                if(defense instanceof Player){
+                                                    if(((Player) defense).hasPotionEffect(PotionEffectType.FIRE_RESISTANCE)){
+                                                        Util.reducePotionDuration((Player)defense, PotionEffectType.FIRE_RESISTANCE, enchants.get(CustomEnchantment.HELLFIRE));
+                                                    }
+                                                }
+                                                
+                                            }
+                                            
+                                            
+                                            
+                                        }
 
 				}
 			}
@@ -292,6 +307,7 @@ public class DamageListener implements Listener {
                                                                 Util.replacePotionEffect(defender,
 										new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*CONSTANTS.I_LAST_STAND_DURATION_SECONDS, 1));
                                                                 
+                                                                ParticlePlayer.playLastStandEffect(defender);
 							}
 						}
 
@@ -325,7 +341,24 @@ public class DamageListener implements Listener {
 
 								CivEnchant.cdManager.add(defender, CustomEnchantment.ADRENALINE, CONSTANTS.I_ADRENALINE_COOLDOWN_DURATION_SECONDS);
 								Util.replacePotionEffect(defender, new PotionEffect(PotionEffectType.SPEED, 20*CONSTANTS.I_ADRENALINE_DURATION_SECONDS, 3));
+                                                                ParticlePlayer.playAdrenalineEffect(defender);
+							}
+						}
 
+					}
+                                        
+                                        if (enchants.containsKey(CustomEnchantment.DIVINE_INTERVENTION)) {
+
+						if (defender.getHealth()-event.getDamage() < 1 && defender.getHealth() > 1) { // Does not account for ench dmg change
+                                                        
+							if (!CivEnchant.cdManager.DIPlayers.contains(defender)) { // if DI is off cd
+                                                            
+                                                            CivEnchant.cdManager.add(defender, CustomEnchantment.DIVINE_INTERVENTION, CONSTANTS.I_DIVINE_INTERVENTION_COOLDOWN_DURATION_SECONDS);
+                                                            Util.replacePotionEffect(defender,
+										new PotionEffect(PotionEffectType.REGENERATION, 20*CONSTANTS.I_DIVINE_INTERVENTION_DURATION_SECONDS, 3));
+                                                            
+                                                            defender.setHealth(defender.getHealth() + enchants.get(CustomEnchantment.DIVINE_INTERVENTION));
+                                                            ParticlePlayer.playDIEffect(defender);
 							}
 						}
 
@@ -496,23 +529,21 @@ public class DamageListener implements Listener {
 			Player defender = (Player) defense;
 
 			if (roll <= evadeChance) {
-				// successful evasion
+				// successful evasion, but if trueshot = 1, evasion is stopped
 				evade = 0 + trueShot;
 				if (trueShot == 0) {
-					defender.sendMessage("You evaded their attack!");
-					defender.spawnParticle(Particle.VILLAGER_HAPPY, defense.getLocation().getX(),
-							defense.getLocation().getY(), defense.getLocation().getZ(), 4);
-					// spawnParticle​(Particle particle, double x, double y, double z, int count)
+					
+                                    ParticlePlayer.playEvadeEffect(defender);
+                                    
+                                    
 				}
 
 			}
 		}
                                     
-		double finalDamage = ((event.getDamage() + dmgFlat) * (1 + dmgMod) * (1 + dmgMulti) * evade) + trueShot
+		double finalDamage = ((event.getDamage() + dmgFlat) * (1 + dmgMod) * (1 + dmgMulti)) * evade + trueShot
 				- enduredDamage;
 		event.setDamage(finalDamage);
-                
-               // Bukkit.getLogger().info("Damage: " + finalDamage);
                 
                 
 	}
@@ -524,7 +555,7 @@ public class DamageListener implements Listener {
 			Player p = (Player) event.getEntity();
 			ItemStack bow = event.getBow();
 			Entity arrow = event.getProjectile();
-                       // event.getEntity().sendMessage("Arrow Shot, Force: " + event.getForce());
+			
 			if (event.getForce() > 0.8) {
 
 				if (bow.hasItemMeta()) {
@@ -632,7 +663,6 @@ public class DamageListener implements Listener {
 					if (enchants.containsKey(CustomEnchantment.HUNTERS_BLESSING)) {
 						int roll = rand.nextInt(CONSTANTS.I_HUNTERS_BLESSING_CHANCE_BOUND) + 1 / enchants.get(CustomEnchantment.HUNTERS_BLESSING);
 						if (roll == 10) { // 1/60 chance on lvl 1, 1/30 on lvl 2, 1/15 on lvl 3
-                                                        killer.sendMessage("Its Raining food!");
 							for (ItemStack drop : event.getDrops()) {
 
 								switch (drop.getType()) {
@@ -729,20 +759,7 @@ public class DamageListener implements Listener {
 			}
 		}
                 
-                // If rage target dies..
-                int i = 0;
-                for(RageEffect entity : CivEnchant.cdManager.rageEffects){
-                    if(entity.getTarget().equals(killed)){
-                        Bukkit.getLogger().info("Target died, removing rage");
-                        CivEnchant.cdManager.ragePlayers.remove(i);
-                        CivEnchant.cdManager.rageEffects.get(i).cancel();;
-                        CivEnchant.cdManager.rageEffects.remove(i);
-                    }
-                 
-                    i++;
-                }
-                
-              
+                         
                 
 	}
 

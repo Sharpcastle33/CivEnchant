@@ -6,8 +6,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.codingforcookies.armorequip.ArmorListener;
 import com.gmail.sharpcastle33.debugtools.CivEnchantInfoCommand;
+import com.gmail.sharpcastle33.debugtools.DisplayConstantsCommand;
 import com.gmail.sharpcastle33.debugtools.GiveCivEnchantCommand;
 import com.gmail.sharpcastle33.debugtools.ListCivEnchantsCommand;
+import com.gmail.sharpcastle33.debugtools.UpdateConstantsCommand;
 import com.gmail.sharpcastle33.durability.DurabilityListener;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
 import com.gmail.sharpcastle33.listeners.AnvilListener;
@@ -19,6 +21,7 @@ import com.gmail.sharpcastle33.listeners.EmeraldInfusionListener;
 import com.gmail.sharpcastle33.listeners.EnhancementListener;
 import com.gmail.sharpcastle33.listeners.SetBonusListener;
 import com.gmail.sharpcastle33.util.CooldownManager;
+import org.bukkit.Bukkit;
 
 public class CivEnchant extends JavaPlugin{
   
@@ -88,6 +91,12 @@ public class CivEnchant extends JavaPlugin{
     getCommand("givecivenchant").setExecutor(new GiveCivEnchantCommand());
     getCommand("listcivenchants").setExecutor(new ListCivEnchantsCommand());
     getCommand("civenchantinfo").setExecutor(new CivEnchantInfoCommand());
+    getCommand("updateconstants").setExecutor(new UpdateConstantsCommand());
+    getCommand("displayconstants").setExecutor(new DisplayConstantsCommand());
+    
+    
+
+    Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "updateconstants");
   }
   
   public void onDisable(){

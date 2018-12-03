@@ -69,30 +69,24 @@ public class Util {
 	
 
 	public static void reducePotionDuration(Player p, PotionEffectType effect, int duration){
-
-		// I'm 85% sure this will never be true
-		if(p.getActivePotionEffects().contains(effect)){
 		
-			for(PotionEffect reducedEffect : p.getActivePotionEffects()){
+            for(PotionEffect reducedEffect : p.getActivePotionEffects()){
 				
-				if(reducedEffect.getType() == effect){
+		if(reducedEffect.getType() == effect){
 				
-					PotionEffect newPotion = new PotionEffect(effect, reducedEffect.getDuration() - duration, reducedEffect.getAmplifier());
-					p.removePotionEffect(reducedEffect.getType());
-					p.addPotionEffect(newPotion);
+                    PotionEffect newPotion = new PotionEffect(effect, reducedEffect.getDuration() - duration, reducedEffect.getAmplifier());
+                    p.removePotionEffect(reducedEffect.getType());
+                    p.addPotionEffect(newPotion);
 					
-				}
-				
-				
-			}
-			
 		}
-		
+								
+            }
+					
 	}
 	
 	
 	public static boolean replacePotionEffect(Player p, PotionEffect effect) {
-		Bukkit.getLogger().info("ReplacePotionEffect 1");
+		
                 boolean hasPotionEffect = false;
                 PotionEffect playersEffect = null;
                 
@@ -106,10 +100,8 @@ public class Util {
                
 		if(hasPotionEffect) {
                   
-                                    Bukkit.getLogger().info("ReplacePotionEffect 3");
 					if(playersEffect.getAmplifier() < effect.getAmplifier()){ // Is the one we want to give more powerful?
                                             
-                                                Bukkit.getLogger().info("ReplacePotionEffect 4");
 						p.removePotionEffect(playersEffect.getType()); // If so, remove & replace
 						p.addPotionEffect(effect);
 						ScheduledPotionReplace replace = new ScheduledPotionReplace(p, playersEffect, effect.getDuration());

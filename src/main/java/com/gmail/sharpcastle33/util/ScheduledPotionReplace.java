@@ -27,11 +27,9 @@ public class ScheduledPotionReplace extends BukkitRunnable {
 
         if(duration > 0){
         
-          Bukkit.getLogger().info("Potion Replace in...: " + effect.getType());
           duration--;
           
         } else {
-          Bukkit.getLogger().info("Putting old potion effect in: " + effect.getType());
           player.addPotionEffect(effect);
           this.cancel();
         }
