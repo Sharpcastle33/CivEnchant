@@ -48,7 +48,7 @@ public class CraftingOrbListener implements Listener {
   
   final static String ERROR_ENCHANTED = ChatColor.RED + "You cannot use an " + ENCHANTMENT_ORB + ChatColor.RED + " on an already enchanted item.";
   final static String ENCHANT_SUCCESS = ChatColor.BLUE + "Enchantment Success!";
-  final static String ERROR_MAXIMUM_ENCHANTMENTS = ChatColor.RED + "An item cannot have more enchantments than its enhancement level";
+  final static String ERROR_MAXIMUM_ENCHANTMENTS = ChatColor.RED + "An item cannot have more enchantments than its infusion level";
   final static String SCOUR_SUCCESS = ChatColor.BLUE + "Enchantments removed from item.";
   final static String ERROR_NO_ENCHANTMENTS = ChatColor.RED + "You may only use a " + SCOUR_ORB + ChatColor.RED + " on an enchanted item.";
   final static String DISCORD_FAILURE = ChatColor.RED + "You may only use a " + DISCORD_ORB + ChatColor.RED + " on an enchanted item.";
