@@ -41,27 +41,27 @@ public class Util {
 			stack = new ItemStack(Material.IRON_NUGGET, amt);
 			ItemMeta meta = stack.getItemMeta();
 			meta.setDisplayName(ChatColor.YELLOW + "Emerald Fragment");
-			List lore = new List();
+			ArrayList<String> lore = new ArrayList();
 			lore.add(ChatColor.BLUE + "Combine 9 to make an emerald.");
-			meta.setLore((java.util.List<String>) lore);
+			meta.setLore(lore);
 			stack.setItemMeta(meta);
 		}
 		if(s.equalsIgnoreCase("IRON_FRAGMENT")) {
 			stack = new ItemStack(Material.IRON_NUGGET, amt);
 			ItemMeta meta = stack.getItemMeta();
 			meta.setDisplayName(ChatColor.YELLOW + "Iron Ore Fragment");
-			List lore = new List();
+			ArrayList<String> lore = new ArrayList();
 			lore.add(ChatColor.BLUE + "Combine 4 to make an Iron Ore Chunk, then smelt.");
-			meta.setLore((java.util.List<String>) lore);
+			meta.setLore(lore);
 			stack.setItemMeta(meta);
 		}
 		if(s.equalsIgnoreCase("GOLD_FRAGMENT")) {
 			stack = new ItemStack(Material.IRON_NUGGET, amt);
 			ItemMeta meta = stack.getItemMeta();
 			meta.setDisplayName(ChatColor.YELLOW + "Gold Ore Fragment");
-			List lore = new List();
+			ArrayList<String> lore = new ArrayList();
 			lore.add(ChatColor.BLUE + "Combine 4 to make a Gold Ore Chunk, then smelt.");
-			meta.setLore((java.util.List<String>) lore);
+			meta.setLore(lore);
 			stack.setItemMeta(meta);
 		}
 		return stack;

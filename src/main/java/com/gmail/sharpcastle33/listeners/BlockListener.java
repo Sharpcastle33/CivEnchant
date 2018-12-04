@@ -339,10 +339,10 @@ public class BlockListener implements Listener {
 					if (block.getType() == Material.IRON_ORE) {
 						Random rand = new Random();
 						int lvl = enchants.get(CustomEnchantment.IRON_AFFINITY);
-						int amount = 0 + rand.nextInt(Math.max(lvl,2));
+						int amount = 0 + rand.nextInt(Math.min(lvl,2));
 						if(lvl == 5) { amount+=1; }
 						lvl-=3;
-						amount += rand.nextInt(Math.max(lvl,2));
+						amount += rand.nextInt(Math.min(lvl,2));
 						
 						if(!smelt)
 							amount+=4;
@@ -358,10 +358,10 @@ public class BlockListener implements Listener {
 					if (block.getType() == Material.GOLD_ORE) {
 						int lvl = enchants.get(CustomEnchantment.GOLD_AFFINITY);
 						Random rand = new Random();
-						int amount = 0 + rand.nextInt(Math.max(lvl,2));
+						int amount = 0 + rand.nextInt(Math.min(lvl,2));
 						if(lvl == 5) { amount+=1; }
 						lvl-=3;
-						amount += rand.nextInt(Math.max(lvl,2));
+						amount += rand.nextInt(Math.min(lvl,2));
 						
 						if(!smelt)
 							amount+=4;
