@@ -19,7 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class AnvilListener implements Listener {
 
-	public static final String REPAIR_INVENTORY_NAME = "Item Repair";
+	public static final String REPAIR_INVENTORY_NAME = "Item Repair (DO NOT USE, WORK IN PROGRESS)";
 	public static final String REPAIR_ITEM_NAME = ChatColor.BLUE + "Repair";
 	public static final String HELP_ITEM_NAME = ChatColor.BLUE + "Information";
 	public static final String STABLIZATION_POWDER_DISPLAY_NAME = ChatColor.YELLOW + "Tinker's Talc";
@@ -105,6 +105,10 @@ public class AnvilListener implements Listener {
 			return;
 		}
 		
+		if(event.getClickedBlock().getType() == Material.ENCHANTMENT_TABLE) {
+			event.setCancelled(true);
+		}
+		
 		if (event.getClickedBlock().getType() != Material.ANVIL) {
 			return;
 		}
@@ -114,7 +118,7 @@ public class AnvilListener implements Listener {
 		ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.SUGAR);
 		meta.setDisplayName(STABLIZATION_POWDER_DISPLAY_NAME);
 		powder.setItemMeta(meta);
-		player.getInventory().addItem(powder);
+		//player.getInventory().addItem(powder);
 		
 
 		// Open GUI

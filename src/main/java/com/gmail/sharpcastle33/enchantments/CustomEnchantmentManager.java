@@ -223,6 +223,11 @@ public class CustomEnchantmentManager {
 		ret.put(CustomEnchantment.HELLFIRE, 1);
 		ret.put(CustomEnchantment.SOUL_TAKER, 1);
 		ret.put(CustomEnchantment.LIGHTBANE, 1);
+		ret.put(CustomEnchantment.BERSERKING, 1);
+		ret.put(CustomEnchantment.PLAGUEBANE, 1);
+		ret.put(CustomEnchantment.AQUATIC_COMBATANT, 1);
+		ret.put(CustomEnchantment.HEADHUNTER, 1);
+
 	}
 	
 	if(Util.isArmor(stack)){
@@ -237,12 +242,15 @@ public class CustomEnchantmentManager {
 		ret.put(CustomEnchantment.VIGOR, 1);
 		ret.put(CustomEnchantment.VITALITY, 1);
 		ret.put(CustomEnchantment.EVASIVE, 1);
+		ret.put(CustomEnchantment.LAST_STAND, 1);
+		ret.put(CustomEnchantment.DIVINE_INTERVENTION, 1);
 		
 	}
 	
 	if(Util.isTool(stack)){
 		ret.put(CustomEnchantment.FORTUNE, 1);
 		ret.put(CustomEnchantment.SILK_TOUCH, 1);
+		
 		ret.put(CustomEnchantment.MUTANDIS, 1);
 		ret.put(CustomEnchantment.NATURES_BOUNTY, 1);
 	}
@@ -256,6 +264,9 @@ public class CustomEnchantmentManager {
 		ret.put(CustomEnchantment.EMERALD_RESONANCE, 1);
 		ret.put(CustomEnchantment.STONEMASON, 1);
 		ret.put(CustomEnchantment.PROFICIENT, 1);
+		ret.put(CustomEnchantment.CRYSTAL_RESTORATION, 1);
+		ret.put(CustomEnchantment.PROSPERITY, 1);
+		ret.put(CustomEnchantment.UMBRAL, 1);
 		
 	}
 	
@@ -275,6 +286,7 @@ public class CustomEnchantmentManager {
 		ret.put(CustomEnchantment.TRUE_SHOT, 1);
 		ret.put(CustomEnchantment.HUNTERS_BLESSING, 1);
 		ret.put(CustomEnchantment.HUNTERS_MARK, 1);
+		ret.put(CustomEnchantment.MULTISHOT, 1);
 	}
 	
 	if(Util.isHoe(stack)) {

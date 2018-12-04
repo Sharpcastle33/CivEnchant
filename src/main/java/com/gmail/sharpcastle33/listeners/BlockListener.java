@@ -20,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
+import com.gmail.sharpcastle33.durability.DurabilityManager;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
 import com.gmail.sharpcastle33.util.Util;
@@ -162,7 +162,7 @@ public class BlockListener implements Listener {
 				// AUTO SMELT
 				if (enchants.containsKey(CustomEnchantment.AUTO_SMELT)) {
 
-					smelt = true; // no purpose
+					smelt = true; 
 
 					if (event.getBlock().getType().equals(Material.GOLD_ORE)) {
 
@@ -222,6 +222,14 @@ public class BlockListener implements Listener {
 									2 * enchants.get(CustomEnchantment.CRYSTAL_ATTUNEMENT)));
 						}
 					}
+				}
+				// CRYSTAL RESTORATION
+				if (enchants.containsKey(CustomEnchantment.CRYSTAL_RESTORATION)){
+                  for (Material m : crystals) {
+                    if (block.getType() == m) {
+                     DurabilityManager.addDurability(mainHand, 10*enchants.get(CustomEnchantment.CRYSTAL_RESTORATION));
+                    }
+                  }
 				}
 				// EMERALD RESONANCE
 				// is silk touch a problem? Don't think so.
@@ -283,6 +291,29 @@ public class BlockListener implements Listener {
 						}
 					}
 				}
+				// PROSPERITY
+                if (enchants.containsKey(CustomEnchantment.PROSPERITY)) {
+                  int lvl = enchants.get(CustomEnchantment.PROSPERITY); 
+                 
+                  if(!enchants.containsKey(CustomEnchantment.SILK_TOUCH)){
+                    if(block.getType() == Material.GOLD_ORE){
+                      if (Util.chance(10 + 15*lvl, 100)){
+                        ItemStack drop = new ItemStack(Material.GOLD_NUGGET, 3);
+                        block.getWorld().dropItemNaturally(block.getLocation(), drop);
+                      }
+                    }
+                    
+                    if(block.getType() == Material.DIAMOND_ORE){
+                      if (Util.chance(15 + 5*lvl, 100)){
+                        ItemStack drop = new ItemStack(Material.DIAMOND, 1);
+                        block.getWorld().dropItemNaturally(block.getLocation(), drop);
+             
+                      }
+                    }
+                  }
+                 
+                  
+                }
 				// STONEMASON
 				if (enchants.containsKey(CustomEnchantment.STONEMASON)) {
                                     if (!demolished && block.getType() == Material.STONE) {
@@ -306,24 +337,39 @@ public class BlockListener implements Listener {
 					// How do we want to deal with players placing ore?
 					// Drop special iron ore fragments every break.
 					if (block.getType() == Material.IRON_ORE) {
-					  ItemStack frag = new ItemStack(Material.PAPER, 1);
-					  ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.PAPER);
-					  frag.setItemMeta(meta);
+						Random rand = new Random();
+						int lvl = enchants.get(CustomEnchantment.IRON_AFFINITY);
+						int amount = 0 + rand.nextInt(Math.max(lvl,2));
+						if(lvl == 5) { amount+=1; }
+						lvl-=3;
+						amount += rand.nextInt(Math.max(lvl,2));
+						
+						if(!smelt)
+							amount+=4;
+						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
+								Util.generateItem("IRON_FRAGMENT", amount));
 					  
 					  block.setType(Material.AIR);
-					  block.getWorld().dropItemNaturally(block.getLocation(), frag);
 					}
 
 				}
 				// GOLD AFFINITY
 				if (enchants.containsKey(CustomEnchantment.GOLD_AFFINITY)) {
 					if (block.getType() == Material.GOLD_ORE) {
-                                            ItemStack frag = new ItemStack(Material.PAPER, 1);
-                                            ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.PAPER);
-                                            frag.setItemMeta(meta);
+						int lvl = enchants.get(CustomEnchantment.GOLD_AFFINITY);
+						Random rand = new Random();
+						int amount = 0 + rand.nextInt(Math.max(lvl,2));
+						if(lvl == 5) { amount+=1; }
+						lvl-=3;
+						amount += rand.nextInt(Math.max(lvl,2));
+						
+						if(!smelt)
+							amount+=4;
+						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
+								Util.generateItem("GOLD_FRAGMENT", amount));
 
-                                            block.setType(Material.AIR);
-                                            block.getWorld().dropItemNaturally(block.getLocation(), frag);
+                       block.setType(Material.AIR);
+                                            
 					}
 				}
 			}
@@ -415,6 +461,33 @@ public class BlockListener implements Listener {
 			}
 
 			if (Util.isShovel(mainHand)) {
+
+			  
+              if (enchants.containsKey(CustomEnchantment.SHIFTING_SANDS)) {
+                if(block.getType() == Material.SAND){
+                  if(Util.chance(50, 100)){
+                    ItemStack drop = new ItemStack(Material.SAND, 1, (short) 1);
+                    block.getWorld().dropItemNaturally(block.getLocation(), drop);
+                  }
+                }
+                
+                if(block.getType() == Material.SANDSTONE){
+                  if(Util.chance(50, 100)){
+                    ItemStack drop = new ItemStack(Material.RED_SANDSTONE, 1);
+                    block.getWorld().dropItemNaturally(block.getLocation(), drop);
+                  }
+                }
+                
+                if(block.getType() == Material.RED_SANDSTONE){
+                  if(Util.chance(50, 100)){
+                    ItemStack drop = new ItemStack(Material.SANDSTONE, 1);
+                    block.getWorld().dropItemNaturally(block.getLocation(), drop);
+                  }
+                }
+              }
+
+
+
                             //BrickLayer
                             if(enchants.containsKey(CustomEnchantment.BRICKLAYER)){
                                 if(block.getType() == Material.CLAY){
@@ -423,6 +496,7 @@ public class BlockListener implements Listener {
 					}
                                 }
                             }
+
 			}
 
 			

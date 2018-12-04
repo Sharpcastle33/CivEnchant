@@ -21,9 +21,9 @@ import org.bukkit.ChatColor;
 public class EnhancementListener implements Listener{
   
   final static boolean REQUIRE_SNEAKING = false;
-  final static String ARMOR_ENHANCEMENT = ChatColor.YELLOW + "Enhancement Orb (Armor)";
-  final static String TOOL_ENHANCEMENT = ChatColor.YELLOW + "Enhancement Orb (Tool)";
-  final static String WEAPON_ENHANCEMENT = ChatColor.YELLOW + "Enhancement Orb (Weapon)";
+  final static String ARMOR_ENHANCEMENT = ChatColor.YELLOW + "Infusion Orb (Armor)";
+  final static String TOOL_ENHANCEMENT = ChatColor.YELLOW + "Infusion Orb (Tool)";
+  final static String WEAPON_ENHANCEMENT = ChatColor.YELLOW + "Infusion Orb (Weapon)";
   
   final static Material[] armor = {Material.DIAMOND_CHESTPLATE, Material.DIAMOND_HELMET, Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS, Material.CHAINMAIL_BOOTS, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_HELMET, Material.CHAINMAIL_LEGGINGS};
   final static Material[] weps = {Material.DIAMOND_SWORD, Material.DIAMOND_AXE, Material.BOW};
@@ -33,10 +33,10 @@ public class EnhancementListener implements Listener{
   final static ArrayList<Material> WEAPON_BASES = new ArrayList<Material>();
   final static ArrayList<Material> TOOL_BASES = new ArrayList<Material>();
   
-  final static String ENHANCEMENT_SUCCESS = ChatColor.BLUE + "Enhancement Success!";
-  final static String ENHANCEMENT_FAILURE = ChatColor.RED + "Enhancement Failed.";
+  final static String ENHANCEMENT_SUCCESS = ChatColor.BLUE + "Infusion Success!";
+  final static String ENHANCEMENT_FAILURE = ChatColor.RED + "Infusion Failed.";
   
-  final static String MAX_ENHANCEMENT_ERROR = ChatColor.RED + "Your item is at its current maximum enhancement level. It cannot be enhanced further (yet).";
+  final static String MAX_ENHANCEMENT_ERROR = ChatColor.RED + "Your item is at its current maximum infusion level. It cannot be infused further (yet).";
   final static String ENHANCEMENT = ChatColor.GRAY + "Infusion: +";
   
   public EnhancementListener(){

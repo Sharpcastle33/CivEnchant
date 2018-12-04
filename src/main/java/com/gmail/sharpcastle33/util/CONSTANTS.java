@@ -43,13 +43,17 @@ public class CONSTANTS {
     public static final int I_ADRENALINE_DURATION_SECONDS = 10;
     
     // Duration of Second Wind cooldown in seconds
-    public static final int I_SECOND_WIND_COOLDOWN_DURATION_SECONDS = 300;
-    
+
+    public static final int I_SECOND_WIND_COOLDOWN_DURATION_SECONDS = 160;
     // Duration of Last Stand cooldown in seconds
     public static final int I_LAST_STAND_COOLDOWN_DURATION_SECONDS = 300;
     
+    public static final int I_DIVINE_INTERVENTION_COOLDOWN_DURATION_SECONDS = 1200;
+
     // Duration of Adrenaline cooldown in seconds
-    public static final int I_ADRENALINE_COOLDOWN_DURATION_SECONDS = 150;
+
+    public static final int I_ADRENALINE_COOLDOWN_DURATION_SECONDS = 300;
+
     
     //Duration of speed boost from crystal attunement
     public static final int I_CRYSTAL_ATTUNEMENT_DURATION_SECONDS = 2;
@@ -57,7 +61,6 @@ public class CONSTANTS {
     //Duration of divine intervention
     public static final int I_DIVINE_INTERVENTION_DURATION_SECONDS = 3;
     
-    public static final int I_DIVINE_INTERVENTION_COOLDOWN_DURATION_SECONDS = 600;
     
     //Amount of time between heals for the regen effect
     public static final int I_REGEN_INTERVAL_SECONDS = 15;
@@ -81,7 +84,7 @@ public class CONSTANTS {
     public static final int I_EMERALD_RESONANCE_BOUND = 100;
     
     //lifesteal trigger chance
-    public static final int I_LIFESTEAL_CHANCE_BOUND = 33;
+    public static final int I_LIFESTEAL_CHANCE_BOUND = 25;
     
     //Upper bound of stonemason
     public static final int I_STONEMASON_CHANCE_BOUND = 100;

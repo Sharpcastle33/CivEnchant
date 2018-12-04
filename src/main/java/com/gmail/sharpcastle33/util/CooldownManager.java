@@ -12,6 +12,7 @@ public class CooldownManager {
 	static public ArrayList<Player> secondWind;
 	static public ArrayList<Player> lastStand;
 	static public ArrayList<Player> adrenaline;
+	static public ArrayList<Player> divineIntervention;
 
 	static public ArrayList<Player> vitalityPlayers;
 	static public ArrayList<RegenerationEffect> vitalityEffects;
@@ -25,6 +26,8 @@ public class CooldownManager {
 
 		secondWind = new ArrayList<Player>();
 		lastStand = new ArrayList<Player>();
+	    divineIntervention = new ArrayList<Player>();
+
 		adrenaline = new ArrayList<Player>();
 
 		vitalityPlayers = new ArrayList<Player>();
@@ -62,17 +65,33 @@ public class CooldownManager {
 			cd.runTaskTimer(CivEnchant.plugin,0,0);
 
 			break;
+	   case DIVINE_INTERVENTION:
+
+            cd.setList(divineIntervention);
+            divineIntervention.add(player);
+
+            cd = new EnchantmentCooldown(player, duration, divineIntervention);
+            cd.runTaskTimer(CivEnchant.plugin,0,0);
+
+            break;
+
 
 		case LAST_STAND:
 
 			lastStand.add(player);
                         
+
+                        //Bukkit.getLogger().info("Step 1");
 			cd.setList(lastStand);
                         
+                       // Bukkit.getLogger().info("Step 2");
 			cd = new EnchantmentCooldown(player, duration, lastStand);
                         
+                        //Bukkit.getLogger().info("Step 3");
 			cd.runTaskTimer(CivEnchant.plugin,0,0);
                         
+                        //Bukkit.getLogger().info("Step 4");
+
 			break;
 
 		case ADRENALINE:
@@ -84,15 +103,16 @@ public class CooldownManager {
 			cd.runTaskTimer(CivEnchant.plugin,0,0);
 
 			break;
-                        
-                case DIVINE_INTERVENTION:
+             
+		//Duplicate, not sure if correct.
+        /*case DIVINE_INTERVENTION:
                         cd.setList(DIPlayers);
                         DIPlayers.add(player);
                         
                         cd = new EnchantmentCooldown(player, duration, DIPlayers);
 			cd.runTaskTimer(CivEnchant.plugin,0,0);
 
-			break;
+			break;*/
 		default:
                     
                         Bukkit.getLogger().info("Wrong CustomEnchantment passed to CooldownManager.add()");
