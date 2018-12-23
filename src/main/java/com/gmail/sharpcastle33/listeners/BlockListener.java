@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -28,89 +28,70 @@ import com.gmail.sharpcastle33.util.CONSTANTS;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 
-
-
 public class BlockListener implements Listener {
 
-	final static Material[] crystals = { Material.DIAMOND_ORE, Material.EMERALD_ORE, Material.QUARTZ_ORE };
+	private final static Material[] crystals = {Material.DIAMOND_ORE, Material.EMERALD_ORE, Material.QUARTZ_ORE };
 	
-	final static Map<Material, Byte> stones = new HashMap<>();
-	static List<Material> stonesList = new ArrayList<>();
-	final static Map<Material, Byte> sands = new HashMap<>();
-	static List<Material> sandsList = new ArrayList<>();
-	final static Map<Material, Byte> logs = new HashMap<>();
-	static List<Material> logsList = new ArrayList<>();
-	final static Map<Material, Byte> woods = new HashMap<>();
-	static List<Material> woodsList = new ArrayList<>();
-	final static Map<Material, Byte> flowers = new HashMap<>();
-	static List<Material> flowersList = new ArrayList<>();
+	private final static Map<Material, byte[]> stones = new HashMap<>();
+	private final static Map<Material, byte[]> sands = new HashMap<>();
+	private final static Map<Material, byte[]> logs = new HashMap<>();
+	private final static Map<Material, byte[]> woods = new HashMap<>();
+	private final static Map<Material, byte[]> flowers = new HashMap<>();
 	
 	static {
-		stones.put(Material.STONE, (byte) 0);
-		stones.put(Material.STONE, (byte) 1);
-		stones.put(Material.STONE, (byte) 2);
-		stones.put(Material.STONE, (byte) 3);
-		stones.put(Material.STONE, (byte) 4);
-		stones.put(Material.STONE, (byte) 5);
-		stones.put(Material.STONE, (byte) 6);
-		stones.put(Material.COBBLESTONE, (byte) 0);
-		stones.put(Material.DOUBLE_STONE_SLAB2, (byte) 8);
-		stones.put(Material.SMOOTH_BRICK, (byte) 0);
-		stones.put(Material.SMOOTH_BRICK, (byte) 1);
-		stones.put(Material.SMOOTH_BRICK, (byte) 2);
-		stones.put(Material.SMOOTH_BRICK, (byte) 3);
-		stones.put(Material.SANDSTONE, (byte) 0);
-		stones.put(Material.SANDSTONE, (byte) 1);
-		stones.put(Material.SANDSTONE, (byte) 2);
-		stones.put(Material.RED_SANDSTONE, (byte) 0);
-		stones.put(Material.RED_SANDSTONE, (byte) 1);
-		stones.put(Material.RED_SANDSTONE, (byte) 2);
-		stonesList.addAll(stones.keySet());
+		stones.put(Material.STONE, makeByteArray(0, 6));
+		stones.put(Material.COBBLESTONE, makeByteArray(0, 0));
+		stones.put(Material.DOUBLE_STONE_SLAB2, makeByteArray(8, 8));
+		stones.put(Material.SMOOTH_BRICK, makeByteArray(0, 3));
+		stones.put(Material.SANDSTONE, makeByteArray(0, 0));
+		stones.put(Material.RED_SANDSTONE, makeByteArray(0, 3));
 		
-		sands.put(Material.SAND, (byte) 0);
-		sands.put(Material.SAND, (byte) 1);
-		sands.put(Material.SOUL_SAND, (byte) 0);
-		sands.put(Material.DIRT, (byte) 0);
-		sands.put(Material.DIRT, (byte) 1);
-		sands.put(Material.DIRT, (byte) 2);
-		sands.put(Material.GRASS, (byte) 0);
-		sands.put(Material.GRASS_PATH, (byte) 0);
-		sands.put(Material.GRAVEL, (byte) 0);
-		sandsList.addAll(sands.keySet());
+		sands.put(Material.SAND, makeByteArray(0, 1));
+		sands.put(Material.SOUL_SAND, makeByteArray(0, 0));
+		sands.put(Material.DIRT, makeByteArray(0, 2));
+		sands.put(Material.GRASS, makeByteArray(0, 0));
+		sands.put(Material.GRASS_PATH, makeByteArray(0, 0));
+		sands.put(Material.GRAVEL, makeByteArray(0, 0));
 		
-		logs.put(Material.LOG, (byte) 0);
-		logs.put(Material.LOG, (byte) 1);
-		logs.put(Material.LOG, (byte) 2);
-		logs.put(Material.LOG, (byte) 3);
-		logs.put(Material.LOG_2, (byte) 0);
-		logs.put(Material.LOG_2, (byte) 1);
-		logsList.addAll(logs.keySet());
+		logs.put(Material.LOG, makeByteArray(0, 3));
+		logs.put(Material.LOG_2, makeByteArray(0, 1));
 		
-		woods.put(Material.WOOD, (byte) 0);
-		woods.put(Material.WOOD, (byte) 1);
-		woods.put(Material.WOOD, (byte) 2);
-		woods.put(Material.WOOD, (byte) 3);
-		woods.put(Material.WOOD, (byte) 4);
-		woods.put(Material.WOOD, (byte) 5);
-		woodsList.addAll(woods.keySet());
+		woods.put(Material.WOOD, makeByteArray(0, 5));
 		
-		flowers.put(Material.LONG_GRASS, (byte) 0);
-		flowers.put(Material.LONG_GRASS, (byte) 1);
-		flowers.put(Material.LONG_GRASS, (byte) 2);
-		flowers.put(Material.DEAD_BUSH, (byte) 0);
-		flowers.put(Material.YELLOW_FLOWER, (byte) 0);
-		flowers.put(Material.RED_ROSE, (byte) 0);
-		flowers.put(Material.RED_ROSE, (byte) 1);
-		flowers.put(Material.RED_ROSE, (byte) 2);
-		flowers.put(Material.RED_ROSE, (byte) 3);
-		flowers.put(Material.RED_ROSE, (byte) 4);
-		flowers.put(Material.RED_ROSE, (byte) 5);
-		flowers.put(Material.RED_ROSE, (byte) 6);
-		flowers.put(Material.RED_ROSE, (byte) 7);
-		flowers.put(Material.RED_ROSE, (byte) 8);
-		flowers.put(Material.BROWN_MUSHROOM, (byte) 0);
-		flowers.put(Material.RED_MUSHROOM, (byte) 0);
-		flowersList.addAll(flowers.keySet());
+		flowers.put(Material.LONG_GRASS, makeByteArray(0, 2));
+		flowers.put(Material.DEAD_BUSH, makeByteArray(0, 0));
+		flowers.put(Material.YELLOW_FLOWER, makeByteArray(0, 0));
+		flowers.put(Material.RED_ROSE, makeByteArray(0, 8));
+	}
+
+	private static byte[] makeByteArray(int start, int last){
+		final byte[] out = new byte[start - last + 1];
+		
+		int index = 0;
+		
+		for (byte v = (byte)start; v <= last; v++){
+			out[index] = v;
+			
+			index++;
+		}
+		
+		return out;
+	}
+
+	private static Material getRandomMaterial(Map<Material, byte[]> materialMap){
+		final List<Material> materialList = new ArrayList<>(materialMap.keySet());
+
+		final int randomIndex = new Random().nextInt(materialList.size());
+
+		return materialList.get(randomIndex);
+	}
+
+	private static byte getRandomByte(Map<Material, byte[]> materialMap, Material material){
+		final byte[] bytes = materialMap.get(material);
+
+		final int randomIndex = new Random().nextInt(bytes.length);
+
+		return bytes[randomIndex];
 	}
 
 	@EventHandler
@@ -132,26 +113,26 @@ public class BlockListener implements Listener {
 			if(Util.isTool(mainHand)) {
 				// MUTANDIS
 				if(enchants.containsKey(CustomEnchantment.MUTANDIS) && Math.random() > 1.00 - (enchants.get(CustomEnchantment.MUTANDIS).intValue() * 0.25)) {
-					if(stonesList.contains(block.getType())) {
-						Material newMat = stonesList.get((int) (Math.random() * stonesList.size()));
+					if(stones.containsKey(block.getType())) {
+						Material newMat = getRandomMaterial(stones);
 						block.setType(newMat);
-						block.setData(stones.get(newMat));
-					} else if(sandsList.contains(block.getType())) {
-						Material newMat = sandsList.get((int) (Math.random() * sandsList.size()));
+						block.setData(getRandomByte(stones, newMat));
+					} else if(sands.containsKey(block.getType())) {
+						Material newMat = getRandomMaterial(sands);
 						block.setType(newMat);
-						block.setData(sands.get(newMat));
-					} else if(logsList.contains(block.getType())) {
-						Material newMat = logsList.get((int) (Math.random() * logsList.size()));
+						block.setData(getRandomByte(sands, newMat));
+					} else if(logs.containsKey(block.getType())) {
+						Material newMat = getRandomMaterial(logs);
 						block.setType(newMat);
-						block.setData(logs.get(newMat));
-					} else if(woodsList.contains(block.getType())) {
-						Material newMat = woodsList.get((int) (Math.random() * woodsList.size()));
+						block.setData(getRandomByte(logs, newMat));
+					} else if(woods.containsKey(block.getType())) {
+						Material newMat = getRandomMaterial(woods);
 						block.setType(newMat);
-						block.setData(woods.get(newMat));
-					} else if(flowersList.contains(block.getType())) {
-						Material newMat = flowersList.get((int) (Math.random() * flowersList.size()));
+						block.setData(getRandomByte(woods, newMat));
+					} else if(flowers.containsKey(block.getType())) {
+						Material newMat = getRandomMaterial(flowers);
 						block.setType(newMat);
-						block.setData(flowers.get(newMat));
+						block.setData(getRandomByte(flowers, newMat));
 					} // if/else if/else if/else if/else if
 				} // if
 				
