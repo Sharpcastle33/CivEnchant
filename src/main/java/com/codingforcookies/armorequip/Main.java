@@ -8,11 +8,11 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @Website http://codingforcookies.com/
  * @since Jul 30, 2015
  */
-public class Main extends JavaPlugin{
+public class Main extends JavaPlugin {
 
-	@Override
-	public void onEnable(){
-		saveDefaultConfig();
-		getServer().getPluginManager().registerEvents(new ArmorListener(getConfig().getStringList("blocked")), this);
-	}
+    @Override
+    public void onEnable() {
+        saveDefaultConfig();
+        getServer().getPluginManager().registerEvents(new ArmorListener(getConfig().getStringList("blocked")), this);
+    }
 }

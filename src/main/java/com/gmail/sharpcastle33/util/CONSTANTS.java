@@ -13,14 +13,39 @@ public class CONSTANTS {
     // For all "chance" bounds, the higher the value : the lower the chance of success
     // Keep Related items together (durations with durations, bounds with bounds, etc)
     
+    //Amount of health stolen on a successful lifesteal proc
+    public static final double D_LIFESTEAL_STOLEN_HEALTH = 1;
     
     //Damage taken off of an attack for every level of endurance defender's armor has
     public static final double D_ENDURANCE_DAMAGE_REDUCTION = 0.15;
     
+    public static final double D_WARHORSE_DAMAGE_REDUCTION = 1;
+    
     //Added damage for glowing enemies
     public static final double D_HUNTERS_MARK_DAMAGE = 0.25;
     
+    public static final double CRIMSON_DAMAGE_REDUCTION = 1;
     
+    //Damage for berserker
+    public static final double D_BERSERKING_DAMAGE = 3;
+    
+    public static final double D_BERKSERING_DAMAGE_MULTIPLER = 0.5;
+    
+    //Corrosive damage multiplier, final damage is this * enchant lvl
+    public static final double D_CORROSIVE_DAMAGE_MULTIPLIER = 0.5;
+    
+    //Plaguebane damage multiplier, final damage is this * enchant lvl
+    public static final double D_PLAGUEBANE_DAMAGE_MULTIPLIER = 0.5;
+    
+    //Aquatic Combatant damage multiplier, final damage is this * enchant lvl
+    public static final double D_AQUATIC_COMBATANT_DAMAGE_MULTIPLIER = 0.5;
+    
+    //Damage reduction for survivalist, equation is dmg -= lvl * (this value)
+    public static final double D_SURVIVALIST_DAMAGE_REDUCTION_MULTIPLIER = 0.33;
+    
+    public static final double D_SOUL_DAMAGE_INCREASE_MULTIPLIER = 1.2;
+    
+    public static final double D_SOUL_VELOCITY_INCREASE_MULTIPLIER = 1.2;
     
     
     
@@ -53,17 +78,22 @@ public class CONSTANTS {
     // Duration of Adrenaline cooldown in seconds
 
     public static final int I_ADRENALINE_COOLDOWN_DURATION_SECONDS = 300;
-
     
     //Duration of speed boost from crystal attunement
     public static final int I_CRYSTAL_ATTUNEMENT_DURATION_SECONDS = 2;
     
     //Duration of divine intervention
-    public static final int I_DIVINE_INTERVENTION_DURATION_SECONDS = 3;
+    public static final int I_DIVINE_INTERVENTION_DURATION_SECONDS = 2;
     
     
     //Amount of time between heals for the regen effect
     public static final int I_REGEN_INTERVAL_SECONDS = 15;
+    
+    //Duration in seconds for aquatic combatant effect
+    public static final int I_AQUATIC_COMBATANT_DURATION_SECONDS = 10;
+    
+    //Duration for positive Valiant effects
+    public static final int I_VALIANT_DURATION_SECONDS = 3;
     
     
     
@@ -75,7 +105,17 @@ public class CONSTANTS {
     public static final int I_PROFICIENT_EXP_AMOUNT = 1;
     
     
+    //chance is lower/upper
+    public static final int I_AQUATIC_COMBATANT_LOWER_BOUND = 20;
     
+    //chance is lower/upper
+    public static final int I_AQUATIC_COMBATANT_UPPER_BOUND = 100;
+    
+     //Berserking chance is lower/upper
+    public static final int I_BERSERKING_LOWER_BOUND = 20;
+    
+    //Berserking chance is lower/upper
+    public static final int I_BERSERKING_UPPER_BOUND = 100;
     
     //Upper bound of proficient proc chance
     public static final int I_PROFICIENT_CHANCE_BOUND = 80;
@@ -112,6 +152,9 @@ public class CONSTANTS {
     
     //Upper bound for demolishing, chance is (25 * ench lvl) / this value
     public static final int I_DEMOLISHING_CHANCE_BOUND = 100;
+    
+    //Mutandis chance out of 1 (per level)
+    public static final double D_MUTANDIS_CHANCE = 0.25;
     
     
     

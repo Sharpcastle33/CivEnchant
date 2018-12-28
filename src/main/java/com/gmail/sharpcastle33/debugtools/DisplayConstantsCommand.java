@@ -15,26 +15,26 @@ import org.bukkit.Bukkit;
 
 public class DisplayConstantsCommand implements CommandExecutor {
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(sender instanceof Player) {
-			Player player = (Player) sender;
-			if(!player.isOp()) { 
-				player.sendMessage(ChatColor.RED + "You do not have permission to use this command");
-				return true;
-			} // if
-                }
-                
-                for(Field field : CONSTANTS.class.getDeclaredFields()){
-                    
-                    try{
-                        Bukkit.getLogger().info(field.getName() + " " + field.get(String.class));
-                    }catch(IllegalAccessException e){
-                        Bukkit.getLogger().info("Cannot Display Values");
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (!player.isOp()) {
+                player.sendMessage(ChatColor.RED + "You do not have permission to use this command");
+                return true;
+            } // if
+        }
 
-                    }
-                }
-            return true;
-        } // onCommand
-        
+        for (Field field : CONSTANTS.class.getDeclaredFields()) {
+
+            try {
+                Bukkit.getLogger().info(field.getName() + " " + field.get(String.class));
+            } catch (IllegalAccessException e) {
+                Bukkit.getLogger().info("Cannot Display Values");
+
+            }
+        }
+        return true;
+    } // onCommand
+
 } // class

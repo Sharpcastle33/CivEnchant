@@ -17,149 +17,124 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 // NEED ARMOREQUIPEVENT DEPENDENCY AND IMPORT
-
-public class ArmorEquipListener implements Listener{
-
+public class ArmorEquipListener implements Listener {
 
     @EventHandler
     public void onArmorEquip(ArmorEquipEvent event) {
- 
         ItemStack newArmor;
         ItemStack oldArmor;
         Player player = event.getPlayer();
         Map<CustomEnchantment, Integer> enchants;
-      
-        if(event.getNewArmorPiece() != null && event.getNewArmorPiece().getType() != Material.AIR){ // Equip
-        
-          newArmor = event.getNewArmorPiece();
-          
-		  if (newArmor.hasItemMeta()) {
 
-				       enchants = CustomEnchantmentManager.getCustomEnchantments(newArmor);
+        if (event.getNewArmorPiece() != null && event.getNewArmorPiece().getType() != Material.AIR) { // Equip
 
-					if (enchants.containsKey(CustomEnchantment.VIGOR)) {
-						
-						
-						player.setMaxHealth(player.getMaxHealth() + ((int)enchants.get(CustomEnchantment.VIGOR) * 0.25));
+            newArmor = event.getNewArmorPiece();
 
+            if (newArmor.hasItemMeta()) {
 
-					}
+                enchants = CustomEnchantmentManager.getCustomEnchantments(newArmor);
 
-					if (enchants.containsKey(CustomEnchantment.VITALITY)) {
-						
-						if(!CivEnchant.cdManager.vitalityPlayers.contains(player)){
-						
-							CivEnchant.cdManager.addRegen(player, (int)enchants.get(CustomEnchantment.VITALITY));
-							
-						} else {
-						
-							int index = CivEnchant.cdManager.vitalityPlayers.indexOf(player);
-							
-							CivEnchant.cdManager.vitalityEffects.get(index).addLevels((int)enchants.get(CustomEnchantment.VITALITY));
-							
-							
-						}
+                if (enchants.containsKey(CustomEnchantment.VIGOR)) {
 
-					}
-		   }
-          
-        
+                    player.setMaxHealth(player.getMaxHealth() + ((int) enchants.get(CustomEnchantment.VIGOR) * 0.25));
+
+                }
+
+                if (enchants.containsKey(CustomEnchantment.VITALITY)) {
+
+                    if (!CivEnchant.cdManager.vitalityPlayers.contains(player)) {
+
+                        CivEnchant.cdManager.addRegen(player, (int) enchants.get(CustomEnchantment.VITALITY));
+
+                    } else {
+
+                        int index = CivEnchant.cdManager.vitalityPlayers.indexOf(player);
+
+                        CivEnchant.cdManager.vitalityEffects.get(index).addLevels((int) enchants.get(CustomEnchantment.VITALITY));
+
+                    }
+
+                }
+            }
+
         } // Equip end
-	    
-        else
-	    
-	if(event.getOldArmorPiece() != null && event.getOldArmorPiece().getType() != Material.AIR) { // unequip
-		
-		oldArmor = event.getOldArmorPiece();
-	
-		enchants = CustomEnchantmentManager.getCustomEnchantments(oldArmor);
+        else if (event.getOldArmorPiece() != null && event.getOldArmorPiece().getType() != Material.AIR) { // unequip
 
-		if (enchants.containsKey(CustomEnchantment.VIGOR)) {
+            oldArmor = event.getOldArmorPiece();
 
-			player.setMaxHealth(player.getMaxHealth() - ((int)enchants.get(CustomEnchantment.VIGOR)*0.25));
+            enchants = CustomEnchantmentManager.getCustomEnchantments(oldArmor);
 
+            if (enchants.containsKey(CustomEnchantment.VIGOR)) {
 
-		}
+                player.setMaxHealth(player.getMaxHealth() - ((int) enchants.get(CustomEnchantment.VIGOR) * 0.25));
 
-		if (enchants.containsKey(CustomEnchantment.VITALITY)) {
+            }
 
-			int index = CivEnchant.cdManager.vitalityPlayers.indexOf(player);
-							
-			CivEnchant.cdManager.vitalityEffects.get(index).removeLevels((int)enchants.get(CustomEnchantment.VITALITY));
-                        
+            if (enchants.containsKey(CustomEnchantment.VITALITY)) {
 
-		}
-		
-	}
-        
+                int index = CivEnchant.cdManager.vitalityPlayers.indexOf(player);
 
+                CivEnchant.cdManager.vitalityEffects.get(index).removeLevels((int) enchants.get(CustomEnchantment.VITALITY));
+
+            }
+
+        }
 
     }
-  
-    
+
     // Add armor affects for joiners
     @EventHandler
-     public void onPlayerJoin(PlayerJoinEvent event)
-     {
-         Player player = event.getPlayer();
-         
-        for( ItemStack newArmor : player.getInventory().getArmorContents()){
-          
-		  if (newArmor != null && newArmor.hasItemMeta()) {
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
 
-				       Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(newArmor);
+        for (ItemStack newArmor : player.getInventory().getArmorContents()) {
 
-					if (enchants.containsKey(CustomEnchantment.VITALITY)) {
-						
-						if(!CivEnchant.cdManager.vitalityPlayers.contains(player)){
-						
-							CivEnchant.cdManager.addRegen(player, (int)enchants.get(CustomEnchantment.VITALITY));
-							
-						} else {
-						
-							int index = CivEnchant.cdManager.vitalityPlayers.indexOf(player);
-							
-							CivEnchant.cdManager.vitalityEffects.get(index).addLevels((int)enchants.get(CustomEnchantment.VITALITY));
-							
-							
-						}
+            if (newArmor != null && newArmor.hasItemMeta()) {
 
-					}
-		   }
-         
-         
+                Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(newArmor);
+
+                if (enchants.containsKey(CustomEnchantment.VITALITY)) {
+
+                    if (!CivEnchant.cdManager.vitalityPlayers.contains(player)) {
+
+                        CivEnchant.cdManager.addRegen(player, (int) enchants.get(CustomEnchantment.VITALITY));
+
+                    } else {
+
+                        int index = CivEnchant.cdManager.vitalityPlayers.indexOf(player);
+
+                        CivEnchant.cdManager.vitalityEffects.get(index).addLevels((int) enchants.get(CustomEnchantment.VITALITY));
+
+                    }
+
+                }
+            }
+
         }
 
-     }
-     @EventHandler
-     public void onPlayerQuit(PlayerQuitEvent event)
-     {
-        
-         Player player = event.getPlayer();
-         
-        for( ItemStack newArmor : player.getInventory().getArmorContents()){
-          
-            if (newArmor != null && newArmor.hasItemMeta()) {
-	        Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(newArmor);
+    }
 
-		if (enchants.containsKey(CustomEnchantment.VITALITY)) {
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+
+        Player player = event.getPlayer();
+
+        for (ItemStack newArmor : player.getInventory().getArmorContents()) {
+
+            if (newArmor != null && newArmor.hasItemMeta()) {
+                Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(newArmor);
+
+                if (enchants.containsKey(CustomEnchantment.VITALITY)) {
 
                     int index = CivEnchant.cdManager.vitalityPlayers.indexOf(player);
-                    
-                        CivEnchant.cdManager.vitalityEffects.get(index).setLevel(0);
-                    
 
-		}
+                    CivEnchant.cdManager.vitalityEffects.get(index).setLevel(0);
+
+                }
             }
-         
+
         }
 
-     }
-     
-     
-     
-     
-     
-  
-  
-  }
+    }
+
+}

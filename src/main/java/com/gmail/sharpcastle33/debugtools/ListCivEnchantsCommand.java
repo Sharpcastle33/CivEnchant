@@ -9,24 +9,24 @@ import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 
 public class ListCivEnchantsCommand implements CommandExecutor {
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.isOp()) {
-			sender.sendMessage(ChatColor.RED + "You do not have permission to use this command");
-			return true;
-		} // if
-		
-		String out = "";
-		
-		for(CustomEnchantment ce: CustomEnchantment.values()) {
-			out += ce.toString() + ", ";
-		}
-		
-		out = out.substring(0, out.length() - 2);
-		
-		sender.sendMessage(ChatColor.AQUA + out);
-		
-		return true;
-	} // onCommand
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!sender.isOp()) {
+            sender.sendMessage(ChatColor.RED + "You do not have permission to use this command");
+            return true;
+        } // if
+
+        String out = "";
+
+        for (CustomEnchantment ce : CustomEnchantment.values()) {
+            out += ce.toString() + ", ";
+        }
+
+        out = out.substring(0, out.length() - 2);
+
+        sender.sendMessage(ChatColor.AQUA + out);
+
+        return true;
+    } // onCommand
 
 } // class
