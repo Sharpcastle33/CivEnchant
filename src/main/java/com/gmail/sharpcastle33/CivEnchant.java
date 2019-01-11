@@ -2,12 +2,14 @@ package com.gmail.sharpcastle33;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.codingforcookies.armorequip.ArmorListener;
 import com.gmail.sharpcastle33.debugtools.CivEnchantInfoCommand;
 import com.gmail.sharpcastle33.debugtools.DisplayConstantsCommand;
 import com.gmail.sharpcastle33.debugtools.GiveCivEnchantCommand;
+import com.gmail.sharpcastle33.debugtools.GiveSafeCivEnchantCommand;
 import com.gmail.sharpcastle33.debugtools.ListCivEnchantsCommand;
 import com.gmail.sharpcastle33.debugtools.UpdateConstantsCommand;
 import com.gmail.sharpcastle33.durability.DurabilityListener;
@@ -21,7 +23,6 @@ import com.gmail.sharpcastle33.listeners.EmeraldInfusionListener;
 import com.gmail.sharpcastle33.listeners.EnhancementListener;
 import com.gmail.sharpcastle33.listeners.SetBonusListener;
 import com.gmail.sharpcastle33.util.CooldownManager;
-import org.bukkit.Bukkit;
 
 public class CivEnchant extends JavaPlugin{
   
@@ -89,6 +90,7 @@ public class CivEnchant extends JavaPlugin{
     // DEBUGTOOLS
     
     getCommand("givecivenchant").setExecutor(new GiveCivEnchantCommand());
+    getCommand("givesafecivenchant").setExecutor(new GiveSafeCivEnchantCommand());
     getCommand("listcivenchants").setExecutor(new ListCivEnchantsCommand());
     getCommand("civenchantinfo").setExecutor(new CivEnchantInfoCommand());
     getCommand("updateconstants").setExecutor(new UpdateConstantsCommand());
