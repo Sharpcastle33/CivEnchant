@@ -39,7 +39,8 @@ public class BlockListener implements Listener {
 	private final static Map<Material, byte[]> flowers = new HashMap<>();
 	
 	static {
-		stones.put(Material.STONE, makeByteArray(0, 6));
+		//bugged code doesnt compile
+		/*stones.put(Material.STONE, makeByteArray(0, 6));
 		stones.put(Material.COBBLESTONE, makeByteArray(0, 0));
 		stones.put(Material.DOUBLE_STONE_SLAB2, makeByteArray(8, 8));
 		stones.put(Material.SMOOTH_BRICK, makeByteArray(0, 3));
@@ -61,10 +62,10 @@ public class BlockListener implements Listener {
 		flowers.put(Material.LONG_GRASS, makeByteArray(0, 2));
 		flowers.put(Material.DEAD_BUSH, makeByteArray(0, 0));
 		flowers.put(Material.YELLOW_FLOWER, makeByteArray(0, 0));
-		flowers.put(Material.RED_ROSE, makeByteArray(0, 8));
+		flowers.put(Material.RED_ROSE, makeByteArray(0, 8));*/
 	}
-
-	private static byte[] makeByteArray(int start, int last){
+	//bugged code doesnt compile
+	/*private static byte[] makeByteArray(int start, int last){
 		final byte[] out = new byte[start - last + 1];
 		
 		int index = 0;
@@ -92,7 +93,7 @@ public class BlockListener implements Listener {
 		final int randomIndex = new Random().nextInt(bytes.length);
 
 		return bytes[randomIndex];
-	}
+	}*/
 
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
@@ -113,7 +114,7 @@ public class BlockListener implements Listener {
 			if(Util.isTool(mainHand)) {
 				// MUTANDIS
 				if(enchants.containsKey(CustomEnchantment.MUTANDIS) && Math.random() > 1.00 - (enchants.get(CustomEnchantment.MUTANDIS).intValue() * 0.25)) {
-					if(stones.containsKey(block.getType())) {
+				/*	if(stones.containsKey(block.getType())) {
 						Material newMat = getRandomMaterial(stones);
 						block.setType(newMat);
 						block.setData(getRandomByte(stones, newMat));
@@ -133,7 +134,7 @@ public class BlockListener implements Listener {
 						Material newMat = getRandomMaterial(flowers);
 						block.setType(newMat);
 						block.setData(getRandomByte(flowers, newMat));
-					} // if/else if/else if/else if/else if
+					} // if/else if/else if/else if/else if*/
 				} // if
 				
 			} // if
