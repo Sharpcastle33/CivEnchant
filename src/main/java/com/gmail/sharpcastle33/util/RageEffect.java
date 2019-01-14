@@ -32,12 +32,12 @@ public RageEffect(Player player, Entity target){
   public void run(){
   
     duration--;
-    Bukkit.getLogger().info("Rage Effect Duration: " + duration);
-    Bukkit.getLogger().info("Rage Players Size: " + CivEnchant.cdManager.ragePlayers.size());
-    Bukkit.getLogger().info("Rage Effect Size: " + CivEnchant.cdManager.rageEffects.size());
-    Bukkit.getLogger().info("Rage Index " + CivEnchant.cdManager.ragePlayers.indexOf(player));
+    //Bukkit.getLogger().info("Rage Effect Duration: " + duration);
+ //  Bukkit.getLogger().info("Rage Players Size: " + CivEnchant.cdManager.ragePlayers.size());
+   // Bukkit.getLogger().info("Rage Effect Size: " + CivEnchant.cdManager.rageEffects.size());
+  //  Bukkit.getLogger().info("Rage Index " + CivEnchant.cdManager.ragePlayers.indexOf(player));
     if(duration <= 0 || target.isDead() || player.isDead()){
-        player.sendMessage("rage expiring");
+       // player.sendMessage("rage expiring");
         int playerIndex = CivEnchant.cdManager.ragePlayers.indexOf(player);
         
         CivEnchant.cdManager.ragePlayers.remove(playerIndex);

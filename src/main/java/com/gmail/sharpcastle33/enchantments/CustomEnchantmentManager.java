@@ -239,11 +239,11 @@ public class CustomEnchantmentManager {
 		ret.put(CustomEnchantment.UNBREAKING, 1);
 		
 		ret.put(CustomEnchantment.ENDURANCE, 1);
-		ret.put(CustomEnchantment.VIGOR, 1);
+		//ret.put(CustomEnchantment.VIGOR, 1);
 		ret.put(CustomEnchantment.VITALITY, 1);
 		ret.put(CustomEnchantment.EVASIVE, 1);
-		ret.put(CustomEnchantment.LAST_STAND, 1);
-		ret.put(CustomEnchantment.DIVINE_INTERVENTION, 1);
+		//ret.put(CustomEnchantment.LAST_STAND, 1);
+		//ret.put(CustomEnchantment.DIVINE_INTERVENTION, 1);
 		
 	}
 	
