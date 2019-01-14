@@ -31,6 +31,15 @@ public class Util {
 
 	private static Material[] spades = {Material.DIAMOND_SPADE, Material.IRON_SPADE, Material.GOLD_SPADE, Material.STONE_SPADE, Material.WOOD_SPADE};
 
+	private static Material[] helms = {Material.DIAMOND_HELMET, Material.IRON_HELMET, Material.GOLD_HELMET, Material.LEATHER_HELMET};
+	
+	private static Material[] boots = {Material.DIAMOND_BOOTS, Material.IRON_BOOTS, Material.GOLD_BOOTS, Material.LEATHER_BOOTS};
+
+	private static Material[] chestplates = {Material.DIAMOND_CHESTPLATE, Material.IRON_CHESTPLATE, Material.GOLD_CHESTPLATE, Material.LEATHER_CHESTPLATE};
+
+	private static Material[] leggings = {Material.DIAMOND_LEGGINGS, Material.IRON_LEGGINGS, Material.GOLD_LEGGINGS, Material.LEATHER_LEGGINGS};
+
+	
 	static CivEnchant plugin = CivEnchant.plugin;
 	
 
@@ -137,6 +146,42 @@ public class Util {
 	
 	public static boolean isSword(ItemStack stack){
 		for(Material m : swords){
+			if(m == stack.getType()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isHelm(ItemStack stack){
+		for(Material m : helms){
+			if(m == stack.getType()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isChestplate(ItemStack stack){
+		for(Material m : chestplates){
+			if(m == stack.getType()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isLeggings(ItemStack stack){
+		for(Material m : leggings){
+			if(m == stack.getType()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isBoots(ItemStack stack){
+		for(Material m : boots){
 			if(m == stack.getType()){
 				return true;
 			}

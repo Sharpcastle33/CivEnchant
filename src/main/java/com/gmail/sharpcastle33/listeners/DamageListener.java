@@ -47,6 +47,20 @@ public class DamageListener implements Listener {
 	private Random rand = new Random();
 	
 	ArrayList<Biome> survivalistBiomes;
+	ArrayList<Biome> protectorBiomes;
+	
+	public DamageListener() {
+		survivalistBiomes.add(Biome.MUTATED_SAVANNA_ROCK); 
+		survivalistBiomes.add(Biome.BIRCH_FOREST); 
+		survivalistBiomes.add(Biome.SWAMPLAND); 
+		survivalistBiomes.add(Biome.FOREST_HILLS); 
+		survivalistBiomes.add(Biome.FOREST); 
+		survivalistBiomes.add(Biome.PLAINS);
+		survivalistBiomes.add(Biome.MUTATED_PLAINS); 
+		
+		protectorBiomes.add(Biome.MESA);
+		protectorBiomes.add(Biome.DESERT);
+	}
 
 	@EventHandler
 	public void calculateDamage(EntityDamageByEntityEvent event) {
@@ -270,12 +284,36 @@ public class DamageListener implements Listener {
                                                     }
 					}
 					
+					if (enchants.containsKey(CustomEnchantment.TURTLE)) {
+						if(defender.isSneaking()) {
+							if(offense instanceof Arrow) {
+								dmgFlat -= (enchants.get(CustomEnchantment.TURTLE) * 1);
+							}
+						}
+					}
+					
+					if (enchants.containsKey(CustomEnchantment.BLUNTING)) {
+						if(offense instanceof Player) {
+							if(Util.chance(2*enchants.get(CustomEnchantment.BLUNTING), 100)) {
+								Player attacker = (Player) offense;
+								attacker.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 1, 100));
+							}
+						}
+					}
+					
 	                if (enchants.containsKey(CustomEnchantment.SURVIVALIST)) {
 	                  Biome b = defender.getLocation().getWorld().getBiome(defender.getLocation().getBlockX(), defender.getLocation().getBlockZ());
 	                  if(survivalistBiomes.contains(b))
 	                    dmgFlat -= (enchants.get(CustomEnchantment.SURVIVALIST) * 0.33);
 
 	                }
+	                
+	                if (enchants.containsKey(CustomEnchantment.PROTECTOR_OF_THE_SANDS)) {
+		                  Biome b = defender.getLocation().getWorld().getBiome(defender.getLocation().getBlockX(), defender.getLocation().getBlockZ());
+		                  if(protectorBiomes.contains(b))
+		                    dmgFlat -= (enchants.get(CustomEnchantment.PROTECTOR_OF_THE_SANDS) * 0.33);
+
+		                }
 
 					if (enchants.containsKey(CustomEnchantment.SECOND_WIND)) {
                                                 
