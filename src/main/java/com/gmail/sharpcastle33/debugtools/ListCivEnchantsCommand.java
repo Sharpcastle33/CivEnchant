@@ -11,7 +11,7 @@ public class ListCivEnchantsCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.isOp()) {
+		if(!sender.hasPermission("civenchant.list")) {
 			sender.sendMessage(ChatColor.RED + "You do not have permission to use this command");
 			return true;
 		} // if

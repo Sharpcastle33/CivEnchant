@@ -40,10 +40,9 @@ public RageEffect(Player player, Entity target){
         player.sendMessage("rage expiring");
         int playerIndex = CivEnchant.cdManager.ragePlayers.indexOf(player);
         
-	CivEnchant.cdManager.ragePlayers.remove(playerIndex);
-	CivEnchant.cdManager.rageEffects.remove(playerIndex);
+        CivEnchant.cdManager.ragePlayers.remove(playerIndex);
+        CivEnchant.cdManager.rageEffects.remove(playerIndex);
         this.cancel();
-        
      }
   }
   
@@ -56,10 +55,8 @@ public RageEffect(Player player, Entity target){
       duration = 20 * CONSTANTS.I_RAGE_HIT_DURATION_SECONDS; 
   }
   
-  public boolean isTarget(Entity entity){
-      
+  public boolean isTarget(Entity entity) {
       return entity.equals(target);
-      
   }
   
   public Entity getTarget(){
