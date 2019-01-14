@@ -234,8 +234,7 @@ public class CustomEnchantmentManager {
 		
 		ret.put(CustomEnchantment.FIRE_PROTECTION, 1);
 		ret.put(CustomEnchantment.PROJECTILE_PROTECTION, 1);
-		ret.put(CustomEnchantment.BLAST_PROTECTION, 1);
-		ret.put(CustomEnchantment.THORNS, 1);
+		ret.put(CustomEnchantment.BLAST_PROTECTION, 1);;
 		ret.put(CustomEnchantment.UNBREAKING, 1);
 		
 		ret.put(CustomEnchantment.ENDURANCE, 1);
@@ -245,6 +244,30 @@ public class CustomEnchantmentManager {
 		//ret.put(CustomEnchantment.LAST_STAND, 1);
 		//ret.put(CustomEnchantment.DIVINE_INTERVENTION, 1);
 		
+	}
+	
+	if(Util.isHelm(stack)) {
+		ret.put(CustomEnchantment.RESPIRATION, 1);
+		ret.put(CustomEnchantment.AQUA_AFFINITY, 1);
+		ret.put(CustomEnchantment.PROTECTOR_OF_THE_SANDS, 1);
+	}
+	
+	if(Util.isChestplate(stack)) {
+		ret.put(CustomEnchantment.TURTLE, 1);
+		ret.put(CustomEnchantment.SURVIVALIST, 1);
+		ret.put(CustomEnchantment.PROTECTOR_OF_THE_SANDS, 1);
+		ret.put(CustomEnchantment.THORNS, 1);
+		ret.put(CustomEnchantment.BLUNTING, 1);
+	}
+	
+	if(Util.isLeggings(stack)) {
+		ret.put(CustomEnchantment.SURVIVALIST, 1);
+
+	}
+	
+	if(Util.isBoots(stack)) {
+		ret.put(CustomEnchantment.FEATHER_FALLING, 1);
+		ret.put(CustomEnchantment.DEPTH_STRIDER, 1);
 	}
 	
 	if(Util.isTool(stack)){

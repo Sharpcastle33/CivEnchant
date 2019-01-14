@@ -94,6 +94,8 @@ public enum CustomEnchantment {
 	
 	//Armor Enchants
 	EVASIVE("Evasive", 3), //TODO unimplemented
+	BLUNTING("Blunting", 3),
+	TURTLE("Turtle", 4),
 	VITALITY("Vitality", 3), //TODO unimplemented
 	VIGOR("Vigor", 4), //TODO unimplemented
 	SECOND_WIND("Second Wind", 3), //TODO unimplemented
