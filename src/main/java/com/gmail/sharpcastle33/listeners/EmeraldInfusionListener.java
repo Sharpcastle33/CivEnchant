@@ -23,7 +23,6 @@ public class EmeraldInfusionListener implements Listener{
 			//p.sendMessage("click");
 
 			if(p.getInventory().getItemInMainHand() != null && p.getInventory().getItemInMainHand().getType() == Material.EMERALD && p.getInventory().getItemInMainHand().hasItemMeta() == false) {
-				p.sendMessage("click withemmy");
 				if(p.getLevel() >= 1) {
 					if(p.getInventory().getItemInMainHand().getAmount() > 1) {
 						p.getInventory().getItemInMainHand().setAmount(p.getInventory().getItemInMainHand().getAmount()-1);
@@ -82,7 +81,33 @@ public class EmeraldInfusionListener implements Listener{
 					
 				}else { p.sendMessage(ChatColor.RED + "You do not have enough experience to create an infused emerald."); }
 			}
+			
+			if(p.getInventory().getItemInMainHand() != null && p.getInventory().getItemInMainHand().getType() == Material.DIAMOND && p.getInventory().getItemInMainHand().hasItemMeta() == true && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName() == ChatColor.YELLOW + "Fancy Gem") {
+				if(p.getLevel() >= 15) {
+					if(p.getInventory().getItemInMainHand().getAmount() > 1) {
+						p.getInventory().getItemInMainHand().setAmount(p.getInventory().getItemInMainHand().getAmount()-1);
+					}else { p.getInventory().setItemInMainHand(null); }
+					
+					ItemStack stack = new ItemStack(Material.DIAMOND, 1);
+					ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.DIAMOND);
+					meta.setDisplayName(ChatColor.YELLOW + "Infused Gem");
+					stack.setItemMeta(meta);
+					
+					p.getWorld().dropItem(p.getLocation(), stack);
+
+					//calculate xp loss
+					
+					int l = p.getLevel();
+					float f = p.getExp();
+					
+					p.setLevel(l-15);															
+																				
+				}else { p.sendMessage(ChatColor.RED + "You do not have enough experience to create an infused gem."); }
+			}
+		
 		}
+		
+		
 		
 		
 			
