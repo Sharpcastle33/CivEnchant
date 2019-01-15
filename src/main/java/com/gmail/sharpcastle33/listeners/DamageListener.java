@@ -50,7 +50,7 @@ public class DamageListener implements Listener {
 	ArrayList<Biome> protectorBiomes;
 	
 	public DamageListener() {
-		survivalistBiomes.add(Biome.MUTATED_SAVANNA_ROCK); 
+		/*survivalistBiomes.add(Biome.MUTATED_SAVANNA_ROCK); 
 		survivalistBiomes.add(Biome.BIRCH_FOREST); 
 		survivalistBiomes.add(Biome.SWAMPLAND); 
 		survivalistBiomes.add(Biome.FOREST_HILLS); 
@@ -59,7 +59,7 @@ public class DamageListener implements Listener {
 		survivalistBiomes.add(Biome.MUTATED_PLAINS); 
 		
 		protectorBiomes.add(Biome.MESA);
-		protectorBiomes.add(Biome.DESERT);
+		protectorBiomes.add(Biome.DESERT);*/
 	}
 
 	@EventHandler
@@ -303,14 +303,15 @@ public class DamageListener implements Listener {
 					
 	                if (enchants.containsKey(CustomEnchantment.SURVIVALIST)) {
 	                  Biome b = defender.getLocation().getWorld().getBiome(defender.getLocation().getBlockX(), defender.getLocation().getBlockZ());
-	                  if(survivalistBiomes.contains(b))
+	  
+	                  if(b == Biome.MUTATED_SAVANNA_ROCK || b == Biome.BIRCH_FOREST || b == Biome.SWAMPLAND || b == Biome.FOREST_HILLS || b == Biome.FOREST || b == Biome.MUTATED_PLAINS || b == Biome.PLAINS)
 	                    dmgFlat -= (enchants.get(CustomEnchantment.SURVIVALIST) * 0.33);
 
 	                }
 	                
 	                if (enchants.containsKey(CustomEnchantment.PROTECTOR_OF_THE_SANDS)) {
 		                  Biome b = defender.getLocation().getWorld().getBiome(defender.getLocation().getBlockX(), defender.getLocation().getBlockZ());
-		                  if(protectorBiomes.contains(b))
+		                  if(b == Biome.DESERT || b == Biome.MESA)
 		                    dmgFlat -= (enchants.get(CustomEnchantment.PROTECTOR_OF_THE_SANDS) * 0.33);
 
 		                }
