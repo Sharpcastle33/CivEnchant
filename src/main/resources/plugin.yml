@@ -1,6 +1,6 @@
-name: CivEnchant
+name: ${project.name}
 main: com.gmail.sharpcastle33.CivEnchant
-version: 1.0
+version: ${project.version}
 commands:
    givecivenchant:
       description: (OP ONLY) debug command for setting an enchant on an item
