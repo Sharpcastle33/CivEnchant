@@ -71,7 +71,7 @@ public enum CustomEnchantment {
 	SOUL_TAKER("Soul Taker", 3), //TODO unimplemented
 	CORROSIVE("Corrosive", 3), //TODO unimplemented
 	LIGHTBANE("Lightbane", 3), //TODO unimplemented
-	HELLFIRE("Hellfire", 5), //TODO unimplemented
+	HELLFIRE("Hellfire", 3), //TODO unimplemented
 	BERSERKING("Berserking", 3),
 	PLAGUEBANE("Plaguebane", 4),
 	AQUATIC_COMBATANT("Aquatic Combatant", 2), 

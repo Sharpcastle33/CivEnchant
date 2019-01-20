@@ -222,7 +222,7 @@ public class DamageListener implements Listener {
                                         if(enchants.containsKey(CustomEnchantment.HELLFIRE)){
                                             // if on fire...
                                             if(defense.getFireTicks() != 0){
-                                                dmgFlat += enchants.get(CustomEnchantment.HELLFIRE);
+                                                dmgFlat += enchants.get(CustomEnchantment.HELLFIRE)*0.5;
                                                 if(defense instanceof Player){
                                                     if(((Player) defense).hasPotionEffect(PotionEffectType.FIRE_RESISTANCE)){
                                                         Util.reducePotionDuration((Player)defense, PotionEffectType.FIRE_RESISTANCE, enchants.get(CustomEnchantment.HELLFIRE));

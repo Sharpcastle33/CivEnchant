@@ -65,6 +65,10 @@ public class EnhancementListener implements Listener{
         
         if(main == null || off == null) { return; }
         
+        if(off.hasItemMeta() == false) { return; }
+        
+        if(off.getItemMeta().hasLore() == false) { return; }
+        
         String type = enhancementType(main, off);
         if(type == ARMOR_ENHANCEMENT){
          event.setCancelled(true);
