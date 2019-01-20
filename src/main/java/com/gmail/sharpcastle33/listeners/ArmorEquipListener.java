@@ -45,7 +45,7 @@ public class ArmorEquipListener implements Listener{
 
 					}
 
-					if (enchants.containsKey(CustomEnchantment.VITALITY)) {
+					/*if (enchants.containsKey(CustomEnchantment.VITALITY)) {
 						
 						if(!CivEnchant.cdManager.vitalityPlayers.contains(player)){
 						
@@ -60,7 +60,7 @@ public class ArmorEquipListener implements Listener{
 							
 						}
 
-					}
+					}*/
 		   }
           
         
@@ -80,7 +80,7 @@ public class ArmorEquipListener implements Listener{
 
 
 		}
-
+		/*
 		if (enchants.containsKey(CustomEnchantment.VITALITY)) {
 
 			int index = CivEnchant.cdManager.vitalityPlayers.indexOf(player);
@@ -88,7 +88,7 @@ public class ArmorEquipListener implements Listener{
 			CivEnchant.cdManager.vitalityEffects.get(index).removeLevels((int)enchants.get(CustomEnchantment.VITALITY));
                         
 
-		}
+		}*/
 		
 	}
         
@@ -109,7 +109,7 @@ public class ArmorEquipListener implements Listener{
 
 				       Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(newArmor);
 
-					if (enchants.containsKey(CustomEnchantment.VITALITY)) {
+					/*if (enchants.containsKey(CustomEnchantment.VITALITY)) {
 						
 						if(!CivEnchant.cdManager.vitalityPlayers.contains(player)){
 						
@@ -124,7 +124,7 @@ public class ArmorEquipListener implements Listener{
 							
 						}
 
-					}
+					}*/
 		   }
          
          
@@ -134,27 +134,9 @@ public class ArmorEquipListener implements Listener{
      @EventHandler
      public void onPlayerQuit(PlayerQuitEvent event)
      {
-        
-         Player player = event.getPlayer();
-         
-        for( ItemStack newArmor : player.getInventory().getArmorContents()){
-          
-            if (newArmor != null && newArmor.hasItemMeta()) {
-	        Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(newArmor);
-
-		if (enchants.containsKey(CustomEnchantment.VITALITY)) {
-
-                    int index = CivEnchant.cdManager.vitalityPlayers.indexOf(player);
-                    
-                        CivEnchant.cdManager.vitalityEffects.get(index).setLevel(0);
-                    
-
-		}
-            }
-         
-        }
-
+    	 
      }
+        
      
      
      
