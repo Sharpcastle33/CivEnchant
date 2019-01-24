@@ -178,7 +178,7 @@ public class DamageListener implements Listener {
 					}
 
 					if (enchants.containsKey(CustomEnchantment.RAGE)) {
-						if (CivEnchant.cdManager.ragePlayers.contains(attacker)) {
+						/*if (CivEnchant.cdManager.ragePlayers.contains(attacker)) {
                                                     boolean hasLostRage = false;
                                                     int playerIndex = CivEnchant.cdManager.ragePlayers.indexOf(attacker);
                                                         
@@ -216,7 +216,7 @@ public class DamageListener implements Listener {
 							CivEnchant.cdManager.ragePlayers.add(attacker);
                                                         
 
-						}
+						}*/
 					}
                                         
                                         if(enchants.containsKey(CustomEnchantment.HELLFIRE)){
@@ -254,12 +254,12 @@ public class DamageListener implements Listener {
 			
 
                         // Break rage combo chain
-			if (CivEnchant.cdManager.ragePlayers.contains(defender)) {
+			/*if (CivEnchant.cdManager.ragePlayers.contains(defender)) {
 				int playerIndex = CivEnchant.cdManager.ragePlayers.indexOf(defender);
 
 				CivEnchant.cdManager.ragePlayers.remove(playerIndex);
 				CivEnchant.cdManager.rageEffects.remove(playerIndex);
-			}
+			}*/
                         
                         
 
