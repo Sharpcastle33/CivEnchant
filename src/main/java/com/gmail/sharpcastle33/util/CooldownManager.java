@@ -46,7 +46,7 @@ public class CooldownManager {
 	public void addRegen(Player player, int regenAmount) {
 
 		vitalityPlayers.add(player);
-		vitalityEffects.add(new RegenerationEffect(player, regenAmount, vitalityEffects, vitalityPlayers));
+		//vitalityEffects.add(new RegenerationEffect(player, regenAmount, vitalityEffects, vitalityPlayers));
 
 	}
 
@@ -96,12 +96,12 @@ public class CooldownManager {
 
 		case ADRENALINE:
 
-			cd.setList(adrenaline);
+			/*cd.setList(adrenaline);
 			adrenaline.add(player);
 
 			cd = new EnchantmentCooldown(player, duration, adrenaline);
 			cd.runTaskTimer(CivEnchant.plugin,0,0);
-
+*/
 			break;
              
 		//Duplicate, not sure if correct.

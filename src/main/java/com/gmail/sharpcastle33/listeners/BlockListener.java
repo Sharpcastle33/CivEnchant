@@ -13,6 +13,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -95,8 +96,10 @@ public class BlockListener implements Listener {
 		return bytes[randomIndex];
 	}*/
 
-	@EventHandler
+	@EventHandler(priority =  EventPriority.LOW)
 	public void onBlockBreak(BlockBreakEvent event) {
+		
+		if(event.isCancelled()) { return; }
 
 		Player player = event.getPlayer();
 		Block block = event.getBlock();
