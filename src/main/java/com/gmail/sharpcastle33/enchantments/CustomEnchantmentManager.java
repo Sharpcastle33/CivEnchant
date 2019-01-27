@@ -303,6 +303,7 @@ public class CustomEnchantmentManager {
 	if(Util.isBow(stack)){
 		ret.put(CustomEnchantment.PUNCH, 1);
 		ret.put(CustomEnchantment.FLAME, 1);
+		ret.put(CustomEnchantment.INFINITY, 1);
 		
 		ret.put(CustomEnchantment.FAR_SHOT, 1);
 		ret.put(CustomEnchantment.POINT_BLANK, 1);

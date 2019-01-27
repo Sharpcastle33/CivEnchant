@@ -116,7 +116,21 @@ public class BlockListener implements Listener {
 			// TOOL
 			if(Util.isTool(mainHand)) {
 				// MUTANDIS
-				if(enchants.containsKey(CustomEnchantment.MUTANDIS) && Math.random() > 1.00 - (enchants.get(CustomEnchantment.MUTANDIS).intValue() * 0.25)) {
+				if(enchants.containsKey(CustomEnchantment.MUTANDIS)) {
+					
+					if(event.getBlock().getType() == Material.STONE) {
+						if(Util.chance(50,100)) {
+							Random rand = new Random();
+							int random = rand.nextInt(2);
+							byte data = 1;
+							if(random == 1) { data = 3; }
+							if(random == 2) { data = 5; }
+							
+							ItemStack stone = new ItemStack(Material.STONE, 1, data);
+                            event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), stone);
+
+						}
+					}
 				/*	if(stones.containsKey(block.getType())) {
 						Material newMat = getRandomMaterial(stones);
 						block.setType(newMat);
@@ -173,19 +187,21 @@ public class BlockListener implements Listener {
 				//UMBRAL
 				if(enchants.containsKey(CustomEnchantment.UMBRAL)){
 				  if(block.getType() == Material.COAL_ORE){
-				    if(Math.random() > (CONSTANTS.D_UMBRAL_CHANCE * enchants.get(CustomEnchantment.UMBRAL))){
+					  if(!enchants.containsKey(CustomEnchantment.SILK_TOUCH)){
+						  if(Math.random() > (CONSTANTS.D_UMBRAL_CHANCE * enchants.get(CustomEnchantment.UMBRAL))){
                                         
                                         ItemStack fuel = new ItemStack(Material.COAL,1);
                                         ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.COAL);
                                         fuel.setItemMeta(meta);
                                         block.getWorld().dropItemNaturally(block.getLocation(), fuel);
                           
-				    }
+						  }
 				    
-				    if(Math.random() > 0.1){
+						  if(Math.random() > 0.1){
                                         ItemStack coal = new ItemStack(Material.COAL,1);
                                         block.getWorld().dropItemNaturally(block.getLocation(), coal);
-				    }
+						  }
+					  }
 				  }
 				}
 				// DEMOLISHING
@@ -324,11 +340,14 @@ public class BlockListener implements Listener {
 					if (block.getType() == Material.IRON_ORE) {
 						Random rand = new Random();
 						int lvl = enchants.get(CustomEnchantment.IRON_AFFINITY);
-						int amount = 0 + rand.nextInt(Math.min(lvl,2));
-						if(lvl == 5) { amount+=1; }
-						lvl-=3;
-						amount += rand.nextInt(Math.min(lvl,2));
 						
+						int amount = 0;
+						if(lvl < 5) {
+							amount+= + rand.nextInt(lvl);
+						}else {
+							amount+= 1 + rand.nextInt(lvl-2);
+						}
+					
 						if(!smelt)
 							amount+=4;
 						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
@@ -343,10 +362,12 @@ public class BlockListener implements Listener {
 					if (block.getType() == Material.GOLD_ORE) {
 						int lvl = enchants.get(CustomEnchantment.GOLD_AFFINITY);
 						Random rand = new Random();
-						int amount = 0 + rand.nextInt(Math.min(lvl,2));
-						if(lvl == 5) { amount+=1; }
-						lvl-=3;
-						amount += rand.nextInt(Math.min(lvl,2));
+						int amount = 0;
+						if(lvl < 5) {
+							amount+= + rand.nextInt(lvl);
+						}else {
+							amount+= 1 + rand.nextInt(lvl-2);
+						}
 						
 						if(!smelt)
 							amount+=4;
