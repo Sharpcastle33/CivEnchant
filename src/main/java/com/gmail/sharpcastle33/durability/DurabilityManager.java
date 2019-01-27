@@ -39,7 +39,7 @@ public class DurabilityManager {
         setNewDurability(stack, cur+value, max);
         
       }else{
-        stack.setDurability((short) (stack.getDurability() + value));
+        stack.setDurability((short) Math.max((stack.getDurability() - value),0));
       }
     }
     
@@ -124,6 +124,12 @@ public class DurabilityManager {
 	 */
 	public static void setNewDurability(ItemStack item, int cur, int max) {
 
+		
+		//Prevent overcharging items.
+		if(cur > max) {
+			cur = max;
+		}
+		
 		//create String with new values for durability
 		String newdur = ChatColor.GRAY + STR_DURABILITY + Integer.toString(cur) + STR_DELIMITER + Integer.toString(max);	
 		ItemMeta meta = item.getItemMeta();
