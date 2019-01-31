@@ -284,6 +284,8 @@ public class DamageListener implements Listener {
 				CivEnchant.cdManager.ragePlayers.remove(playerIndex);
 				CivEnchant.cdManager.rageEffects.remove(playerIndex);
 			}*/
+			
+			int vitAmt = 0;
                         
                         
 
@@ -316,6 +318,10 @@ public class DamageListener implements Listener {
 						}
 					}
 					
+                    if (enchants.containsKey(CustomEnchantment.VITALITY)) {
+                         vitAmt += (enchants.get(CustomEnchantment.VITALITY) * 1);      
+                    }
+                    
 					if (enchants.containsKey(CustomEnchantment.BLUNTING)) {
 						if(offense instanceof Player) {
 							if(Util.chance(2*enchants.get(CustomEnchantment.BLUNTING), 100)) {
@@ -435,6 +441,12 @@ public class DamageListener implements Listener {
 			/*if (stack != null && stack.getType() == Material.SHIELD) {
 				dmgFlat -= 1;
 			}*/
+			
+			if(vitAmt > 0) {
+			  if(Util.chance(vitAmt, 100)) {
+		           defender.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 100, 0));
+			  }
+			}
 
 		}
 
@@ -450,31 +462,6 @@ public class DamageListener implements Listener {
 				if (weapon.hasItemMeta()) {
 					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
 
-					// CORROSIVE
-					if (enchants.containsKey(CustomEnchantment.CORROSIVE)) {
-
-						int roll = rand.nextInt(100) + 1;
-
-						if (roll < 5) { // Max lvl 1/20 chance of corrosive hit
-							ItemStack[] armor = defender.getInventory().getArmorContents();
-
-							for (ItemStack stack : armor) {
-								if (stack != null && stack.hasItemMeta()) {
-									// TODO fix corrode
-									// double corrode = enchants.get(CustomEnchantment.CORROSIVE) * 0.03; // Each
-									// lvl corrodes 3%
-									// stack.setDurability(stack.getDurability() - (stack.getDurability() *
-									// corrode));
-									//defender.sendMessage(
-											//attacker.getName() + "'s weapon has corroded your armor! WIP NO EFFECT");
-
-									/*defender.spawnParticle(Particle.VILLAGER_ANGRY, defense.getLocation().getX(),
-											defense.getLocation().getY(), defense.getLocation().getZ(), 2);
-									*/
-								}
-							}
-						}
-					} // Corrosive end
 				}
 			}
 
