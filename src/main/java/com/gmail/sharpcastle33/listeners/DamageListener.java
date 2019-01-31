@@ -81,6 +81,15 @@ public class DamageListener implements Listener {
 				if (weapon.hasItemMeta()) {
 					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
 
+					
+					//check for Crimson Steel weaponry
+					if(weapon.getItemMeta().hasLore()) {
+					  if(weapon.getItemMeta().getLore().get(0).equalsIgnoreCase(ChatColor.BLUE + "Material: Crimson Steel")) {
+					    dmgFlat += 2;
+					  }
+					}
+					
+					
 					if (enchants.containsKey(CustomEnchantment.LIFESTEAL)) {
 						if (Util.chance(enchants.get(CustomEnchantment.LIFESTEAL), CONSTANTS.I_LIFESTEAL_CHANCE_BOUND)) {
                                                     
@@ -658,11 +667,11 @@ public class DamageListener implements Listener {
 					if(enchants.containsKey(CustomEnchantment.MULTISHOT)) {
 						Arrow a1 = p.launchProjectile(Arrow.class);
 						
-						a1.setVelocity(a1.getVelocity().add(new Vector(0,2,0)));
+						a1.setVelocity(a1.getVelocity().add(new Vector(0,1.5,0)));
 						
 						Arrow b1 = p.launchProjectile(Arrow.class);
 						
-						b1.setVelocity(a1.getVelocity().add(new Vector(0,-2,0)));
+						b1.setVelocity(a1.getVelocity().add(new Vector(0,-1.5,0)));
 
 
 					}

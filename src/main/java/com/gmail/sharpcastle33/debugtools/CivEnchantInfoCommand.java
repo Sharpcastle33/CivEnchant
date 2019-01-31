@@ -46,12 +46,11 @@ public class CivEnchantInfoCommand implements CommandExecutor {
 	String info(CustomEnchantment customEnchant) {
 		switch(customEnchant) {
 			case INFUSION: 
-				return "Increases the number of enchantments one can add to the item and increases the power of the basic enchantments "
-						+ "for the item";
+				return "Increases the number of enchantments one can add to the item and increases the power of the item's infusion effect";
 			case ADRENALINE:
 				return "Provides a brief speed boost upon reaching low health";
 			case APPLESEED:
-				return "Chance to drop apples";
+				return "Chance to drop apples from logs";
 			case AQUA_AFFINITY:
 				return "Increases underwater mining rate";
 			case AUTO_SMELT:
@@ -65,7 +64,7 @@ public class CivEnchantInfoCommand implements CommandExecutor {
 			case CARPENTRY:
 				return "Chance to drop fences/sticks";
 			case CORROSIVE:
-				return "Chance to deal increased durability damage";
+				return "Deals increased damage to Clockwork and Steamwork mobs";
 			case CRYSTAL_ATTUNEMENT:
 				return "Gives a short burst of haste after mining any crystal blocks (diamond ore, emerald ore, quartz ore)";
 			case DEMOLISHING:
@@ -73,14 +72,14 @@ public class CivEnchantInfoCommand implements CommandExecutor {
 			case DEPTH_STRIDER:
 				return "Increases underwater movement speed";
 			case DIVINE_INTERVENTION:
-				return "Undefined"; // ------------------------------------ UNDEFINED ------------------------------------------------------
+				return "Unobtainable"; // ------------------------------------ UNDEFINED ------------------------------------------------------
 			case EMERALD_RESONANCE:
 				return "Passively increased EXP gains from mining emerald ore--Chance for emeralds to shatter, dropping only "
 						+ "1-2 emerald fragments and massively increased EXP drops";
 			case ENDURANCE:
 				return "0.15 flat damage reduction per level, stacks with endurance on all armor pieces";
 			case EVASIVE:
-				return "Small chance to dodge incoming attacks, nullifying their damage";
+				return "Small chance to dodge incoming attacks, nullifying their damage (1% per level per piece)";
 			case FAR_SHOT:
 				return "Increased damage at long range based on level and range interval--Bow must be fully charged";
 			case FEATHER_FALLING:
@@ -97,16 +96,18 @@ public class CivEnchantInfoCommand implements CommandExecutor {
 				return "Walk on water";
 			case GOLD_AFFINITY:
 				return "Drops multiple gold ore fragments instead of gold ore when broken";
+			case PROSPERITY:
+			  return "Small chance for bonus drops from gold and diamond ore.";
 			case GREEN_THUMB:
 				return "Disabled"; // ------------------------------------- DISABLED -------------------------------------------------------
 			case HEADHUNTER:
 				return "Chance to drop heads on kill";
 			case HELLFIRE:
-				return "Increased damage to burning targets; chance to reduce the duration of the defender’s fire resistance effects";
+				return "Increased damage to burning targets; chance to reduce the duration of the defenderï¿½s fire resistance effects";
 			case HUNTERS_BLESSING:
 				return "Increased food drops from slain mobs";
 			case HUNTERS_MARK:
-				return "Marks players to take increased damage from other sources";
+				return "Marks players to take increased damage from melee attacks.";
 			case INFINITY:
 				return "Shooting consumes no arrows";
 			case IRON_AFFINITY:
@@ -116,7 +117,7 @@ public class CivEnchantInfoCommand implements CommandExecutor {
 			case LAST_STAND:
 				return "Undefined"; // ------------------------------------ UNDEFINED ------------------------------------------------------
 			case LIFESTEAL:
-				return "Chance to steal 1/2 heart on hitting an enemy";
+				return "Small chance to steal 1/2 heart on hitting an enemy";
 			case LIGHTBANE:
 				return "Increased damage dealt to fire/light themed mobs";
 			case LOOTING:
@@ -163,6 +164,12 @@ public class CivEnchantInfoCommand implements CommandExecutor {
 				return "Chops down logs above the block broken (2 additional logs per level); does not work with reinforced blocks";
 			case TRUE_SHOT:
 				return "Small flat damage increase to all targets; very high chance to counter the effects of Evasive";
+			case TRUE_STRIKE:
+			  return "+0.3 damage per level to players.";
+			case BLOOD_RITE:
+			  return "Massive heal on killing a player, and gain a short duration health boost effect.";
+			case BLOODLUST:
+			  return "Chance to gain a short burst of strength on killing a mob. A larger burst of strength is given on killing a player.";
 			case UMBRAL:
 				return "10% more coal drops and 3-5% chance to drop Nightmare fuel from coal";
 			case UNBREAKING:
@@ -172,7 +179,7 @@ public class CivEnchantInfoCommand implements CommandExecutor {
 			case VIGOR:
 				return "0.33 max health increase per level, up to 3 additional hearts";
 			case VITALITY:
-				return "Small amounts of health regeneration over time based on the level of vitality on all equipped armor";
+				return "Small chance to trigger a short regeneration effect when hit. Stacks on all pieces";
 			case WOODSMAN:
 				return "Chance to drop additional wooden planks";
 			default:

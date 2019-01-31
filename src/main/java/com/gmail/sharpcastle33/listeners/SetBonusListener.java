@@ -35,7 +35,7 @@ public class SetBonusListener implements Listener{
 		if(event.getEntity() instanceof Player) {
 			Player p = (Player) event.getEntity();
 			if(CivEnchant.adamantSet.contains(p.getName())) {
-				event.setDamage(Math.max(event.getDamage()-1,0));
+				event.setDamage(Math.max(event.getDamage()-2,0));
 				//p.sendMessage("Damage reduced");
 			}
 		}
