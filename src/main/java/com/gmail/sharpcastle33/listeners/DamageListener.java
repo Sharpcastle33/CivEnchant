@@ -318,6 +318,12 @@ public class DamageListener implements Listener {
 						}
 					}
 					
+					if (enchants.containsKey(CustomEnchantment.PERSERVERANCE)) {
+					  if(offense instanceof LivingEntity && !(offense instanceof Player)) {
+					    dmgFlat -= enchants.get(CustomEnchantment.PERSERVERANCE);
+					  }
+					}
+					
                     if (enchants.containsKey(CustomEnchantment.VITALITY)) {
                          vitAmt += (enchants.get(CustomEnchantment.VITALITY) * 1);      
                     }

@@ -104,6 +104,8 @@ public enum CustomEnchantment {
 	ADRENALINE("Adrenaline", 3),
     SURVIVALIST("Survivalist", 3), //TODO unimplemented
     ICE_AEGIS("Ice Aegis", 3), //TODO unimplemented
+    PERSERVERANCE("Perserverance", 2),
+    THICK_PLATING("Thick Plating", 4),
     PROTECTOR_OF_THE_SANDS("Protector of the Sands", 3), //TODO unimplemented
 	ENDURANCE("Endurance", 3); //TODO unimplemented
 	
