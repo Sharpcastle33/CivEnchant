@@ -76,6 +76,8 @@ public enum CustomEnchantment {
 	PLAGUEBANE("Plaguebane", 4),
 	AQUATIC_COMBATANT("Aquatic Combatant", 2), 
 	HEADHUNTER("Headhunter", 3),
+	BLOODLUST("Bloodlust", 4),
+	BLOOD_RITE("Blood Rite", 3),
 	
 	
 	//Ranged Enchants

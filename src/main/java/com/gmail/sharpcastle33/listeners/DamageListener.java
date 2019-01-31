@@ -692,6 +692,19 @@ public class DamageListener implements Listener {
 						}
 
 					}
+					
+					if(enchants.containsKey(CustomEnchantment.BLOODLUST)) {
+	                   int lvl = enchants.get(CustomEnchantment.BLOODLUST);
+
+	                   killer.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*60*lvl, 0));
+					}
+					
+					if(enchants.containsKey(CustomEnchantment.BLOOD_RITE)) {
+					  int lvl = enchants.get(CustomEnchantment.BLOOD_RITE);
+					  killer.setHealth(Math.min(killer.getMaxHealth(), killer.getHealth() + (8 + lvl*2)));
+					  
+					  killer.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, 20*60*lvl, 0));
+					  					}
 				}
 			}
 		}
@@ -752,7 +765,6 @@ public class DamageListener implements Listener {
 
 		}
 
-		// HEADHUNTER
 		if (entityKiller instanceof Player) {
 
 			Player killer = (Player) entityKiller;
@@ -762,6 +774,18 @@ public class DamageListener implements Listener {
 
 				if (weapon.hasItemMeta()) {
 					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
+
+				    //BLOODLUST
+					
+					if (enchants.containsKey(CustomEnchantment.BLOODLUST)) {
+					  int lvl = enchants.get(CustomEnchantment.BLOODLUST);
+					  
+					  if(Util.chance(10+(lvl*3), 100)) {
+					    killer.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE,20*5*lvl, 0));
+					  }
+					}
+					
+					// HEADHUNTER
 
 					if (enchants.containsKey(CustomEnchantment.HEADHUNTER)) {
 
