@@ -227,6 +227,9 @@ public class CustomEnchantmentManager {
 		ret.put(CustomEnchantment.PLAGUEBANE, 1);
 		ret.put(CustomEnchantment.AQUATIC_COMBATANT, 1);
 		ret.put(CustomEnchantment.HEADHUNTER, 1);
+		ret.put(CustomEnchantment.BLOOD_RITE, 1);
+		ret.put(CustomEnchantment.BLOODLUST, 1);
+		ret.put(CustomEnchantment.TRUE_STRIKE, 1);
 
 	}
 	

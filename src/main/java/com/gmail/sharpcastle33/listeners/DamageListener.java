@@ -89,6 +89,8 @@ public class DamageListener implements Listener {
 						}
 					}
 					
+
+					
 					if(enchants.containsKey(CustomEnchantment.LOOTING)) {
 					  if(defense instanceof LivingEntity && !(defense instanceof Player)) {
                         LivingEntity target = (LivingEntity) defense;
@@ -468,6 +470,11 @@ public class DamageListener implements Listener {
 				if (weapon.hasItemMeta()) {
 					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
 
+                    if(enchants.containsKey(CustomEnchantment.TRUE_STRIKE)) {
+                      int lvl = enchants.get(CustomEnchantment.TRUE_STRIKE);
+                      dmgFlat += lvl*0.4;
+                    }
+                    
 				}
 			}
 

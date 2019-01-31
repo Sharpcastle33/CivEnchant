@@ -78,6 +78,7 @@ public enum CustomEnchantment {
 	HEADHUNTER("Headhunter", 3),
 	BLOODLUST("Bloodlust", 4),
 	BLOOD_RITE("Blood Rite", 3),
+	TRUE_STRIKE("True Strike", 3),
 	
 	
 	//Ranged Enchants
