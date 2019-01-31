@@ -89,6 +89,13 @@ public class DamageListener implements Listener {
 						}
 					}
 					
+					if(enchants.containsKey(CustomEnchantment.LOOTING)) {
+					  if(defense instanceof LivingEntity && !(defense instanceof Player)) {
+                        LivingEntity target = (LivingEntity) defense;
+                        target.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, 100, enchants.get(CustomEnchantment.LOOTING)-1));
+					  }
+					}
+					
 					if(enchants.containsKey(CustomEnchantment.CORROSIVE)){
 					  if(defense instanceof LivingEntity){
                         LivingEntity target = (LivingEntity) defense;
@@ -104,6 +111,23 @@ public class DamageListener implements Listener {
                         }
 					  }
 					}
+					
+                    if(enchants.containsKey(CustomEnchantment.LIGHTBANE)){
+                      if(defense instanceof LivingEntity){
+                        LivingEntity target = (LivingEntity) defense;
+                        if(defense.getCustomName() != null){
+                          String name = defense.getCustomName();
+                          if(name.startsWith(ChatColor.YELLOW + "Ember") ||
+                              name.startsWith(ChatColor.YELLOW + "Magma") ||
+                              name.startsWith(ChatColor.YELLOW + "Legionairre") ||
+                              name.startsWith(ChatColor.YELLOW + "Elder Magma")){
+                            int lvl = enchants.get(CustomEnchantment.LIGHTBANE);
+                            dmgFlat += 0.5*lvl;
+                            
+                          }
+                        }
+                      }
+                    }
 					
                     if(enchants.containsKey(CustomEnchantment.PLAGUEBANE)){
                       if(defense instanceof LivingEntity){
