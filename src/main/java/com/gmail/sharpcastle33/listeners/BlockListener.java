@@ -220,7 +220,7 @@ public class BlockListener implements Listener {
 					for (Material m : crystals) {
 						if (block.getType() == m) {
 							Util.replacePotionEffect(player, new PotionEffect(PotionEffectType.FAST_DIGGING, 20*CONSTANTS.I_CRYSTAL_ATTUNEMENT_DURATION_SECONDS,
-									2 * enchants.get(CustomEnchantment.CRYSTAL_ATTUNEMENT)));
+									0));
 						}
 					}
 				}
