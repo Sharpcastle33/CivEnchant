@@ -520,6 +520,18 @@ public class DamageListener implements Listener {
 
 				if (arrow.getName().contains("farshot2")) {
 					if (finalDistance > CONSTANTS.I_FAR_SHOT_MAX_DISTANCE_BLOCKS) {
+						dmgFlat = dmgFlat + 5;
+					} else if (finalDistance > CONSTANTS.I_FAR_SHOT_MED_DISTANCE_BLOCKS && finalDistance < CONSTANTS.I_FAR_SHOT_MAX_DISTANCE_BLOCKS) {
+						dmgFlat = dmgFlat + 3.5;
+					}
+
+					else if (finalDistance > CONSTANTS.I_FAR_SHOT_MIN_DISTANCE_BLOCKS && finalDistance < CONSTANTS.I_FAR_SHOT_MED_DISTANCE_BLOCKS) {
+						dmgFlat = dmgFlat + 2;
+					}
+				}
+
+				if (arrow.getName().contains("farshot3")) {
+					if (finalDistance > CONSTANTS.I_FAR_SHOT_MAX_DISTANCE_BLOCKS) {
 						dmgFlat = dmgFlat + 6;
 					} else if (finalDistance > CONSTANTS.I_FAR_SHOT_MED_DISTANCE_BLOCKS && finalDistance < CONSTANTS.I_FAR_SHOT_MAX_DISTANCE_BLOCKS) {
 						dmgFlat = dmgFlat + 4;
@@ -545,7 +557,7 @@ public class DamageListener implements Listener {
 					}
 				}
 
-				if (arrow.getName().contains("pointblank2")) {
+				if (arrow.getName().contains("pointblank2") || arrow.getName().contains("pointblank3")) {
                                     
                                         if (finalDistance > CONSTANTS.I_POINT_BLANK_MED_DISTANCE_BLOCKS && finalDistance < CONSTANTS.I_POINT_BLANK_MAX_DISTANCE_BLOCKS) {
                                             
@@ -559,6 +571,8 @@ public class DamageListener implements Listener {
 						dmgFlat = dmgFlat + 4;
 					}
 				}
+				
+				
                                 
                                 if (arrow.getName().contains("huntersmark1")) {
 					if (defense instanceof LivingEntity) {
