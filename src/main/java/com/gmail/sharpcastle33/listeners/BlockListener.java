@@ -311,6 +311,8 @@ public class BlockListener implements Listener {
              
                       }
                     }
+                    
+					  block.setType(Material.AIR);
                   }
                  
                   
@@ -565,17 +567,10 @@ public class BlockListener implements Listener {
 			if (fireChance <= level) {
 
 				theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.APPLE, amt));
-
+				
 			}
 
-			// And for fun, a 1/100 chance for gapple drop
-			fireChance = rand.nextInt(100) + 1;
-			if (fireChance == 100) {
 
-				theBlock.getWorld().dropItemNaturally(theBlock.getLocation(),
-						new ItemStack(Material.GOLDEN_APPLE, amt));
-
-			}
 
 		}
 
