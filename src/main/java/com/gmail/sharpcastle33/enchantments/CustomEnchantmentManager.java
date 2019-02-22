@@ -230,6 +230,7 @@ public class CustomEnchantmentManager {
 		ret.put(CustomEnchantment.BLOOD_RITE, 1);
 		ret.put(CustomEnchantment.BLOODLUST, 1);
 		ret.put(CustomEnchantment.TRUE_STRIKE, 1);
+		ret.put(CustomEnchantment.EXECUTIONER, 1);
 
 	}
 	
