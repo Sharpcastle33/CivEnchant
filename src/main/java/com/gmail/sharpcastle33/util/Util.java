@@ -1,18 +1,20 @@
 package com.gmail.sharpcastle33.util;
 
-import java.awt.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import com.gmail.sharpcastle33.CivEnchant;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
@@ -74,6 +76,15 @@ public class Util {
 			stack.setItemMeta(meta);
 		}
 		return stack;
+	}
+	
+	public static void dropItem(Block b, ItemStack i) {
+		dropItem(b.getLocation(),i);
+	}
+	
+	public static void dropItem(Location loc, ItemStack i) {
+		Location loc2 = loc.add(new Vector(0.5,0.5,0.5));
+		loc.getWorld().dropItemNaturally(loc2, i);
 	}
 	
 

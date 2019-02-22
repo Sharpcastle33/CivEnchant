@@ -78,6 +78,8 @@ public class CivEnchantInfoCommand implements CommandExecutor {
 						+ "1-2 emerald fragments and massively increased EXP drops";
 			case ENDURANCE:
 				return "0.15 flat damage reduction per level, stacks with endurance on all armor pieces";
+			case EXECUTIONER:
+				return "0.33 flat damage increase per level, against targets with <20% hp";
 			case EVASIVE:
 				return "Small chance to dodge incoming attacks, nullifying their damage (1% per level per piece)";
 			case FAR_SHOT:
@@ -96,14 +98,20 @@ public class CivEnchantInfoCommand implements CommandExecutor {
 				return "Walk on water";
 			case GOLD_AFFINITY:
 				return "Drops multiple gold ore fragments instead of gold ore when broken";
-			case PROSPERITY:
-			  return "Small chance for bonus drops from gold and diamond ore.";
+			case GILLS:
+				return "Increases oxygen level when breaking blocks";
+			case GLASSBLOWER:
+				return "Drops glass and glass related-items from sand";
+			case GEMCUTTER:
+				return "Drops extra items from emerald and diamond ores.";
 			case GREEN_THUMB:
 				return "Disabled"; // ------------------------------------- DISABLED -------------------------------------------------------
 			case HEADHUNTER:
 				return "Chance to drop heads on kill";
 			case HELLFIRE:
 				return "Increased damage to burning targets; chance to reduce the duration of the defender�s fire resistance effects";
+			case HELLSTONE:
+				return "Chance to drop Netherrack from stone";
 			case HUNTERS_BLESSING:
 				return "Increased food drops from slain mobs";
 			case HUNTERS_MARK:
@@ -126,12 +134,16 @@ public class CivEnchantInfoCommand implements CommandExecutor {
 				return "Increases fishing luck";
 			case LURE:
 				return "Increases fishing rate";
+			case MARKSMAN:
+				return "Increased bow damage per level";
 			case MUTANDIS:
 				return "Chance for alternative block types to drop, e.g. diorite from stone, clay from gravel, sandstone from sand";
 			case NATURES_BOUNTY:
 				return "Very small chance for bonus drops to occur, e.g. bonus logs from logs, ores from stone, clay from sand/gravel";
 			case NO_ENCHANTMENT:
 				return "null";
+			case PROSPERITY:
+				  return "Small chance for bonus drops from gold and diamond ore.";
 			case POINT_BLANK:
 				return "Increased damage at short range based on level and range interval--Bow must be fully charged";
 			case PROFICIENT:

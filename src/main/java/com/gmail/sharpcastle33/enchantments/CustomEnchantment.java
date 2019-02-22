@@ -51,6 +51,8 @@ public enum CustomEnchantment {
 	SIFTING("Sifting", 5),
 	SHIFTING_SANDS("Shifting Sands", 1),
 	BRICKLAYER("Bricklayer", 5),
+	GILLS("Gills", 3),
+	GLASSBLOWER("Glassblower", 3),
 	
 	//Pickaxe Enchants
 	IRON_AFFINITY("Iron Affinity", 5),
@@ -64,6 +66,8 @@ public enum CustomEnchantment {
 	PROSPERITY("Prosperity", 2),
 	STONEMASON("Stonemason", 5),
 	UMBRAL("Umbral", 3),
+	GEMCUTTER("Gemcutter", 2),
+	HELLSTONE("Hellstone", 2),
 	
 	//Melee Enchants
 	LIFESTEAL("Lifesteal", 2), //TODO unimplemented
@@ -79,6 +83,7 @@ public enum CustomEnchantment {
 	BLOODLUST("Bloodlust", 4),
 	BLOOD_RITE("Blood Rite", 3),
 	TRUE_STRIKE("True Strike", 3),
+	EXECUTIONER("Executioner", 3),
 	
 	
 	//Ranged Enchants
@@ -110,6 +115,7 @@ public enum CustomEnchantment {
     PERSERVERANCE("Perserverance", 2),
     THICK_PLATING("Thick Plating", 4),
     PROTECTOR_OF_THE_SANDS("Protector of the Sands", 3), //TODO unimplemented
+    MARKSMAN("Marksman", 3),
 	ENDURANCE("Endurance", 3); //TODO unimplemented
 	
 	

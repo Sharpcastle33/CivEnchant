@@ -277,8 +277,7 @@ public class CustomEnchantmentManager {
 		ret.put(CustomEnchantment.FORTUNE, 1);
 		ret.put(CustomEnchantment.SILK_TOUCH, 1);
 		
-		ret.put(CustomEnchantment.MUTANDIS, 1);
-		ret.put(CustomEnchantment.NATURES_BOUNTY, 1);
+		//ret.put(CustomEnchantment.NATURES_BOUNTY, 1);
 	}
 	
 	if(Util.isPickaxe(stack)){
@@ -293,6 +292,10 @@ public class CustomEnchantmentManager {
 		ret.put(CustomEnchantment.CRYSTAL_RESTORATION, 1);
 		ret.put(CustomEnchantment.PROSPERITY, 1);
 		ret.put(CustomEnchantment.UMBRAL, 1);
+		ret.put(CustomEnchantment.GILLS, 1);
+		ret.put(CustomEnchantment.GEMCUTTER, 1);
+		ret.put(CustomEnchantment.HELLSTONE, 1);
+		ret.put(CustomEnchantment.MUTANDIS, 1);
 		
 	}
 	
@@ -301,6 +304,13 @@ public class CustomEnchantmentManager {
 		ret.put(CustomEnchantment.WOODSMAN, 1);
 		ret.put(CustomEnchantment.CARPENTRY, 1);
 		ret.put(CustomEnchantment.APPLESEED, 1);
+	}
+	
+	if(Util.isShovel(stack)) {
+		ret.put(CustomEnchantment.SHIFTING_SANDS, 1);
+		ret.put(CustomEnchantment.BRICKLAYER, 1);
+		ret.put(CustomEnchantment.GLASSBLOWER, 1);
+		ret.put(CustomEnchantment.GILLS, 1);
 	}
 	
 	if(Util.isBow(stack)){

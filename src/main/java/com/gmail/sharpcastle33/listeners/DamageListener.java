@@ -123,6 +123,17 @@ public class DamageListener implements Listener {
 					  }
 					}
 					
+					if(enchants.containsKey(CustomEnchantment.EXECUTIONER)) {
+						int lvl = enchants.get(CustomEnchantment.EXECUTIONER);
+						
+						if(defense instanceof LivingEntity) {
+							LivingEntity ent = (LivingEntity) defense;
+							if(ent.getHealth()/ent.getMaxHealth() <= 0.2) {
+								dmgFlat += lvl*0.33;
+							}
+						}
+					}
+					
                     if(enchants.containsKey(CustomEnchantment.LIGHTBANE)){
                       if(defense instanceof LivingEntity){
                         LivingEntity target = (LivingEntity) defense;

@@ -108,7 +108,8 @@ public class BlockListener implements Listener {
 
 		boolean demolished = false;
 		boolean smelt = false;
-
+		boolean replaceOre = false;
+		
 		if (mainHand.hasItemMeta()) {
 
 			enchants = CustomEnchantmentManager.getCustomEnchantments(mainHand);
@@ -127,8 +128,7 @@ public class BlockListener implements Listener {
 							if(random == 2) { data = 5; }
 							
 							ItemStack stone = new ItemStack(Material.STONE, 1, data);
-                            event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), stone);
-
+                            Util.dropItem(block, stone);
 						}
 					}
 				/*	if(stones.containsKey(block.getType())) {
@@ -166,8 +166,7 @@ public class BlockListener implements Listener {
 					if (event.getBlock().getType().equals(Material.GOLD_ORE)) {
 
 						event.setDropItems(false);
-						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
-								new ItemStack(Material.GOLD_INGOT));
+						Util.dropItem(block,new ItemStack(Material.GOLD_INGOT));
 						event.getBlock().getWorld().spawn(event.getBlock().getLocation(), ExperienceOrb.class)
 								.setExperience(2 * enchants.get(CustomEnchantment.AUTO_SMELT));
 
@@ -176,8 +175,7 @@ public class BlockListener implements Listener {
 					if (event.getBlock().getType().equals(Material.IRON_ORE)) {
 
 						event.setDropItems(false);
-						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
-								new ItemStack(Material.IRON_INGOT));
+						Util.dropItem(block,new ItemStack(Material.IRON_INGOT));
 						event.getBlock().getWorld().spawn(event.getBlock().getLocation(), ExperienceOrb.class)
 								.setExperience(1 * enchants.get(CustomEnchantment.AUTO_SMELT));
 
@@ -193,13 +191,13 @@ public class BlockListener implements Listener {
                                         ItemStack fuel = new ItemStack(Material.COAL,1);
                                         ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.COAL);
                                         fuel.setItemMeta(meta);
-                                        block.getWorld().dropItemNaturally(block.getLocation(), fuel);
+                                        Util.dropItem(block, fuel);
                           
 						  }
 				    
 						  if(Math.random() > 0.1){
                                         ItemStack coal = new ItemStack(Material.COAL,1);
-                                        block.getWorld().dropItemNaturally(block.getLocation(), coal);
+                                        Util.dropItem(block, coal);
 						  }
 					  }
 				  }
@@ -210,8 +208,7 @@ public class BlockListener implements Listener {
 					if (block.getType() == Material.STONE) {
 						event.setDropItems(false);
 						if (Util.chance(25 * enchants.get(CustomEnchantment.DEMOLISHING), CONSTANTS.I_DEMOLISHING_CHANCE_BOUND)) {
-							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
-									new ItemStack(Material.GRAVEL));
+							Util.dropItem(block, new ItemStack(Material.GRAVEL));
 						}
 					}
 				}
@@ -228,7 +225,7 @@ public class BlockListener implements Listener {
 				if (enchants.containsKey(CustomEnchantment.CRYSTAL_RESTORATION)){
                   for (Material m : crystals) {
                     if (block.getType() == m) {
-                     DurabilityManager.addDurability(mainHand, 10*enchants.get(CustomEnchantment.CRYSTAL_RESTORATION));
+                     DurabilityManager.addDurability(mainHand, 4*enchants.get(CustomEnchantment.CRYSTAL_RESTORATION));
                     }
                   }
 				}
@@ -263,8 +260,8 @@ public class BlockListener implements Listener {
 								}
 							}
 
-							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
-									Util.generateItem("EMERALD_FRAGMENT", amount));
+							Util.dropItem(block,Util.generateItem("EMERALD_FRAGMENT", amount));
+									
 							int exp = event.getExpToDrop();
 							event.setExpToDrop((int) (exp * (2.5 + (0.5 * lvl))));
 
@@ -280,6 +277,70 @@ public class BlockListener implements Listener {
 
 							}
 
+						}
+					}
+				}
+				
+				//GILLS
+				if(enchants.containsKey(CustomEnchantment.GILLS)) {
+					if(Util.chance(enchants.get(CustomEnchantment.GILLS)*33, 100)) {
+						event.getPlayer().setRemainingAir(Math.min(event.getPlayer().getRemainingAir()+2, 20));
+					}
+				}
+				
+				//GLASSBLOWER
+				if(enchants.containsKey(CustomEnchantment.GLASSBLOWER)) {
+					if(block.getType() == Material.SAND) {
+						int lvl = enchants.get(CustomEnchantment.GLASSBLOWER);
+						event.setDropItems(false);
+						ItemStack glass = new ItemStack(Material.GLASS,1);
+						
+						Util.dropItem(block, glass);
+						
+						if(Util.chance(lvl*10, 100)) {
+							Util.dropItem(block, glass);
+						}
+						
+						if(Util.chance(lvl*15, 100)) {
+							ItemStack bottle = new ItemStack(Material.GLASS_BOTTLE,1);
+							Util.dropItem(block, bottle);
+						}
+						
+						if(Util.chance(lvl*15, 100)) {
+							ItemStack glasspane = new ItemStack(Material.THIN_GLASS,1);
+							Util.dropItem(block, glasspane);
+						}
+
+					}										
+				}
+				
+				//GEMCUTTER
+				if(enchants.containsKey(CustomEnchantment.GEMCUTTER)) {
+					if(!enchants.containsKey(CustomEnchantment.SILK_TOUCH)) {
+						int lvl = enchants.get(CustomEnchantment.GEMCUTTER);
+						if(block.getType() == Material.EMERALD_ORE) {
+							if(Util.chance(25*lvl, 100)) {
+								ItemStack emmy = new ItemStack(Material.EMERALD,1);
+								Util.dropItem(block, emmy);
+							}				
+						}
+						
+						if(block.getType() == Material.DIAMOND_ORE) {
+							if(Util.chance(25*lvl, 100)) {
+								ItemStack dia = new ItemStack(Material.DIAMOND,1);
+								Util.dropItem(block, dia);
+								
+							}	
+						}
+					}
+					
+				}
+				
+				//HELLSTONE
+				if(enchants.containsKey(CustomEnchantment.HELLSTONE)) {
+					if(block.getType() == Material.STONE) {
+						if(Util.chance(25 * enchants.get(CustomEnchantment.HELLSTONE),100)){
+							Util.dropItem(block, new ItemStack(Material.NETHERRACK));
 						}
 					}
 				}
@@ -300,15 +361,14 @@ public class BlockListener implements Listener {
                     if(block.getType() == Material.GOLD_ORE){
                       if (Util.chance(10 + 15*lvl, 100)){
                         ItemStack drop = new ItemStack(Material.GOLD_NUGGET, 3);
-                        block.getWorld().dropItemNaturally(block.getLocation(), drop);
+                        Util.dropItem(block, drop);
                       }
                     }
                     
                     if(block.getType() == Material.DIAMOND_ORE){
                       if (Util.chance(15 + 5*lvl, 100)){
                         ItemStack drop = new ItemStack(Material.DIAMOND, 1);
-                        block.getWorld().dropItemNaturally(block.getLocation(), drop);
-             
+                        Util.dropItem(block, drop);
                       }
                     }
                     
@@ -324,11 +384,11 @@ public class BlockListener implements Listener {
 
 					if (data == 0) {
                                             if (Util.chance(5 * enchants.get(CustomEnchantment.STONEMASON), CONSTANTS.I_STONEMASON_CHANCE_BOUND)) {
-						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.COBBLESTONE));
+                        						Util.dropItem(block, new ItemStack(Material.COBBLESTONE));
 						}
 					} else {
                                             if (Util.chance(20 * enchants.get(CustomEnchantment.STONEMASON), CONSTANTS.I_STONEMASON_CHANCE_BOUND)) {
-						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.STONE, data));
+						Util.dropItem(block, new ItemStack(Material.STONE, data));
                                             }
 					}
 						
@@ -351,10 +411,10 @@ public class BlockListener implements Listener {
 					
 						if(!smelt)
 							amount+=4;
-						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
-								Util.generateItem("IRON_FRAGMENT", amount));
+						Util.dropItem(block,Util.generateItem("IRON_FRAGMENT", amount));
+								
 					  
-					  block.setType(Material.AIR);
+						event.setDropItems(false);
 					}
 
 				}
@@ -372,11 +432,10 @@ public class BlockListener implements Listener {
 						
 						if(!smelt)
 							amount+=4;
-						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
-								Util.generateItem("GOLD_FRAGMENT", amount));
+						Util.dropItem(block,Util.generateItem("GOLD_FRAGMENT", amount));
 
-                       block.setType(Material.AIR);
-                                            
+
+						event.setDropItems(false);
 					}
 				}
 			}
@@ -388,7 +447,9 @@ public class BlockListener implements Listener {
 				// APPLESEED
 				if (enchants.containsKey(CustomEnchantment.APPLESEED)) {
 
-					appleSeed(event.getBlock(), enchants.get(CustomEnchantment.APPLESEED));
+					if(appleSeed(event.getBlock(), enchants.get(CustomEnchantment.APPLESEED))) {
+						event.setDropItems(false);
+					}
 
 				}
 				// CARPENTRY
@@ -474,21 +535,21 @@ public class BlockListener implements Listener {
                 if(block.getType() == Material.SAND){
                   if(Util.chance(50, 100)){
                     ItemStack drop = new ItemStack(Material.SAND, 1, (short) 1);
-                    block.getWorld().dropItemNaturally(block.getLocation(), drop);
+                    Util.dropItem(block, drop);
                   }
                 }
                 
                 if(block.getType() == Material.SANDSTONE){
                   if(Util.chance(50, 100)){
                     ItemStack drop = new ItemStack(Material.RED_SANDSTONE, 1);
-                    block.getWorld().dropItemNaturally(block.getLocation(), drop);
+                    Util.dropItem(block, drop);
                   }
                 }
                 
                 if(block.getType() == Material.RED_SANDSTONE){
                   if(Util.chance(50, 100)){
                     ItemStack drop = new ItemStack(Material.SANDSTONE, 1);
-                    block.getWorld().dropItemNaturally(block.getLocation(), drop);
+                    Util.dropItem(block, drop);
                   }
                 }
               }
@@ -549,7 +610,7 @@ public class BlockListener implements Listener {
 
 	}
 
-	private void appleSeed(Block theBlock, int level) {
+	private boolean appleSeed(Block theBlock, int level) {
 
 		// For Logs
 
@@ -565,13 +626,15 @@ public class BlockListener implements Listener {
 
 			if (fireChance <= level) {
 
-				theBlock.getWorld().dropItemNaturally(theBlock.getLocation(), new ItemStack(Material.APPLE, amt));
-				
+				Util.dropItem(theBlock, new ItemStack(Material.APPLE, amt));
+				return true;
 			}
 
 
 
 		}
+		
+		return false;
 
 	}
         
