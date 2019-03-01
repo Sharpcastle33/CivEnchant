@@ -223,6 +223,7 @@ public class BlockListener implements Listener {
 				}
 				// CRYSTAL RESTORATION
 				if (enchants.containsKey(CustomEnchantment.CRYSTAL_RESTORATION)){
+				  if(!enchants.containsKey(CustomEnchantment.SILK_TOUCH))
                   for (Material m : crystals) {
                     if (block.getType() == m) {
                      DurabilityManager.addDurability(mainHand, 4*enchants.get(CustomEnchantment.CRYSTAL_RESTORATION));
