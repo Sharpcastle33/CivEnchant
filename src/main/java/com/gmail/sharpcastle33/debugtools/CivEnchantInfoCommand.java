@@ -20,7 +20,7 @@ public class CivEnchantInfoCommand implements CommandExecutor {
 			
 			ItemStack item = player.getInventory().getItemInMainHand();
 			for(CustomEnchantment ce: CustomEnchantmentManager.getCustomEnchantments(item).keySet()) {
-				player.sendMessage(ChatColor.DARK_AQUA + ce.getName() +": " + ChatColor.AQUA + info(ce));
+				player.sendMessage(ChatColor.DARK_AQUA + ce.getName() +": " + ChatColor.AQUA + info(ce) + ChatColor.DARK_AQUA + " Max Level: " + ce.getMaxLevel());
 			} // for
 			
 			return true;
@@ -35,7 +35,7 @@ public class CivEnchantInfoCommand implements CommandExecutor {
 				return true;
 			} // try/catch
 
-			sender.sendMessage(ChatColor.DARK_AQUA + customEnchant.getName() +": " + ChatColor.AQUA + info(customEnchant));
+			sender.sendMessage(ChatColor.DARK_AQUA + customEnchant.getName() +": " + ChatColor.AQUA + info(customEnchant)  + ChatColor.DARK_AQUA + " Max Level: " + customEnchant.getMaxLevel());
 			
 			return true;
 		} // if/else if
