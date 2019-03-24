@@ -301,7 +301,7 @@ public class CustomEnchantmentManager {
 	}
 	
 	if(Util.isAxe(stack)){
-		ret.put(CustomEnchantment.TIMBER, 1);
+		//ret.put(CustomEnchantment.TIMBER, 1);
 		ret.put(CustomEnchantment.WOODSMAN, 1);
 		ret.put(CustomEnchantment.CARPENTRY, 1);
 		ret.put(CustomEnchantment.APPLESEED, 1);
