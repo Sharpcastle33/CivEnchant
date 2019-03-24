@@ -287,7 +287,7 @@ public class CustomEnchantmentManager {
 		ret.put(CustomEnchantment.AUTO_SMELT, 1);
 		ret.put(CustomEnchantment.DEMOLISHING, 1);
 		ret.put(CustomEnchantment.CRYSTAL_ATTUNEMENT, 1);
-		ret.put(CustomEnchantment.EMERALD_RESONANCE, 1);
+		//ret.put(CustomEnchantment.EMERALD_RESONANCE, 1);
 		ret.put(CustomEnchantment.STONEMASON, 1);
 		ret.put(CustomEnchantment.PROFICIENT, 1);
 		ret.put(CustomEnchantment.CRYSTAL_RESTORATION, 1);
