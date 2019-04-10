@@ -46,7 +46,7 @@ public class CraftingOrbListener implements Listener {
   //final static ArrayList<Material> WEAPON_BASES = new ArrayList<Material>();
   //final static ArrayList<Material> TOOL_BASES = new ArrayList<Material>();
   
-  final static String ERROR_ENCHANTED = ChatColor.RED + "You cannot use an " + ENCHANTMENT_ORB + ChatColor.RED + " on an already enchanted item.";
+  final static String ERROR_ENCHANTED = ChatColor.RED + "You cannot use an " + ENCHANTMENT_ORB + ChatColor.RED + " on an item with more than two enchantments. Use a " + SCOUR_ORB + " first.";
   final static String ENCHANT_SUCCESS = ChatColor.BLUE + "Enchantment Success!";
   final static String ERROR_MAXIMUM_ENCHANTMENTS = ChatColor.RED + "An item cannot have more enchantments than its infusion level";
   final static String SCOUR_SUCCESS = ChatColor.BLUE + "Enchantments removed from item.";
@@ -322,6 +322,9 @@ public class CraftingOrbListener implements Listener {
               p.sendMessage(ERROR_MAXIMUM_ENCHANTMENTS);
               p.playSound(p.getLocation(), Sound.BLOCK_NOTE_SNARE, 1, 1);
             }
+          }else if(countEnchantments(main) <= 2){
+            main = CustomEnchantmentManager.removeCustomEnchantments(main);
+            useEnchantmentOrb(p,main);
           }else{
             p.sendMessage(ERROR_ENCHANTED);
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_SNARE, 1, 1);
