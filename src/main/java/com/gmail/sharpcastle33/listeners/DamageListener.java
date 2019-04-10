@@ -509,6 +509,10 @@ public class DamageListener implements Listener {
 			if (arrow.getShooter() instanceof Player) {
 
 				Player shooter = (Player) arrow.getShooter();
+				
+				if(shooter.hasPotionEffect(PotionEffectType.UNLUCK)){
+				  dmgMod += 0.2;
+				}
 
 				double finalDistance = shooter.getLocation().distance(defense.getLocation());
                                 //shooter.sendMessage("Distance of Shot: " + finalDistance);
