@@ -96,7 +96,7 @@ public class CurseUtil {
     //Line 1 = item name
     ret.add(i.getItemMeta().getDisplayName());
     
-    //Line 2-n = ENCHANTMENT_ENUM + " " + LEVEL
+    //Line 2-n = ENCHANTMENT_NAME + " " + LEVEL
     Map<CustomEnchantment,Integer> ench = CustomEnchantmentManager.getCustomEnchantments(i);
     for(CustomEnchantment e : ench.keySet()){
       ret.add(e.getName() + " " + ench.get(e));
@@ -126,11 +126,12 @@ public class CurseUtil {
       retMeta.setDisplayName(item.get(1));
       
       //Parse all vanilla AND custom enchantments
+      Map<CustomEnchantment, Integer> ench = CustomEnchantmentManager.getCustomEnchantments(book);
       
+      for(CustomEnchantment e : ench.keySet()) {
+        CustomEnchantmentManager.addCustomEnchantment(ret, e, ench.get(e));
+      }
       //Do I have to worry about custom material? Not sure.
-      
-      
-      
       
       retMeta.setLore(retLore);
       ret.setItemMeta(retMeta);
