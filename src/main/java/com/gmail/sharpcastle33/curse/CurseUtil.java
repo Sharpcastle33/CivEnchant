@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
@@ -13,14 +15,60 @@ import net.md_5.bungee.api.ChatColor;
 
 public class CurseUtil {
   
-  private static String DEAL_NAME = ChatColor.YELLOW + "Cursed Deal"; 
-  private static String DEAL_LORE = ChatColor.BLUE + "Activate to trade Cursed Coins for the specified item. Expires after 24 hours.";
+  public static String DEAL_NAME = ChatColor.YELLOW + "Cursed Deal"; 
+  public static String DEAL_LORE = ChatColor.BLUE + "Activate to trade Cursed Coins for the specified item. Expires after 24 hours.";
   private static String DEAL_DATE_LINE = ChatColor.RED + "Active until "; 
   private static String DEAL_DATE_CREATED = ChatColor.RED + "Created on ";
   
+  private static String CURSED_COIN_NAME = ChatColor.YELLOW + "Cursed Coin";
+  private static String CURSED_COIN_DESC = ChatColor.BLUE + "An ancient coin.";
+  
   private static String BREAK_LINE = ChatColor.GRAY + "------------";
   
-  public ItemStack createDealBook(int coins, ItemStack reward){
+  public static ItemStack generateCursedCoin() {
+    ItemStack ret = new ItemStack(Material.PAPER);
+    ItemMeta im = ret.getItemMeta();
+    
+    im.setDisplayName(CURSED_COIN_NAME);
+    ArrayList<String> lore = new ArrayList<String>();
+    lore.add(CURSED_COIN_DESC);
+    im.setLore(lore);
+    
+    ret.setItemMeta(im);
+    return ret;
+  }
+  
+  public static boolean hasEnoughCoins(Player p, int amt) {
+    Inventory inv = p.getInventory();
+    
+    return inv.contains(generateCursedCoin(), amt);
+  }
+  
+  public static void removeCoins(Player p, int amt) {
+    Inventory inv = p.getInventory();
+    ItemStack coinExample = generateCursedCoin();
+    
+    
+    for(int j = 0; j < inv.getContents().length; j++) {
+      if(amt <= 0) { break; }
+      
+      ItemStack i = inv.getItem(j);
+      
+      if(i.getType() == coinExample.getType() && i.hasItemMeta() && i.getItemMeta().getDisplayName().equals(coinExample.getItemMeta().getDisplayName())){
+        if(i.getAmount() > amt) {
+          i.setAmount(i.getAmount()-amt);
+          inv.setItem(j, i);
+          break;
+        }else {
+          amt-= i.getAmount();
+          inv.setItem(j, new ItemStack(Material.AIR));
+          
+        }
+      }
+    }
+  }
+  
+  public static ItemStack createDealBook(int coins, ItemStack reward){
     ItemStack book = new ItemStack(Material.BOOK);
     ItemMeta bookMeta = book.getItemMeta();
     
@@ -62,7 +110,7 @@ public class CurseUtil {
     
   }
   
-  public boolean checkDate(ItemStack book){
+  public static boolean checkDate(ItemStack book){
     ItemMeta m = book.getItemMeta();
     String date = m.getLore().get(2);
     
@@ -74,7 +122,7 @@ public class CurseUtil {
     }else return true;
   }
   
-  public int parseCoins (ItemStack book){
+  public static int parseCoins (ItemStack book){
     int ret = 9999;
     if(book.hasItemMeta()){
       List<String> lore = book.getItemMeta().getLore();
@@ -97,7 +145,7 @@ public class CurseUtil {
   
   //DOES NOT WRITE ENCHANTMENTS, THIS IS HANDED IN ITS PARENT METHOD.
   
-  public ArrayList<String> writeItemToLore(ItemStack i){
+  public static ArrayList<String> writeItemToLore(ItemStack i){
     ArrayList<String> ret = new ArrayList<String>();
     Material m = i.getType();
     //Line 0 = item material
@@ -109,7 +157,7 @@ public class CurseUtil {
     return ret;
   }
   
-  public ItemStack parseItem(ItemStack book){
+  public static ItemStack parseItem(ItemStack book){
     ItemStack ret = new ItemStack(Material.PAPER);
     
     //Get all lore from the book
