@@ -106,6 +106,9 @@ public class BlockListener implements Listener {
 		ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
 		Map<CustomEnchantment, Integer> enchants;
 
+		
+		if(mainHand.getType() == Material.BOOK) { return; }
+		
 		boolean demolished = false;
 		boolean smelt = false;
 		boolean replaceOre = false;

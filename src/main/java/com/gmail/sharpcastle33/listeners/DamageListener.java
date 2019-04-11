@@ -64,6 +64,8 @@ public class DamageListener implements Listener {
 
 	@EventHandler
 	public void calculateDamage(EntityDamageByEntityEvent event) {
+	  
+	  
 		Entity offense = event.getDamager();
 		Entity defense = event.getEntity();
 		double dmgFlat = 0;
@@ -78,6 +80,9 @@ public class DamageListener implements Listener {
 
 			if (attacker.getInventory().getItemInMainHand() != null) {
 				ItemStack weapon = attacker.getInventory().getItemInMainHand();
+				
+		        if(weapon.getType() == Material.BOOK) { return; }
+
 				if (weapon.hasItemMeta()) {
 					Map<CustomEnchantment, Integer> enchants = CustomEnchantmentManager.getCustomEnchantments(weapon);
 
