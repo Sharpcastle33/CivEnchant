@@ -28,6 +28,25 @@ public class CustomEnchantmentManager {
     return stack;
   }
   
+  public static ItemStack removeCustomEnchantment(ItemStack stack, CustomEnchantment e) {
+    ItemMeta meta = stack.getItemMeta();
+    
+    Map<CustomEnchantment, Integer> enchants = getCustomEnchantments(stack);
+    
+    if(enchants.containsKey(e)) {
+      enchants.remove(e);
+    }
+    
+    stack = removeCustomEnchantments(stack);
+    
+    for(CustomEnchantment en : enchants.keySet()) {
+      stack = addCustomEnchantment(stack, en, enchants.get(e));
+    }
+    
+    return stack;
+    
+  }
+  
   /**
    * Removes all vanilla enchants from an item.
    * @param stack
