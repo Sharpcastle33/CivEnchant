@@ -1,11 +1,10 @@
 package com.gmail.sharpcastle33;
 
 import java.util.ArrayList;
-
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import com.codingforcookies.armorequip.ArmorListener;
+import com.gmail.sharpcastle33.curse.CursedDealListener;
 import com.gmail.sharpcastle33.debugtools.CivEnchantInfoCommand;
 import com.gmail.sharpcastle33.debugtools.DisplayConstantsCommand;
 import com.gmail.sharpcastle33.debugtools.GiveCivEnchantCommand;
@@ -37,6 +36,7 @@ public class CivEnchant extends JavaPlugin{
   private static SetBonusListener setBonusListener;
   private static ArmorListener armorListener;
   private static EmeraldInfusionListener emeraldListener;
+  private static CursedDealListener cursedDealListener;
   
   
   public static CustomEnchantmentManager manager;
@@ -86,6 +86,9 @@ public class CivEnchant extends JavaPlugin{
     
     emeraldListener = new EmeraldInfusionListener();
     this.getServer().getPluginManager().registerEvents(emeraldListener, plugin);
+    
+    cursedDealListener = new CursedDealListener();
+    this.getServer().getPluginManager().registerEvents(cursedDealListener,plugin);
     
     // DEBUGTOOLS
     
