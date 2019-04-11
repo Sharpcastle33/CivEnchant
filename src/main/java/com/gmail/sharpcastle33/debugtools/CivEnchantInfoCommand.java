@@ -1,12 +1,12 @@
 package com.gmail.sharpcastle33.debugtools;
 
+import java.util.Map;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
 import com.gmail.sharpcastle33.enchantments.CustomEnchantment;
 import com.gmail.sharpcastle33.enchantments.CustomEnchantmentManager;
 
@@ -19,9 +19,20 @@ public class CivEnchantInfoCommand implements CommandExecutor {
 			Player player = (Player) sender;
 			
 			ItemStack item = player.getInventory().getItemInMainHand();
+			
+			Map<CustomEnchantment,Integer> itemEnch = CustomEnchantmentManager.getCustomEnchantments(player.getInventory().getItemInMainHand());
+			
 			for(CustomEnchantment ce: CustomEnchantmentManager.getCustomEnchantments(item).keySet()) {
 				player.sendMessage(ChatColor.DARK_AQUA + ce.getName() +": " + ChatColor.AQUA + info(ce) + ChatColor.DARK_AQUA + " Max Level: " + ce.getMaxLevel());
 			} // for
+			
+			player.sendMessage(ChatColor.GRAY + "The following enchantments can potentially be applied to this item using either a Celestial Orb or an Orb of Enchantment:");
+			
+			for(CustomEnchantment ce : CustomEnchantmentManager.getEnchantmentTable(player.getInventory().getItemInMainHand()).keySet()) {
+              
+			  if(!(itemEnch.containsKey(ce)))
+			  player.sendMessage(ChatColor.BLUE + ce.getName() + " Max Level: " + ce.getMaxLevel());
+			}
 			
 			return true;
 		} else if(args.length == 1) { // when getting info on a specific enchantment by enum
