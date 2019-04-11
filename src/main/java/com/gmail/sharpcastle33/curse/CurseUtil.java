@@ -46,9 +46,17 @@ public class CurseUtil {
     lore.add(ChatColor.GRAY + "");
     //Write the reward
     lore.addAll(writeItemToLore(reward));
-    //Return the book
+    
     bookMeta.setLore(lore);
     book.setItemMeta(bookMeta);
+    
+    //Line 2-n = ENCHANTMENT_NAME + " " + LEVEL
+    Map<CustomEnchantment,Integer> ench = CustomEnchantmentManager.getCustomEnchantments(reward);
+    for(CustomEnchantment e : ench.keySet()){
+      CustomEnchantmentManager.addCustomEnchantment(book, e, ench.get(e));
+    }
+    //Return the book
+
     return book;
     //TODO
     
@@ -87,6 +95,8 @@ public class CurseUtil {
     return ret;
   }
   
+  //DOES NOT WRITE ENCHANTMENTS, THIS IS HANDED IN ITS PARENT METHOD.
+  
   public ArrayList<String> writeItemToLore(ItemStack i){
     ArrayList<String> ret = new ArrayList<String>();
     Material m = i.getType();
@@ -95,12 +105,7 @@ public class CurseUtil {
     
     //Line 1 = item name
     ret.add(i.getItemMeta().getDisplayName());
-    
-    //Line 2-n = ENCHANTMENT_NAME + " " + LEVEL
-    Map<CustomEnchantment,Integer> ench = CustomEnchantmentManager.getCustomEnchantments(i);
-    for(CustomEnchantment e : ench.keySet()){
-      ret.add(e.getName() + " " + ench.get(e));
-    }
+   
     return ret;
   }
   
