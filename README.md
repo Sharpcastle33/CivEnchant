@@ -8,7 +8,7 @@ Civ Enchant replaces the existing enchanting system with a more in-depth system 
 
 Rather than relying on EXP and enchanting tables, CivEnchant uses an orb-based crafting system. Orbs can be gathered by fighting mobs and bosses, and traded with other players. There are a variety of orbs used for different purposes within the enchanting process.
 
-Civ Enchant relies on an enchantment slot system. CivEnchant uses an enchantment-slot system. Players can increase an items power and add an open enchantment slot by using Infusion Orbs on their items. Infusion orbs are the most common orb drop.
+Civ Enchant relies on an enchantment slot system.  Players can increase an items power and add an open enchantment slot by using Infusion Orbs on their items. Infusion orbs are the most common orb drop.
 
 Players can enchant their items with Orbs of Enchantment. These will add two random enchantments to an unenchanted item. Further enchantments can be added with highly-sought Celesital Orbs.
 
