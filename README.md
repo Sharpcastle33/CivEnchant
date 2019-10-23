@@ -15,3 +15,5 @@ Players can enchant their items with Orbs of Enchantment. These will add two ran
 Players can remove enchantments from an item with a Scour Orb.
 
 Players can add an enchantment to an already enchanted item using a Celestial Orb.
+
+A short video demonstrating the system can be found at https://www.youtube.com/watch?v=Zw0zaa3dLe8
