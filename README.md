@@ -1,6 +1,6 @@
 # CivEnchant
 
-Civ Enchant is a complete enchanting overhaul designed for civ-style Minecraft servers running Spigot 1.12. It was borrows from many concepts in other games, like Path of Exile and Black Desert Online which have more in-depth crafting systems than Minecraft.
+Civ Enchant is a complete enchanting overhaul designed for civ-style Minecraft servers running Spigot 1.12. It borrows from many concepts in other games, like Path of Exile and Black Desert Online which have more in-depth crafting systems than Minecraft.
 
 Civ Enchant introduces more than 20 new enchantments to the game. A full list, including their effects, can be found at https://www.reddit.com/r/CivEx/comments/9w8tyb/dev_post_17_enchanting_on_first_light/
 
